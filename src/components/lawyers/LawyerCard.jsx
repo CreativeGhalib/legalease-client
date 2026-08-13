@@ -10,7 +10,7 @@ export default function LawyerCard({ lawyer, compact = false, showHireCount = fa
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg">
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-indigo-100 via-slate-100 to-amber-50">
-        {lawyer.professionalPhotoUrl ? <img src={lawyer.professionalPhotoUrl} alt={`Portrait of ${lawyer.fullName}`} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : <div aria-label={`No profile photo for ${lawyer.fullName}`} className="grid h-full place-items-center text-3xl font-bold text-indigo-700">{initials(lawyer.fullName)}</div>}
+        <div aria-label={`Profile photo fallback for ${lawyer.fullName}`} className="absolute inset-0 grid place-items-center text-3xl font-bold text-indigo-700">{initials(lawyer.fullName)}</div>{lawyer.professionalPhotoUrl ? <img src={lawyer.professionalPhotoUrl} alt={`Portrait of ${lawyer.fullName}`} onError={(event) => { event.currentTarget.style.display = 'none' }} className="relative z-10 h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : null}
         <div className="absolute left-3 top-3"><AvailabilityBadge availability={lawyer.availability} /></div>
       </div>
       <div className="flex flex-1 flex-col p-4">
