@@ -1,5 +1,7 @@
 # LegalEase
 
+> **Copyright © 2026 Mesbah Ghalib. All rights reserved.** This repository is provided for academic evaluation and portfolio review only. No permission is granted to copy, reuse, modify, distribute, publish, sublicense, or submit this work, its design, assets, or documentation as another person's work.
+
 LegalEase is an original legal-professional discovery platform. Guests can find published lawyers, Users can hire and pay after acceptance, Lawyers can manage verified professional listings, and Admins can moderate records and view live analytics.
 
 ## Stack
