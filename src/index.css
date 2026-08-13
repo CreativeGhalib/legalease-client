@@ -31,6 +31,58 @@ a {
   outline-offset: 3px;
 }
 
+.le-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.25rem;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.le-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.le-button-primary {
+  background: #4338ca;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.12);
+}
+
+.le-button-primary:hover:not(:disabled) {
+  background: #3730a3;
+  box-shadow: 0 4px 10px rgb(67 56 202 / 0.22);
+}
+
+.le-button-secondary {
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.le-button-secondary:hover:not(:disabled) {
+  border-color: #818cf8;
+  background: #e0e7ff;
+  color: #312e81;
+}
+
+.le-button-danger {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.le-button-danger:hover:not(:disabled) {
+  border-color: #fda4af;
+  background: #ffe4e6;
+}
+
 @media (max-width: 639px) {
   body {
     font-size: 15px;

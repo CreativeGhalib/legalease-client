@@ -20,7 +20,7 @@ export default function LawyerCard({ lawyer, compact = false, showHireCount = fa
         {showHireCount && <p className="mt-2 text-xs font-medium text-slate-500">{lawyer.paidHireCount} completed hire{lawyer.paidHireCount === 1 ? '' : 's'}</p>}
         <div className="mt-4 flex flex-col items-start gap-2 border-t border-slate-100 pt-4">
           <p><span className="block text-xs text-slate-500">Consultation</span><span className="text-sm font-semibold text-slate-950">${(lawyer.consultationFeeMinor / 100).toFixed(2)}</span></p>
-          <Link className="inline-flex min-h-10 w-full items-center justify-center gap-1 rounded-xl border border-indigo-200 bg-indigo-50 px-3 text-sm font-semibold text-indigo-800 transition hover:border-indigo-700 hover:bg-indigo-700 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" to={`/lawyers/${lawyer.id}`}>View details <ArrowUpRight size={16} /></Link>
+          <Link className="le-button le-button-secondary w-full gap-1" to={`/lawyers/${lawyer.id}`}>View details <ArrowUpRight size={16} /></Link>
         </div>
       </div>
     </article>
