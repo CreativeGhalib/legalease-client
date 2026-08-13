@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createMemoryRouter, RouterProvider, useLocation } from 'react-router-dom'
 import { AuthContext } from './authContext'
 import ProtectedRoute from './ProtectedRoute'
+import GuestOnlyRoute from './GuestOnlyRoute'
 import RoleRoute from './RoleRoute'
 import PublicLayout from '../layouts/PublicLayout'
 
@@ -75,6 +76,15 @@ describe('Phase 2B account route matrix', () => {
     ], { initialEntries: ['/dashboard/user'] })
     render(<AuthContext.Provider value={authValue(null, { isChecking: true })}><RouterProvider router={router} /></AuthContext.Provider>)
     expect(screen.getByText('Checking your secure session...')).toBeTruthy()
+  })
+
+  it('sends an authenticated account away from login to the dashboard', async () => {
+    const router = createMemoryRouter([
+      { path: '/login', element: <GuestOnlyRoute><p>login-page</p></GuestOnlyRoute> },
+      { path: '/dashboard', element: <LocationProbe /> },
+    ], { initialEntries: ['/login'] })
+    render(<AuthContext.Provider value={authValue('user')}><RouterProvider router={router} /></AuthContext.Provider>)
+    expect((await screen.findByTestId('location')).textContent).toBe('/dashboard')
   })
 })
 

@@ -7,6 +7,6 @@ export default function GuestOnlyRoute({ children }) {
   const location = useLocation()
 
   if (isChecking) return <AuthCheckingScreen />
-  if (isAuthenticated) return <Navigate to={location.state?.from || '/'} replace />
+  if (isAuthenticated) return <Navigate to={location.state?.from || '/dashboard'} replace />
   return children
 }

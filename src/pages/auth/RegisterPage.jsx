@@ -7,7 +7,7 @@ import AuthPageLayout from './AuthPageLayout'
 import { getApiErrorMessage } from '../../utils/apiError'
 
 function destination(from) {
-  if (!from?.pathname?.startsWith('/')) return '/'
+  if (!from?.pathname?.startsWith('/')) return '/dashboard'
   return `${from.pathname}${from.search || ''}${from.hash || ''}`
 }
 
