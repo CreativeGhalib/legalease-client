@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { deleteMyLawyerProfile, getMyLawyerProfile, saveMyLawyerProfile, uploadProfessionalPhoto } from '../../api/lawyerProfileApi'
@@ -32,6 +32,7 @@ export default function ManageLegalProfilePage() {
   const queryClient = useQueryClient()
   const [selectedPhoto, setSelectedPhoto] = useState(null)
   const [previewUrl, setPreviewUrl] = useState('')
+  const photoInputRef = useRef(null)
   const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: emptyProfile })
   const profileQuery = useQuery({
     queryKey: profileKey,
@@ -109,7 +110,12 @@ export default function ManageLegalProfilePage() {
           <h3 className="text-lg font-semibold text-slate-900">Professional photo</h3>
           <div className="mt-4 flex flex-wrap items-center gap-4">
             {displayPhoto ? <img src={displayPhoto} alt="Professional profile preview" className="h-20 w-20 rounded-full object-cover ring-2 ring-slate-200" /> : <div className="grid h-20 w-20 place-items-center rounded-full bg-slate-100 text-xs text-slate-500">No photo</div>}
-            <label className="block text-sm font-medium text-slate-800">Choose JPG, PNG, or WebP (max 3 MB)<input className="mt-2 block w-full text-sm" type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setSelectedPhoto(event.target.files?.[0] ?? null)} /></label>
+            <div>
+              <input ref={photoInputRef} className="sr-only" id="professional-photo" type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setSelectedPhoto(event.target.files?.[0] ?? null)} />
+              <button type="button" onClick={() => photoInputRef.current?.click()} className="rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-semibold text-indigo-800 hover:bg-indigo-100">{displayPhoto ? 'Choose new photo' : 'Choose professional photo'}</button>
+              <p className="mt-2 text-sm text-slate-600">{selectedPhoto ? `Selected: ${selectedPhoto.name}` : displayPhoto ? 'Current photo shown above.' : 'No photo selected yet.'}</p>
+              <p className="mt-1 text-xs text-slate-500">JPG, PNG, or WebP; maximum 3 MB. Click “{profile ? 'Save changes' : 'Create draft profile'}” below to upload and save it.</p>
+            </div>
           </div>
         </section>
         <section className="rounded-xl border border-slate-200 p-5">
