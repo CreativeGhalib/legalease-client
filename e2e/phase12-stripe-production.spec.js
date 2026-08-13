@@ -16,14 +16,6 @@ async function register(page, role, accountEmail) {
   await expect(page).toHaveURL(/\/dashboard$/)
 }
 
-async function login(page, accountEmail) {
-  await page.goto('/login')
-  await page.getByLabel('Email').fill(accountEmail)
-  await page.getByLabel('Password').fill(password)
-  await page.getByRole('button', { name: 'Sign in' }).click()
-  await expect(page).toHaveURL(/\/dashboard$/)
-}
-
 async function completeStripeCardPayment(page, accountEmail, holderName) {
   await page.getByPlaceholder('email@example.com').fill(accountEmail)
   await page.getByPlaceholder('1234 1234 1234 1234').fill('4242 4242 4242 4242')
