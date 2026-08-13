@@ -15,6 +15,7 @@ import HomePage from '../pages/public/HomePage'
 import BrowseLawyersPage from '../pages/public/BrowseLawyersPage'
 import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
 import InfoPage from '../pages/public/InfoPage'
+import PaymentReturnPage from '../pages/public/PaymentReturnPage'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,8 @@ export const router = createBrowserRouter([
       { path: '/about', element: <InfoPage eyebrow="ABOUT LEGALEASE" title="A more understandable path to legal help"><p>LegalEase helps people discover legal professionals through clear, comparable public practice information.</p></InfoPage> },
       { path: '/contact', element: <InfoPage eyebrow="CONTACT" title="Get in touch"><p>Contact details and support workflows will be added as LegalEase grows. In the meantime, browse the directory to explore published lawyer profiles.</p></InfoPage> },
       { path: '/privacy', element: <InfoPage eyebrow="PRIVACY" title="Privacy matters"><p>LegalEase is designed to limit public data to professional profile information. Authentication and payment data are handled through protected server-side workflows.</p></InfoPage> },
+      { path: '/payment/success', element: <ProtectedRoute><PaymentReturnPage /></ProtectedRoute> },
+      { path: '/payment/cancel', element: <ProtectedRoute><PaymentReturnPage cancelled /></ProtectedRoute> },
       { path: '/login', element: <GuestOnlyRoute><LoginPage /></GuestOnlyRoute> },
       { path: '/register', element: <GuestOnlyRoute><RegisterPage /></GuestOnlyRoute> },
       {

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { deleteMyLawyerProfile, getMyLawyerProfile, saveMyLawyerProfile, uploadProfessionalPhoto } from '../../api/lawyerProfileApi'
 import { getApiErrorMessage } from '../../utils/apiError'
+import VerificationPublishingPanel from '../../components/lawyers/VerificationPublishingPanel'
 
 const profileKey = ['lawyer-profile', 'me']
 const emptyProfile = {
@@ -105,6 +106,7 @@ export default function ManageLegalProfilePage() {
       <h2 className="mt-1 text-2xl font-semibold text-slate-950">Manage legal profile</h2>
       <p className="mt-2 text-sm leading-6 text-slate-600">Save an incomplete draft now. Publishing verification happens later, and draft information is not public.</p>
       {profile && <p className={`mt-4 rounded-lg px-4 py-3 text-sm ${completeness ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'}`}>{completeness ? 'Your profile contains the required publishing information.' : 'Draft saved. Add a photo, specialization, bio, fee, experience, and license number before publishing later.'}</p>}
+      {profile && <div className="mt-6"><VerificationPublishingPanel profile={profile} /></div>}
       <form className="mt-6 space-y-6" onSubmit={handleSubmit((values) => saveMutation.mutate(values))}>
         <section className="rounded-xl border border-slate-200 p-5">
           <h3 className="text-lg font-semibold text-slate-900">Professional photo</h3>
