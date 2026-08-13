@@ -12,12 +12,16 @@ import ManageLegalProfilePage from '../pages/dashboard/ManageLegalProfilePage'
 import NotFoundPage from '../pages/errors/NotFoundPage'
 import UnauthorizedPage from '../pages/errors/UnauthorizedPage'
 import HomePage from '../pages/public/HomePage'
+import BrowseLawyersPage from '../pages/public/BrowseLawyersPage'
+import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
 
 export const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: '/lawyers', element: <BrowseLawyersPage /> },
+      { path: '/lawyers/:lawyerId', element: <LawyerDetailsPage /> },
       { path: '/login', element: <GuestOnlyRoute><LoginPage /></GuestOnlyRoute> },
       { path: '/register', element: <GuestOnlyRoute><RegisterPage /></GuestOnlyRoute> },
       {
