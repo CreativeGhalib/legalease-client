@@ -21,6 +21,7 @@ import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
 import InfoPage from '../pages/public/InfoPage'
 import PaymentReturnPage from '../pages/public/PaymentReturnPage'
 import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
+import { AdminAnalyticsPage, AdminLawyersPage, AdminTransactionsPage, AdminUsersPage } from '../pages/dashboard/AdminPages'
 
 export const router = createBrowserRouter([
   {
@@ -51,10 +52,10 @@ export const router = createBrowserRouter([
           { path: 'lawyer/manage-legal-profile', element: <RoleRoute roles={['lawyer']}><ManageLegalProfilePage /></RoleRoute> },
           { path: 'lawyer/transactions', element: <RoleRoute roles={['lawyer']}><TransactionHistoryPage /></RoleRoute> },
           { path: 'admin', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Admin dashboard" phase="Phase 10" /></RoleRoute> },
-          { path: 'admin/manage-users', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage users" phase="Phase 10" /></RoleRoute> },
-          { path: 'admin/manage-lawyers', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage lawyers" phase="Phase 10" /></RoleRoute> },
-          { path: 'admin/all-transactions', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="All transactions" phase="Phase 10" /></RoleRoute> },
-          { path: 'admin/analytics', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Analytics" phase="Phase 10" /></RoleRoute> },
+          { path: 'admin/manage-users', element: <RoleRoute roles={['admin']}><AdminUsersPage /></RoleRoute> },
+          { path: 'admin/manage-lawyers', element: <RoleRoute roles={['admin']}><AdminLawyersPage /></RoleRoute> },
+          { path: 'admin/all-transactions', element: <RoleRoute roles={['admin']}><AdminTransactionsPage /></RoleRoute> },
+          { path: 'admin/analytics', element: <RoleRoute roles={['admin']}><AdminAnalyticsPage /></RoleRoute> },
         ],
       },
       { path: '/unauthorized', element: <UnauthorizedPage /> },
