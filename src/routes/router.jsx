@@ -20,6 +20,7 @@ import BrowseLawyersPage from '../pages/public/BrowseLawyersPage'
 import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
 import InfoPage from '../pages/public/InfoPage'
 import PaymentReturnPage from '../pages/public/PaymentReturnPage'
+import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
           { path: 'user', element: <RoleRoute roles={['user']}><FutureDashboardPage title="User dashboard" phase="Phase 6" /></RoleRoute> },
           { path: 'user/hiring-history', element: <RoleRoute roles={['user']}><UserHiringHistoryPage /></RoleRoute> },
           { path: 'user/update-profile', element: <RoleRoute roles={['user']}><UpdateAccountProfilePage /></RoleRoute> },
-          { path: 'user/comments', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Comments" phase="Phase 9" /></RoleRoute> },
+          { path: 'user/comments', element: <RoleRoute roles={['user']}><UserCommentsPage /></RoleRoute> },
           { path: 'user/transactions', element: <RoleRoute roles={['user']}><TransactionHistoryPage /></RoleRoute> },
           { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Lawyer dashboard" phase="Phase 6" /></RoleRoute> },
           { path: 'lawyer/hiring-history', element: <RoleRoute roles={['lawyer']}><LawyerHiringHistoryPage /></RoleRoute> },
