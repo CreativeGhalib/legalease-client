@@ -19,3 +19,11 @@ export async function getCurrentUser() {
 export async function logoutAccount() {
   await api.post('/auth/logout')
 }
+
+export async function authenticateWithGoogle(payload) {
+  return (await api.post('/auth/google', payload)).data.data
+}
+
+export async function completeGoogleAccountOnboarding(payload) {
+  return userFrom(await api.post('/auth/google/onboarding', payload))
+}

@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { getCurrentUser, loginAccount, logoutAccount, registerAccount } from '../api/authApi'
+import {
+  authenticateWithGoogle,
+  completeGoogleAccountOnboarding,
+  getCurrentUser,
+  loginAccount,
+  logoutAccount,
+  registerAccount,
+} from '../api/authApi'
 import { AuthContext } from './authContext'
 
 function isUnauthenticated(error) {
@@ -41,6 +48,18 @@ export function AuthProvider({ children }) {
     return refreshAuth()
   }, [refreshAuth])
 
+  const loginWithGoogle = useCallback(async (payload) => {
+    const result = await authenticateWithGoogle(payload)
+    if (result.onboardingRequired) return result
+    await refreshAuth()
+    return result
+  }, [refreshAuth])
+
+  const completeGoogleOnboarding = useCallback(async (payload) => {
+    await completeGoogleAccountOnboarding(payload)
+    return refreshAuth()
+  }, [refreshAuth])
+
   const logout = useCallback(async () => {
     try {
       await logoutAccount()
@@ -57,8 +76,10 @@ export function AuthProvider({ children }) {
     refreshAuth,
     register,
     login,
+    loginWithGoogle,
+    completeGoogleOnboarding,
     logout,
-  }), [isChecking, login, logout, refreshAuth, register, user])
+  }), [completeGoogleOnboarding, isChecking, login, loginWithGoogle, logout, refreshAuth, register, user])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
