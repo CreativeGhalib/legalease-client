@@ -17,7 +17,7 @@ describe('Phase 6 dashboard layout', () => {
   it('uses the current role registry', () => {
     renderDashboard('lawyer')
     expect(screen.getByText('Manage legal profile')).toBeTruthy()
-    expect(screen.getByText('Hiring history')).toBeTruthy()
+    expect(screen.getByText('Client requests')).toBeTruthy()
     expect(screen.queryByText('Manage users')).toBeNull()
   })
 
