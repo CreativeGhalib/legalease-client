@@ -6,11 +6,7 @@ import PasswordField from '../../components/auth/PasswordField'
 import GoogleSignInButton from '../../components/auth/GoogleSignInButton'
 import AuthPageLayout from './AuthPageLayout'
 import { getApiErrorMessage } from '../../utils/apiError'
-
-function destination(from) {
-  if (!from?.pathname?.startsWith('/')) return '/dashboard'
-  return `${from.pathname}${from.search || ''}${from.hash || ''}`
-}
+import { safeDestination } from '../../utils/safeDestination'
 
 export default function RegisterPage() {
   const { completeGoogleOnboarding, loginWithGoogle, register: registerAccount } = useAuth()
@@ -28,7 +24,7 @@ export default function RegisterPage() {
     setServerError('')
     try {
       await registerAccount({ fullName: fullName.trim(), email: email.trim(), password, confirmPassword, role })
-      navigate(destination(location.state?.from), { replace: true })
+      navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Unable to create your account. Please try again.'))
     }
@@ -38,7 +34,7 @@ export default function RegisterPage() {
     setServerError('')
     try {
       await loginWithGoogle({ credential, role: selectedRole })
-      navigate(destination(location.state?.from), { replace: true })
+      navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Google sign-up could not be completed.'))
     }
@@ -48,7 +44,7 @@ export default function RegisterPage() {
     setServerError('')
     try {
       await completeGoogleOnboarding({ role })
-      navigate(destination(location.state?.from), { replace: true })
+      navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Google sign-up could not be completed.'))
     }

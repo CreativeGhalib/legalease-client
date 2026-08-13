@@ -6,11 +6,7 @@ import PasswordField from '../../components/auth/PasswordField'
 import GoogleSignInButton from '../../components/auth/GoogleSignInButton'
 import AuthPageLayout from './AuthPageLayout'
 import { getApiErrorMessage } from '../../utils/apiError'
-
-function destination(from) {
-  if (!from?.pathname?.startsWith('/')) return '/dashboard'
-  return `${from.pathname}${from.search || ''}${from.hash || ''}`
-}
+import { safeDestination } from '../../utils/safeDestination'
 
 export default function LoginPage() {
   const { login, loginWithGoogle } = useAuth()
@@ -25,7 +21,7 @@ export default function LoginPage() {
     setServerError('')
     try {
       await login({ email: values.email.trim(), password: values.password })
-      navigate(destination(location.state?.from), { replace: true })
+      navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Unable to sign in. Please try again.'))
     }
@@ -39,7 +35,7 @@ export default function LoginPage() {
         navigate('/register?google=1', { replace: true, state: { from: location.state?.from } })
         return
       }
-      navigate(destination(location.state?.from), { replace: true })
+      navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Google sign-in could not be completed.'))
     }
