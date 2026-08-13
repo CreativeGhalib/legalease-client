@@ -11,6 +11,7 @@ import FutureDashboardPage from '../pages/dashboard/FutureDashboardPage'
 import UpdateAccountProfilePage from '../pages/dashboard/UpdateAccountProfilePage'
 import UserHiringHistoryPage from '../pages/dashboard/UserHiringHistoryPage'
 import LawyerHiringHistoryPage from '../pages/dashboard/LawyerHiringHistoryPage'
+import TransactionHistoryPage from '../pages/dashboard/TransactionHistoryPage'
 import ManageLegalProfilePage from '../pages/dashboard/ManageLegalProfilePage'
 import NotFoundPage from '../pages/errors/NotFoundPage'
 import UnauthorizedPage from '../pages/errors/UnauthorizedPage'
@@ -43,11 +44,11 @@ export const router = createBrowserRouter([
           { path: 'user/hiring-history', element: <RoleRoute roles={['user']}><UserHiringHistoryPage /></RoleRoute> },
           { path: 'user/update-profile', element: <RoleRoute roles={['user']}><UpdateAccountProfilePage /></RoleRoute> },
           { path: 'user/comments', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Comments" phase="Phase 9" /></RoleRoute> },
-          { path: 'user/transactions', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Transactions" phase="Phase 8" /></RoleRoute> },
+          { path: 'user/transactions', element: <RoleRoute roles={['user']}><TransactionHistoryPage /></RoleRoute> },
           { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Lawyer dashboard" phase="Phase 6" /></RoleRoute> },
           { path: 'lawyer/hiring-history', element: <RoleRoute roles={['lawyer']}><LawyerHiringHistoryPage /></RoleRoute> },
           { path: 'lawyer/manage-legal-profile', element: <RoleRoute roles={['lawyer']}><ManageLegalProfilePage /></RoleRoute> },
-          { path: 'lawyer/transactions', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Transactions" phase="Phase 8" /></RoleRoute> },
+          { path: 'lawyer/transactions', element: <RoleRoute roles={['lawyer']}><TransactionHistoryPage /></RoleRoute> },
           { path: 'admin', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Admin dashboard" phase="Phase 10" /></RoleRoute> },
           { path: 'admin/manage-users', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage users" phase="Phase 10" /></RoleRoute> },
           { path: 'admin/manage-lawyers', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage lawyers" phase="Phase 10" /></RoleRoute> },
