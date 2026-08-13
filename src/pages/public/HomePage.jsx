@@ -1,9 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
+import { ArrowRight, BadgeCheck, Scale, ShieldCheck } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { getFeaturedLawyers, getTopLawyers } from '../../api/lawyerDiscoveryApi'
+import LawyerShowcase from '../../components/home/LawyerShowcase'
+import LegalCategories from '../../components/home/LegalCategories'
+
 export default function HomePage() {
-  return (
-    <section>
-      <p className="text-sm text-slate-600">LegalEase</p>
-      <h1 className="mt-2 text-3xl font-semibold text-slate-900">Foundation ready</h1>
-      <p className="mt-3 text-slate-700">The public experience will be added in a later phase.</p>
-    </section>
-  )
+  const reduceMotion = useReducedMotion()
+  const featuredQuery = useQuery({ queryKey: ['featured-lawyers'], queryFn: getFeaturedLawyers })
+  const topQuery = useQuery({ queryKey: ['top-lawyers'], queryFn: getTopLawyers })
+  const rise = reduceMotion ? undefined : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }
+  return <><section className="relative isolate overflow-hidden rounded-3xl bg-slate-950 px-6 py-14 text-white shadow-xl sm:px-10 sm:py-20"><div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_10%,rgba(99,102,241,0.5),transparent_25%),radial-gradient(circle_at_25%_80%,rgba(245,158,11,0.22),transparent_30%)]" /><div className="absolute -right-8 top-12 grid h-56 w-56 place-items-center rounded-full border border-white/15 bg-white/5 text-indigo-200 sm:right-14"><Scale size={88} strokeWidth={1.2} /></div><motion.div className="max-w-2xl" {...rise} transition={{ duration: 0.55 }}><p className="text-sm font-semibold tracking-[0.18em] text-indigo-200">LEGAL CLARITY, HUMANLY CONNECTED</p><h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-6xl">Find &amp; Hire Expert Legal Counsel</h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">Find a lawyer whose experience fits your case, understand their practice at a glance, and take your next step with confidence.</p><div className="mt-8 flex flex-wrap gap-3"><Link to="/lawyers" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-indigo-50">Browse Lawyers <ArrowRight size={18} /></Link><a href="#practice-areas" className="inline-flex min-h-12 items-center rounded-xl border border-white/30 px-5 text-sm font-semibold text-white hover:bg-white/10">Explore practice areas</a></div></motion.div><motion.div className="mt-12 grid max-w-2xl gap-3 sm:grid-cols-3" {...rise} transition={{ duration: 0.5, delay: reduceMotion ? 0 : 0.18 }}><p className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-sm text-slate-200"><BadgeCheck size={18} className="text-amber-300" />Published profiles only</p><p className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-sm text-slate-200"><ShieldCheck size={18} className="text-amber-300" />Clear practice details</p><p className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-sm text-slate-200"><Scale size={18} className="text-amber-300" />Search by expertise</p></motion.div></section><LawyerShowcase eyebrow="NEWLY AVAILABLE" title="Featured Lawyers" description="Explore recently published lawyer profiles across a range of legal practice areas." lawyersQuery={featuredQuery} allLink="/lawyers" /><LawyerShowcase eyebrow="EXPERIENCE RECOGNIZED" title="Top Legal Experts" description="These professionals are ranked by completed, verified client hires." lawyersQuery={topQuery} topExperts /><div id="practice-areas"><LegalCategories /></div></>
 }
