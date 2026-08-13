@@ -104,7 +104,7 @@ export default function ManageLegalProfilePage() {
     <div className="max-w-3xl">
       <p className="text-sm font-semibold tracking-wide text-indigo-700">LAWYER PROFILE</p>
       <h2 className="mt-1 text-2xl font-semibold text-slate-950">Manage legal profile</h2>
-      <p className="mt-2 text-sm leading-6 text-slate-600">Save an incomplete draft now. Publishing verification happens later, and draft information is not public.</p>
+      <p className="mt-2 text-sm leading-6 text-slate-600">Keep your practice information current. Draft and unpublished profiles remain private until you complete verification and choose to publish.</p>
       {profile && <p className={`mt-4 rounded-lg px-4 py-3 text-sm ${completeness ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'}`}>{completeness ? 'Your profile contains the required publishing information.' : 'Draft saved. Add a photo, specialization, bio, fee, experience, and license number before publishing later.'}</p>}
       {profile && <div className="mt-6"><VerificationPublishingPanel profile={profile} /></div>}
       <form className="mt-6 space-y-6" onSubmit={handleSubmit((values) => saveMutation.mutate(values))}>
