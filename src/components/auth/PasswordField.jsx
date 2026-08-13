@@ -5,10 +5,11 @@ export default function PasswordField({ label, autoComplete, error, registration
   const errorId = `${registration.name}-error`
 
   return (
-    <label className="block text-sm font-medium text-slate-800">
-      {label}
+    <div className="block text-sm font-medium text-slate-800">
+      <label htmlFor={registration.name}>{label}</label>
       <span className="relative mt-1 block">
         <input
+          id={registration.name}
           type={isVisible ? 'text' : 'password'}
           autoComplete={autoComplete}
           aria-invalid={Boolean(error)}
@@ -36,6 +37,6 @@ export default function PasswordField({ label, autoComplete, error, registration
         </button>
       </span>
       {error && <span id={errorId} className="mt-1 block text-sm text-red-700">{error.message}</span>}
-    </label>
+    </div>
   )
 }
