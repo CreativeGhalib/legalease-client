@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
+import PasswordField from '../../components/auth/PasswordField'
 import AuthPageLayout from './AuthPageLayout'
 import { getApiErrorMessage } from '../../utils/apiError'
 
@@ -35,24 +36,16 @@ export default function RegisterPage() {
         {serverError && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{serverError}</p>}
         <label className="block text-sm font-medium text-slate-800">
           Full name
-          <input autoComplete="name" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" {...register('fullName', { required: 'Full name is required.', minLength: { value: 2, message: 'Use at least 2 characters.' } })} />
+          <input autoComplete="name" aria-invalid={Boolean(errors.fullName)} className="mt-1 min-h-11 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-950 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200" {...register('fullName', { required: 'Full name is required.', minLength: { value: 2, message: 'Use at least 2 characters.' } })} />
           {errors.fullName && <span className="mt-1 block text-sm text-red-700">{errors.fullName.message}</span>}
         </label>
         <label className="block text-sm font-medium text-slate-800">
           Email
-          <input type="email" autoComplete="email" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" {...register('email', { required: 'Email is required.' })} />
+          <input type="email" autoComplete="email" aria-invalid={Boolean(errors.email)} className="mt-1 min-h-11 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-950 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200" {...register('email', { required: 'Email is required.' })} />
           {errors.email && <span className="mt-1 block text-sm text-red-700">{errors.email.message}</span>}
         </label>
-        <label className="block text-sm font-medium text-slate-800">
-          Password
-          <input type="password" autoComplete="new-password" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" {...register('password', { required: 'Password is required.', minLength: { value: 12, message: 'Use at least 12 characters.' } })} />
-          {errors.password && <span className="mt-1 block text-sm text-red-700">{errors.password.message}</span>}
-        </label>
-        <label className="block text-sm font-medium text-slate-800">
-          Confirm password
-          <input type="password" autoComplete="new-password" className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2" {...register('confirmPassword', { required: 'Please confirm your password.', validate: (value) => value === watch('password') || 'Passwords do not match.' })} />
-          {errors.confirmPassword && <span className="mt-1 block text-sm text-red-700">{errors.confirmPassword.message}</span>}
-        </label>
+        <PasswordField label="Password" autoComplete="new-password" error={errors.password} registration={register('password', { required: 'Password is required.', minLength: { value: 12, message: 'Use at least 12 characters.' } })} />
+        <PasswordField label="Confirm password" autoComplete="new-password" error={errors.confirmPassword} registration={register('confirmPassword', { required: 'Please confirm your password.', validate: (value) => value === watch('password') || 'Passwords do not match.' })} />
         <fieldset>
           <legend className="text-sm font-medium text-slate-800">I am joining as</legend>
           <div className="mt-2 flex gap-4 text-sm text-slate-700">
@@ -60,7 +53,7 @@ export default function RegisterPage() {
             <label><input type="radio" value="lawyer" {...register('role')} /> Lawyer</label>
           </div>
         </fieldset>
-        <button disabled={isSubmitting} type="submit" className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60">
+        <button disabled={isSubmitting} type="submit" className="min-h-11 w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
           {isSubmitting ? 'Creating account...' : 'Create account'}
         </button>
       </form>

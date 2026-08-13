@@ -14,22 +14,23 @@ import HomePage from '../pages/public/HomePage'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
     element: <PublicLayout />,
-    children: [{ index: true, element: <HomePage /> }],
-  },
-  { path: '/login', element: <GuestOnlyRoute><LoginPage /></GuestOnlyRoute> },
-  { path: '/register', element: <GuestOnlyRoute><RegisterPage /></GuestOnlyRoute> },
-  {
-    path: '/dashboard',
-    element: <ProtectedRoute><DashboardStubLayout /></ProtectedRoute>,
     children: [
-      { index: true, element: <DashboardHomePage /> },
-      { path: 'user', element: <RoleRoute roles={['user']}><RoleStubPage role="User" /></RoleRoute> },
-      { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><RoleStubPage role="Lawyer" /></RoleRoute> },
-      { path: 'admin', element: <RoleRoute roles={['admin']}><RoleStubPage role="Admin" /></RoleRoute> },
+      { index: true, element: <HomePage /> },
+      { path: '/login', element: <GuestOnlyRoute><LoginPage /></GuestOnlyRoute> },
+      { path: '/register', element: <GuestOnlyRoute><RegisterPage /></GuestOnlyRoute> },
+      {
+        path: '/dashboard',
+        element: <ProtectedRoute><DashboardStubLayout /></ProtectedRoute>,
+        children: [
+          { index: true, element: <DashboardHomePage /> },
+          { path: 'user', element: <RoleRoute roles={['user']}><RoleStubPage role="User" /></RoleRoute> },
+          { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><RoleStubPage role="Lawyer" /></RoleRoute> },
+          { path: 'admin', element: <RoleRoute roles={['admin']}><RoleStubPage role="Admin" /></RoleRoute> },
+        ],
+      },
+      { path: '/unauthorized', element: <UnauthorizedPage /> },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
-  { path: '/unauthorized', element: <UnauthorizedPage /> },
-  { path: '*', element: <NotFoundPage /> },
 ])
