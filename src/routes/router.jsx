@@ -2,12 +2,13 @@ import { createBrowserRouter } from 'react-router-dom'
 import GuestOnlyRoute from '../auth/GuestOnlyRoute'
 import ProtectedRoute from '../auth/ProtectedRoute'
 import RoleRoute from '../auth/RoleRoute'
-import DashboardStubLayout from '../layouts/DashboardStubLayout'
+import DashboardLayout from '../layouts/DashboardLayout'
 import PublicLayout from '../layouts/PublicLayout'
 import LoginPage from '../pages/auth/LoginPage'
 import RegisterPage from '../pages/auth/RegisterPage'
-import DashboardHomePage from '../pages/dashboard/DashboardHomePage'
-import RoleStubPage from '../pages/dashboard/RoleStubPage'
+import DashboardOverviewPage from '../pages/dashboard/DashboardOverviewPage'
+import FutureDashboardPage from '../pages/dashboard/FutureDashboardPage'
+import UpdateAccountProfilePage from '../pages/dashboard/UpdateAccountProfilePage'
 import ManageLegalProfilePage from '../pages/dashboard/ManageLegalProfilePage'
 import NotFoundPage from '../pages/errors/NotFoundPage'
 import UnauthorizedPage from '../pages/errors/UnauthorizedPage'
@@ -33,13 +34,23 @@ export const router = createBrowserRouter([
       { path: '/register', element: <GuestOnlyRoute><RegisterPage /></GuestOnlyRoute> },
       {
         path: '/dashboard',
-        element: <ProtectedRoute><DashboardStubLayout /></ProtectedRoute>,
+        element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
         children: [
-          { index: true, element: <DashboardHomePage /> },
-          { path: 'user', element: <RoleRoute roles={['user']}><RoleStubPage role="User" /></RoleRoute> },
-          { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><RoleStubPage role="Lawyer" /></RoleRoute> },
+          { index: true, element: <DashboardOverviewPage /> },
+          { path: 'user', element: <RoleRoute roles={['user']}><FutureDashboardPage title="User dashboard" phase="Phase 6" /></RoleRoute> },
+          { path: 'user/hiring-history', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Hiring history" phase="Phase 7" /></RoleRoute> },
+          { path: 'user/update-profile', element: <RoleRoute roles={['user']}><UpdateAccountProfilePage /></RoleRoute> },
+          { path: 'user/comments', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Comments" phase="Phase 9" /></RoleRoute> },
+          { path: 'user/transactions', element: <RoleRoute roles={['user']}><FutureDashboardPage title="Transactions" phase="Phase 8" /></RoleRoute> },
+          { path: 'lawyer', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Lawyer dashboard" phase="Phase 6" /></RoleRoute> },
+          { path: 'lawyer/hiring-history', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Hiring history" phase="Phase 7" /></RoleRoute> },
           { path: 'lawyer/manage-legal-profile', element: <RoleRoute roles={['lawyer']}><ManageLegalProfilePage /></RoleRoute> },
-          { path: 'admin', element: <RoleRoute roles={['admin']}><RoleStubPage role="Admin" /></RoleRoute> },
+          { path: 'lawyer/transactions', element: <RoleRoute roles={['lawyer']}><FutureDashboardPage title="Transactions" phase="Phase 8" /></RoleRoute> },
+          { path: 'admin', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Admin dashboard" phase="Phase 10" /></RoleRoute> },
+          { path: 'admin/manage-users', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage users" phase="Phase 10" /></RoleRoute> },
+          { path: 'admin/manage-lawyers', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Manage lawyers" phase="Phase 10" /></RoleRoute> },
+          { path: 'admin/all-transactions', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="All transactions" phase="Phase 10" /></RoleRoute> },
+          { path: 'admin/analytics', element: <RoleRoute roles={['admin']}><FutureDashboardPage title="Analytics" phase="Phase 10" /></RoleRoute> },
         ],
       },
       { path: '/unauthorized', element: <UnauthorizedPage /> },
