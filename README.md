@@ -4,6 +4,10 @@
 
 LegalEase is an original legal-professional discovery platform. Guests can find published lawyers, Users can hire and pay after acceptance, Lawyers can manage verified professional listings, and Admins can moderate records and view live analytics.
 
+Live application: https://legalease-sand.vercel.app
+
+Production API: https://legalease-api.vercel.app
+
 ## Stack
 
 React, Vite, React Router, Tailwind CSS, TanStack Query, Axios, Framer Motion, Recharts, and Playwright/Vitest for verification.
