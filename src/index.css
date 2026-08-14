@@ -16,6 +16,7 @@ body {
   min-height: 100vh;
   background: #f8fafc;
   line-height: 1.5;
+  overflow-x: clip;
 }
 
 button,
@@ -29,6 +30,28 @@ textarea {
 button:not(:disabled),
 a {
   touch-action: manipulation;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+@media (min-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 0.875rem;
+  }
+}
+
+body:has([role="dialog"][aria-modal="true"]) {
+  overflow: hidden;
+}
+
+[role="dialog"][aria-modal="true"] {
+  overscroll-behavior: contain;
 }
 
 :focus-visible {
