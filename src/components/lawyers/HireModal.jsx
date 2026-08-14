@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import { createHiringRequest } from '../../api/hiringRequestApi'
 import useBodyScrollLock from '../../hooks/useBodyScrollLock'
+import useModalFocus from '../../hooks/useModalFocus'
 import { getApiErrorMessage } from '../../utils/apiError'
 
 export default function HireModal({ lawyer, onClose }) {
@@ -15,9 +16,10 @@ export default function HireModal({ lawyer, onClose }) {
   })
 
   useBodyScrollLock(true)
+  const modalRef = useModalFocus(true, onClose, !request.isPending)
 
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="hire-modal-title" className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/50 p-4 sm:grid sm:place-items-center">
+    <div ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="hire-modal-title" className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/50 p-4 sm:grid sm:place-items-center">
       <section className="my-auto w-full max-w-md rounded-2xl bg-white p-5 shadow-xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>

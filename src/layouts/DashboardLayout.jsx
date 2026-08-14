@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { LayoutDashboard, Menu, ShieldCheck, X } from 'lucide-react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
+import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
+import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 
 export default function DashboardLayout() {
@@ -12,12 +14,7 @@ export default function DashboardLayout() {
   const role = user?.role?.trim().toLowerCase()
   const links = dashboardRouteRegistry[role] ?? []
   useBodyScrollLock(open)
-
-  useEffect(() => {
-    const closeOnEscape = (event) => { if (event.key === 'Escape') setOpen(false) }
-    window.addEventListener('keydown', closeOnEscape)
-    return () => window.removeEventListener('keydown', closeOnEscape)
-  }, [])
+  useCloseOnDesktop(() => setOpen(false))
 
   useEffect(() => setOpen(false), [location.pathname])
 
@@ -34,7 +31,12 @@ export default function DashboardLayout() {
       </div>
       <div className="grid gap-8 lg:grid-cols-[16.5rem_minmax(0,1fr)]">
         <aside className="hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:block lg:self-start">{identity}{accountCard}{navigation}</aside>
-        {open && <div className="fixed inset-0 z-50 lg:hidden" role="presentation"><button type="button" aria-label="Dismiss dashboard menu" className="absolute inset-0 w-full bg-slate-950/35" onClick={() => setOpen(false)} /><aside id="dashboard-navigation" className="absolute inset-y-0 left-0 w-[min(20rem,calc(100%-2rem))] overflow-y-auto bg-white p-5 shadow-2xl">{identity}{accountCard}{navigation}</aside></div>}
+        {open && (
+          <ModalFocusRegion label="Dashboard navigation" onClose={() => setOpen(false)} className="fixed inset-0 z-50 lg:hidden">
+            <button type="button" tabIndex={-1} aria-label="Dismiss dashboard menu" className="absolute inset-0 w-full bg-slate-950/35" onClick={() => setOpen(false)} />
+            <aside id="dashboard-navigation" className="absolute inset-y-0 left-0 w-[min(20rem,calc(100%-2rem))] overflow-y-auto bg-white p-5 shadow-2xl">{identity}{accountCard}{navigation}</aside>
+          </ModalFocusRegion>
+        )}
         <section className="min-w-0 pb-4"><Outlet /></section>
       </div>
     </div>

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Menu, Scale, Search, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
+import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import SiteFooter from '../components/common/SiteFooter'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
+import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 
 export default function PublicLayout() {
   const { isAuthenticated, isChecking, logout, user } = useAuth()
@@ -12,6 +14,7 @@ export default function PublicLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [search, setSearch] = useState('')
   useBodyScrollLock(menuOpen)
+  useCloseOnDesktop(() => setMenuOpen(false))
 
   useEffect(() => {
     setMenuOpen(false)
@@ -50,7 +53,12 @@ export default function PublicLayout() {
             ))}
           </div><button type="button" onClick={() => setMenuOpen((open) => !open)} aria-controls="mobile-navigation" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} className="grid min-h-11 min-w-11 place-items-center rounded-lg text-slate-800 hover:bg-slate-100 lg:hidden">{menuOpen ? <X /> : <Menu />}</button>
         </div>
-        {menuOpen && <div className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 lg:hidden" role="presentation"><button type="button" aria-label="Close navigation menu" className="absolute inset-0 w-full bg-slate-950/35" onClick={() => setMenuOpen(false)} /><div id="mobile-navigation" className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 shadow-2xl"><nav aria-label="Mobile navigation" className="grid gap-1"><NavLink to="/" end onClick={() => setMenuOpen(false)} className={navClass}>Home</NavLink><NavLink to="/lawyers" onClick={() => setMenuOpen(false)} className={navClass}>Browse Lawyers</NavLink><form onSubmit={submitSearch} className="relative mt-2"><label className="sr-only" htmlFor="mobile-lawyer-search">Search lawyers</label><Search className="pointer-events-none absolute left-3 top-3 text-slate-400" size={17} /><input id="mobile-lawyer-search" value={search} onChange={(event) => setSearch(event.target.value)} className="min-h-11 w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3" placeholder="Search by name or specialization" /></form>{!isChecking && (isAuthenticated ? <><NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>Dashboard</NavLink><button type="button" onClick={handleLogout} className="min-h-11 text-left text-sm font-semibold text-slate-700">Logout</button></> : <NavLink to="/login" onClick={() => setMenuOpen(false)} className={navClass}>Login</NavLink>)}</nav></div></div>}
+        {menuOpen && (
+          <ModalFocusRegion label="Mobile navigation" onClose={() => setMenuOpen(false)} className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 lg:hidden">
+            <button type="button" tabIndex={-1} aria-label="Close navigation menu" className="absolute inset-0 w-full bg-slate-950/35" onClick={() => setMenuOpen(false)} />
+            <div id="mobile-navigation" className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 shadow-2xl"><nav aria-label="Mobile navigation" className="grid gap-1"><NavLink to="/" end onClick={() => setMenuOpen(false)} className={navClass}>Home</NavLink><NavLink to="/lawyers" onClick={() => setMenuOpen(false)} className={navClass}>Browse Lawyers</NavLink><form onSubmit={submitSearch} className="relative mt-2"><label className="sr-only" htmlFor="mobile-lawyer-search">Search lawyers</label><Search className="pointer-events-none absolute left-3 top-3 text-slate-400" size={17} /><input id="mobile-lawyer-search" value={search} onChange={(event) => setSearch(event.target.value)} className="min-h-11 w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3" placeholder="Search by name or specialization" /></form>{!isChecking && (isAuthenticated ? <><NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>Dashboard</NavLink><button type="button" onClick={handleLogout} className="min-h-11 text-left text-sm font-semibold text-slate-700">Logout</button></> : <NavLink to="/login" onClick={() => setMenuOpen(false)} className={navClass}>Login</NavLink>)}</nav></div>
+          </ModalFocusRegion>
+        )}
       </header>
       <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <Outlet />
