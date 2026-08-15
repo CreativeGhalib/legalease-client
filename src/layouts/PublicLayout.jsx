@@ -200,20 +200,22 @@ export default function PublicLayout() {
 
           {/* Mobile Actions */}
           <div className="flex items-center gap-2 lg:hidden">
-            {/* Mobile Theme Toggle - 48px minimum touch target */}
-            <button 
-              type="button"
-              onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] shadow-sm hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? (
-                <SunMedium size={18} aria-hidden="true" />
-              ) : (
-                <MoonStar size={18} aria-hidden="true" />
-              )}
-            </button>
+            {/* Mobile Theme Toggle — hidden on dashboard (dashboard has its own) */}
+            {!location.pathname.startsWith('/dashboard') && (
+              <button 
+                type="button"
+                onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] shadow-sm hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <SunMedium size={18} aria-hidden="true" />
+                ) : (
+                  <MoonStar size={18} aria-hidden="true" />
+                )}
+              </button>
+            )}
 
             {/* Mobile Menu Toggle - 48px minimum touch target */}
             <button 
