@@ -77,13 +77,13 @@ html.dark body {
 }
 
 html.dark ::selection {
-  background: rgba(129, 140, 248, 0.35);
-  color: #f8fafc;
+  background: rgba(192, 154, 78, 0.30);
+  color: #ece5d6;
 }
 
 ::selection {
-  background: rgba(67, 56, 202, 0.14);
-  color: #111827;
+  background: rgba(27, 58, 107, 0.14);
+  color: #0c1827;
 }
 
 /**
@@ -322,6 +322,18 @@ body:has([role="dialog"][aria-modal="true"]) {
   box-shadow: 0 4px 10px rgb(27 58 107 / 0.28);
 }
 
+/* gold primary on midnight navy bg */
+html.dark .le-button-primary {
+  background: #c09a4e;
+  color: #07101f;
+  box-shadow: 0 1px 2px rgb(7 16 31 / 0.30);
+}
+
+html.dark .le-button-primary:hover:not(:disabled) {
+  background: #a8832d;
+  box-shadow: 0 4px 12px rgb(192 154 78 / 0.35);
+}
+
 /**
  * Secondary Button
  */
@@ -337,6 +349,19 @@ body:has([role="dialog"][aria-modal="true"]) {
   color: #0f2547;
 }
 
+/* dark surface secondary on midnight navy bg */
+html.dark .le-button-secondary {
+  border: 1px solid #243d66;
+  background: #0f1e33;
+  color: #a8bbcc;
+}
+
+html.dark .le-button-secondary:hover:not(:disabled) {
+  border-color: #c09a4e;
+  background: #132540;
+  color: #ece5d6;
+}
+
 /**
  * Danger Button
  */
@@ -349,6 +374,17 @@ body:has([role="dialog"][aria-modal="true"]) {
 .le-button-danger:hover:not(:disabled) {
   border-color: #fda4af;
   background: #ffe4e6;
+}
+
+html.dark .le-button-danger {
+  border: 1px solid #7f1d1d;
+  background: #1a0808;
+  color: #fca5a5;
+}
+
+html.dark .le-button-danger:hover:not(:disabled) {
+  border-color: #ef4444;
+  background: #270e0e;
 }
 
 /**
