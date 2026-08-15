@@ -30,16 +30,16 @@ export default function LegalCategories() {
     <section className="mt-20" id="practice-areas" aria-labelledby="practice-areas-heading">
       {/* Section header */}
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#c09a4e]">
+        <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#d4a843]">
           PRACTICE AREAS
         </p>
         <h2 
           id="practice-areas-heading"
-          className="mt-2 text-3xl font-semibold tracking-tight text-[#0c1827] dark:text-[#ece5d6]"
+          className="mt-2 text-3xl font-semibold tracking-tight text-[#0c1827] dark:text-[#e4d9c5]"
         >
           Start with the legal matter at hand
         </h2>
-        <p className="mt-3 leading-7 text-[#364358] dark:text-[#a8bbcc]">
+        <p className="mt-3 leading-7 text-[#364358] dark:text-[#96a8b8]">
           Choose an area of law to explore lawyers with relevant professional expertise.
         </p>
       </div>
@@ -59,17 +59,17 @@ export default function LegalCategories() {
               <Link
                 to={`/lawyers?specialization=${encodeURIComponent(label)}&page=1`}
                 aria-label={`Browse ${label} lawyers`}
-                className="group flex min-h-32 sm:min-h-40 flex-col justify-between rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#b8903a]/50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] dark:border-[#1c3050] dark:bg-[#0c1728] dark:hover:border-[#c09a4e]/60 dark:focus-visible:ring-[#c09a4e]"
+                className="group flex min-h-32 sm:min-h-40 flex-col justify-between rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#b8903a]/50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] dark:border-[#2a3850] dark:bg-[#161d27] dark:hover:border-[#d4a843]/60 dark:focus-visible:ring-[#d4a843]"
               >
                 {/* Icon */}
                 <Icon
-                  className="text-[#1b3a6b] transition group-hover:scale-110 dark:text-[#c09a4e]"
+                  className="text-[#1b3a6b] transition group-hover:scale-110 dark:text-[#d4a843]"
                   size={28}
                   aria-hidden="true"
                 />
 
                 {/* Category label */}
-                <span className="text-sm font-semibold leading-snug text-[#0c1827] dark:text-[#ece5d6]">
+                <span className="text-sm font-semibold leading-snug text-[#0c1827] dark:text-[#e4d9c5]">
                   {label}
                 </span>
               </Link>

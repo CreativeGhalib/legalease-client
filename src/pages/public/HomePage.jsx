@@ -35,15 +35,15 @@ export default function HomePage() {
 
       {/* Hero Section - Fixed: text truncation, safe areas, touch targets */}
       <section 
-        className="relative isolate overflow-hidden rounded-3xl bg-slate-950 px-4 py-16 text-white shadow-xl sm:px-6 sm:py-24 md:px-10 md:py-32 safe-area-inset-padding"
+        className="relative isolate overflow-hidden rounded-3xl bg-[#131820] px-4 py-16 text-white shadow-xl sm:px-6 sm:py-24 md:px-10 md:py-32 safe-area-inset-padding"
         style={{
           paddingTop: 'max(var(--safe-area-inset-top, 0px), 4rem)',
           paddingBottom: 'max(var(--safe-area-inset-bottom, 0px), 4rem)'
         }}
       >
-        {/* Gradient background */}
+        {/* Warm gold radial gradient — no indigo */}
         <div 
-          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_10%,rgba(99,102,241,0.5),transparent_25%),radial-gradient(circle_at_25%_80%,rgba(245,158,11,0.22),transparent_30%)]" 
+          className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_82%_8%,rgba(212,168,67,0.22),transparent_30%),radial-gradient(circle_at_18%_85%,rgba(212,168,67,0.10),transparent_35%)]" 
           aria-hidden="true"
         />
 
@@ -52,7 +52,7 @@ export default function HomePage() {
           className="absolute right-4 top-4 md:right-14 md:top-12"
           aria-hidden="true"
         >
-          <div className="grid h-20 w-20 place-items-center rounded-full border border-white/15 bg-transparent text-indigo-200 md:h-56 md:w-56">
+          <div className="grid h-20 w-20 place-items-center rounded-full border border-[#d4a843]/25 bg-[#d4a843]/5 text-[#d4a843] md:h-56 md:w-56">
             <Scale className="h-10 w-10 md:h-22 md:w-22" strokeWidth={1.2} />
           </div>
         </div>
@@ -64,7 +64,7 @@ export default function HomePage() {
           transition={{ duration: 0.55 }}
         >
           {/* Eyebrow text */}
-          <p className="text-xs font-semibold tracking-[0.18em] text-indigo-200 sm:text-sm">
+          <p className="text-xs font-semibold tracking-[0.18em] text-[#d4a843] sm:text-sm">
             LEGAL CLARITY, HUMANLY CONNECTED
           </p>
 
@@ -74,7 +74,7 @@ export default function HomePage() {
           </h1>
 
           {/* Descriptive text - optimized for mobile readability */}
-          <p className="mt-4 max-w-xl text-sm leading-7 sm:mt-6 sm:text-base sm:leading-8 text-slate-300">
+          <p className="mt-4 max-w-xl text-sm leading-7 sm:mt-6 sm:text-base sm:leading-8 text-[#96a8b8]">
             Find a lawyer whose experience fits your case, understand their practice at a glance, and take your next step with confidence.
           </p>
 
@@ -83,7 +83,7 @@ export default function HomePage() {
             {/* PRIMARY CTA - Large, prominent */}
             <Link 
               to="/lawyers"
-              className="inline-flex items-center justify-center gap-2 min-h-12 sm:min-h-11 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-indigo-50 focus:outline-2 focus:outline-offset-2 focus:outline-white active:scale-95"
+              className="inline-flex items-center justify-center gap-2 min-h-12 sm:min-h-11 rounded-xl bg-[#d4a843] px-6 py-3 text-sm font-semibold text-[#0d1117] transition hover:bg-[#e8bf58] focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95"
               aria-label="Browse lawyers - primary call to action"
             >
               Browse Lawyers
@@ -93,7 +93,7 @@ export default function HomePage() {
             {/* SECONDARY CTA - Outline, lower emphasis */}
             <a 
               href="#practice-areas"
-              className="inline-flex items-center justify-center gap-2 min-h-12 sm:min-h-11 rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-2 focus:outline-offset-2 focus:outline-white active:scale-95"
+              className="inline-flex items-center justify-center gap-2 min-h-12 sm:min-h-11 rounded-xl border border-[#d4a843]/40 px-6 py-3 text-sm font-semibold text-[#e4d9c5] transition hover:bg-[#d4a843]/10 focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95"
               aria-label="Explore practice areas"
             >
               Explore areas
@@ -111,26 +111,26 @@ export default function HomePage() {
         >
           {/* Each feature is a list item with proper min-height for touch */}
           <div 
-            className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-xs sm:text-sm text-slate-200 min-h-12"
+            className="flex items-center gap-2 rounded-xl bg-[#d4a843]/10 border border-[#d4a843]/15 px-3 py-3 text-xs sm:text-sm text-[#e4d9c5] min-h-12"
             role="listitem"
           >
-            <BadgeCheck size={18} className="text-amber-300 flex-shrink-0" aria-hidden="true" />
+            <BadgeCheck size={18} className="text-[#d4a843] flex-shrink-0" aria-hidden="true" />
             <span>Published profiles only</span>
           </div>
 
           <div 
-            className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-xs sm:text-sm text-slate-200 min-h-12"
+            className="flex items-center gap-2 rounded-xl bg-[#d4a843]/10 border border-[#d4a843]/15 px-3 py-3 text-xs sm:text-sm text-[#e4d9c5] min-h-12"
             role="listitem"
           >
-            <ShieldCheck size={18} className="text-amber-300 flex-shrink-0" aria-hidden="true" />
+            <ShieldCheck size={18} className="text-[#d4a843] flex-shrink-0" aria-hidden="true" />
             <span>Clear practice details</span>
           </div>
 
           <div 
-            className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-3 text-xs sm:text-sm text-slate-200 min-h-12"
+            className="flex items-center gap-2 rounded-xl bg-[#d4a843]/10 border border-[#d4a843]/15 px-3 py-3 text-xs sm:text-sm text-[#e4d9c5] min-h-12"
             role="listitem"
           >
-            <Scale size={18} className="text-amber-300 flex-shrink-0" aria-hidden="true" />
+            <Scale size={18} className="text-[#d4a843] flex-shrink-0" aria-hidden="true" />
             <span>Search by expertise</span>
           </div>
         </motion.div>

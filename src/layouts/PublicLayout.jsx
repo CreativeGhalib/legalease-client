@@ -63,14 +63,14 @@ export default function PublicLayout() {
    */
   const navClass = ({ isActive }) => {
     const baseClasses = 'inline-flex items-center border-b-2 px-0.5 py-2 text-sm font-semibold tracking-[0.01em] transition focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b]'
-    const activeClasses = 'le-nav-active border-[#1b3a6b] text-[#1b3a6b] dark:border-[#c09a4e] dark:text-[#c09a4e]'
-    const inactiveClasses = 'border-transparent text-[#364358] hover:border-[#c5b89e] hover:text-[#0c1827] dark:text-[#a8bbcc] dark:hover:border-[#243d66] dark:hover:text-[#ece5d6]'
+    const activeClasses = 'le-nav-active border-[#1b3a6b] text-[#1b3a6b] dark:border-[#d4a843] dark:text-[#d4a843]'
+    const inactiveClasses = 'border-transparent text-[#364358] hover:border-[#c5b89e] hover:text-[#0c1827] dark:text-[#96a8b8] dark:hover:border-[#374c62] dark:hover:text-[#e4d9c5]'
     return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`
   }
 
   return (
     <div 
-      className="min-h-screen bg-[#f2ece0] text-[#0c1827] dark:bg-[#07101f] dark:text-[#ece5d6]"
+      className="min-h-screen bg-[#f2ece0] text-[#0c1827] dark:bg-[#0d1117] dark:text-[#e4d9c5]"
       style={{
         paddingTop: 'var(--safe-area-inset-top, 0)',
       }}
@@ -85,7 +85,7 @@ export default function PublicLayout() {
 
       {/* Header - Sticky navigation with safe area support */}
       <header 
-        className="sticky top-0 z-50 border-b border-[#d8ccb8] bg-[#fdf9f2]/95 shadow-[0_8px_24px_rgba(7,16,31,0.06)] backdrop-blur dark:border-[#1c3050] dark:bg-[#0c1728]/92"
+        className="sticky top-0 z-50 border-b border-[#d8ccb8] bg-[#fdf9f2]/95 shadow-[0_8px_24px_rgba(7,16,31,0.06)] backdrop-blur dark:border-[#2a3850] dark:bg-[#161d27]/92"
         style={{
           paddingTop: 'var(--safe-area-inset-top, 0)',
           paddingLeft: 'var(--safe-area-inset-left, 0)',
@@ -98,15 +98,15 @@ export default function PublicLayout() {
           <Link 
             to="/" 
             onClick={() => setMenuOpen(false)}
-            className="inline-flex items-center gap-2.5 text-[#0c1827] hover:opacity-80 transition focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#ece5d6]"
+            className="inline-flex items-center gap-2.5 text-[#0c1827] hover:opacity-80 transition focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#e4d9c5]"
             aria-label="LegalEase - Home"
           >
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#1b3a6b] text-[#fdf9f2] shadow-sm dark:bg-[#c09a4e]/20 dark:text-[#c09a4e]">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#1b3a6b] text-[#fdf9f2] shadow-sm dark:bg-[#d4a843]/20 dark:text-[#d4a843]">
               <Scale size={19} strokeWidth={1.8} aria-hidden="true" />
             </span>
             <span>
               <span className="le-display block text-xl font-bold leading-none">LegalEase</span>
-              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-[#69798e] dark:text-[#6b84a0]">Legal counsel</span>
+              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-[#69798e] dark:text-[#5a6c7a]">Legal counsel</span>
             </span>
           </Link>
 
@@ -123,8 +123,8 @@ export default function PublicLayout() {
               to="/lawyers"
               className={({ isActive }) => {
                 const baseClasses = 'inline-flex items-center py-2 text-sm font-semibold transition focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b]'
-                const activeClasses = 'text-[#1b3a6b] dark:text-[#c09a4e]'
-                const inactiveClasses = 'text-[#364358] hover:text-[#0c1827] dark:text-[#a8bbcc] dark:hover:text-[#ece5d6]'
+                const activeClasses = 'text-[#1b3a6b] dark:text-[#d4a843]'
+                const inactiveClasses = 'text-[#364358] hover:text-[#0c1827] dark:text-[#96a8b8] dark:hover:text-[#e4d9c5]'
                 return `${baseClasses} ${isActive || location.pathname.startsWith('/lawyers') ? activeClasses : inactiveClasses}`
               }}
             >
@@ -145,7 +145,7 @@ export default function PublicLayout() {
                 id="desktop-lawyer-search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                className="h-10 w-44 rounded-lg border border-[#c5b89e] bg-[#ece5d6] py-2 pl-9 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6] dark:placeholder:text-[#6b84a0] xl:w-56"
+                className="h-10 w-44 rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-9 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a] xl:w-56"
                 placeholder="Search lawyers"
                 aria-label="Search for lawyers by name or specialization"
               />
@@ -159,7 +159,7 @@ export default function PublicLayout() {
               type="button"
               onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#ece5d6] text-[#364358] hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#a8bbcc] dark:hover:bg-[#132540]"
+              className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? (
@@ -173,7 +173,7 @@ export default function PublicLayout() {
             {!isChecking && (
               isAuthenticated ? (
                 <>
-                  <span className="hidden max-w-32 truncate text-sm font-medium text-[#364358] dark:text-[#a8bbcc] sm:inline" aria-label={`Logged in as ${user.fullName}`}>
+                  <span className="hidden max-w-32 truncate text-sm font-medium text-[#364358] dark:text-[#96a8b8] sm:inline" aria-label={`Logged in as ${user.fullName}`}>
                     {user.fullName}
                   </span>
                   <NavLink 
@@ -185,7 +185,7 @@ export default function PublicLayout() {
                   <button 
                     type="button"
                     onClick={handleLogout}
-                    className="py-2 text-[#364358] text-sm font-semibold hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#a8bbcc] dark:hover:text-[#ece5d6]"
+                    className="py-2 text-[#364358] text-sm font-semibold hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#96a8b8] dark:hover:text-[#e4d9c5]"
                   >
                     Logout
                   </button>
@@ -205,7 +205,7 @@ export default function PublicLayout() {
               type="button"
               onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#ece5d6] text-[#364358] shadow-sm hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#a8bbcc] dark:hover:bg-[#132540]"
+              className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] shadow-sm hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? (
@@ -222,7 +222,7 @@ export default function PublicLayout() {
               aria-controls="mobile-navigation"
               aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={menuOpen}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg text-[#364358] hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#a8bbcc] dark:hover:bg-[#132540]"
+              className="grid min-h-12 min-w-12 place-items-center rounded-lg text-[#364358] hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
             >
               {menuOpen ? (
                 <X size={24} aria-hidden="true" />
@@ -252,7 +252,7 @@ export default function PublicLayout() {
 
           <div
             id="mobile-navigation"
-            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-[#fdf9f2] p-4 pt-[calc(4.5rem+1rem)] shadow-2xl dark:bg-[#0c1728]"
+            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-[#fdf9f2] p-4 pt-[calc(4.5rem+1rem)] shadow-2xl dark:bg-[#161d27]"
             style={{
               paddingBottom: 'max(1rem, var(--safe-area-inset-bottom, 0))',
               paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
@@ -276,7 +276,7 @@ export default function PublicLayout() {
                   id="mobile-lawyer-search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="min-h-12 w-full rounded-lg border border-[#c5b89e] bg-[#ece5d6] py-2 pl-10 pr-3 text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6] dark:placeholder:text-[#6b84a0]"
+                  className="min-h-12 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]"
                   placeholder="Search by name or specialization"
                   aria-label="Search for lawyers"
                 />
@@ -285,8 +285,8 @@ export default function PublicLayout() {
               {!isChecking && (
                 isAuthenticated ? (
                   <>
-                    <div className="my-3 border-t border-[#d8ccb8] py-3 dark:border-[#1c3050]">
-                      <p className="mb-2 px-0.5 text-sm font-medium text-[#364358] dark:text-[#a8bbcc]">{user.fullName}</p>
+                    <div className="my-3 border-t border-[#d8ccb8] py-3 dark:border-[#2a3850]">
+                      <p className="mb-2 px-0.5 text-sm font-medium text-[#364358] dark:text-[#96a8b8]">{user.fullName}</p>
                     </div>
                     <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>
                       Dashboard
@@ -294,7 +294,7 @@ export default function PublicLayout() {
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-[#364358] transition hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#a8bbcc] dark:hover:text-[#ece5d6]"
+                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-[#364358] transition hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#96a8b8] dark:hover:text-[#e4d9c5]"
                     >
                       Logout
                     </button>

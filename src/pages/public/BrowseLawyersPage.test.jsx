@@ -46,9 +46,9 @@ describe('BrowseLawyersPage dark mode styling', () => {
     const sortSelect = screen.getByRole('button', { name: 'Sort' })
 
     expect(screen.queryByRole('combobox')).toBeNull()
-    expect(searchInput.className).toContain('dark:bg-[#0f1e33]')
-    expect(searchInput.className).toContain('dark:text-[#ece5d6]')
-    expect(specializationSelect.className).toContain('dark:bg-[#0f1e33]')
-    expect(sortSelect.className).toContain('dark:bg-[#0f1e33]')
+    expect(searchInput.className).toContain('dark:bg-[#1d2535]')
+    expect(searchInput.className).toContain('dark:text-[#e4d9c5]')
+    expect(specializationSelect.className).toContain('dark:bg-[#1d2535]')
+    expect(sortSelect.className).toContain('dark:bg-[#1d2535]')
   })
 })

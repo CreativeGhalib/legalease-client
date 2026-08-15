@@ -43,14 +43,14 @@ function FilterSelect({ label, value, placeholder, options, onChange }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
-        className="theme-select flex min-h-11 w-full items-center justify-between rounded-lg border border-[#c5b89e] bg-[#ece5d6] px-3 pr-10 text-left text-sm text-[#0c1827] outline-none transition focus:border-[#1b3a6b] dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6]"
+        className="theme-select flex min-h-11 w-full items-center justify-between rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 pr-10 text-left text-sm text-[#0c1827] outline-none transition focus:border-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5]"
       >
         <span className="truncate">{selectedLabel}</span>
         <ChevronDown className={`size-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
-        <div role="listbox" className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-[#d8ccb8] bg-[#fdf9f2] shadow-xl dark:border-[#1c3050] dark:bg-[#0c1728]">
+        <div role="listbox" className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-[#d8ccb8] bg-[#fdf9f2] shadow-xl dark:border-[#2a3850] dark:bg-[#161d27]">
           {options.map((option) => {
             const active = option.value === value
             return (
@@ -63,7 +63,7 @@ function FilterSelect({ label, value, placeholder, options, onChange }) {
                   onChange(option.value)
                   setOpen(false)
                 }}
-                className={`flex w-full items-center justify-between px-3 py-2.5 text-left text-sm transition ${active ? 'bg-[#e8eef8] text-[#1b3a6b] dark:bg-[#c09a4e]/10 dark:text-[#c09a4e]' : 'text-[#364358] hover:bg-[#e5dccf] dark:text-[#a8bbcc] dark:hover:bg-[#132540]'}`}
+                className={`flex w-full items-center justify-between px-3 py-2.5 text-left text-sm transition ${active ? 'bg-[#e8eef8] text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]' : 'text-[#364358] hover:bg-[#e5dccf] dark:text-[#96a8b8] dark:hover:bg-[#22303e]'}`}
               >
                 <span>{option.label}</span>
                 {active && <span className="text-xs font-semibold">✓</span>}
@@ -109,18 +109,18 @@ export default function BrowseLawyersPage() {
 
   return (
     <section>
-      <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#c09a4e]">PUBLIC DIRECTORY</p>
-      <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-semibold text-[#0c1827] dark:text-[#ece5d6] sm:text-4xl">Browse legal professionals</h1><p className="mt-2 max-w-2xl text-[#364358] dark:text-[#a8bbcc]">Search verified, published lawyer profiles by expertise, availability, and consultation fee.</p></div>{result && <p className="text-sm text-[#364358] dark:text-[#a8bbcc]">{result.meta.totalItems} professional{result.meta.totalItems === 1 ? '' : 's'} found</p>}</div>
-      <div className="mt-8 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-[0_10px_24px_rgba(7,16,31,0.05)] dark:border-[#1c3050] dark:bg-[#0c1728] sm:p-5">
-        <div className="flex items-center gap-2 text-sm font-semibold text-[#0c1827] dark:text-[#ece5d6]"><SlidersHorizontal size={17} />Search &amp; filters</div>
+      <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#d4a843]">PUBLIC DIRECTORY</p>
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-semibold text-[#0c1827] dark:text-[#e4d9c5] sm:text-4xl">Browse legal professionals</h1><p className="mt-2 max-w-2xl text-[#364358] dark:text-[#96a8b8]">Search verified, published lawyer profiles by expertise, availability, and consultation fee.</p></div>{result && <p className="text-sm text-[#364358] dark:text-[#96a8b8]">{result.meta.totalItems} professional{result.meta.totalItems === 1 ? '' : 's'} found</p>}</div>
+      <div className="mt-8 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-[0_10px_24px_rgba(7,16,31,0.05)] dark:border-[#2a3850] dark:bg-[#161d27] sm:p-5">
+        <div className="flex items-center gap-2 text-sm font-semibold text-[#0c1827] dark:text-[#e4d9c5]"><SlidersHorizontal size={17} />Search &amp; filters</div>
         <div className="mt-4 grid gap-3 lg:grid-cols-6">
-          <label className="relative lg:col-span-2"><span className="sr-only">Search lawyers</span><Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#6b84a0]" size={18} /><input value={searchText} onChange={(event) => setSearchText(event.target.value)} className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#ece5d6] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6] dark:placeholder:text-[#6b84a0]" placeholder="Name or specialization" /></label>
+          <label className="relative lg:col-span-2"><span className="sr-only">Search lawyers</span><Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={18} /><input value={searchText} onChange={(event) => setSearchText(event.target.value)} className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Name or specialization" /></label>
           <FilterSelect label="Specialization" value={values.specialization} placeholder="All specializations" onChange={(value) => updateParams({ specialization: value, page: '1' })} options={[{ label: 'All specializations', value: '' }, ...specializations.map((item) => ({ label: item, value: item }))]} />
-          <label><span className="sr-only">Minimum consultation fee</span><input value={values.minFee} onChange={(event) => updateParams({ minFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#ece5d6] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6] dark:placeholder:text-[#6b84a0]" placeholder="Min fee" /></label>
-          <label><span className="sr-only">Maximum consultation fee</span><input value={values.maxFee} onChange={(event) => updateParams({ maxFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#ece5d6] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#243d66] dark:bg-[#0f1e33] dark:text-[#ece5d6] dark:placeholder:text-[#6b84a0]" placeholder="Max fee" /></label>
+          <label><span className="sr-only">Minimum consultation fee</span><input value={values.minFee} onChange={(event) => updateParams({ minFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Min fee" /></label>
+          <label><span className="sr-only">Maximum consultation fee</span><input value={values.maxFee} onChange={(event) => updateParams({ maxFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Max fee" /></label>
           <FilterSelect label="Availability" value={values.availability} placeholder="All availability" onChange={(value) => updateParams({ availability: value, page: '1' })} options={[{ label: 'All availability', value: '' }, { label: 'Available', value: 'available' }, { label: 'Busy', value: 'busy' }]} />
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-sm text-[#364358] dark:text-[#a8bbcc]"><span>Sort</span><div className="min-w-[12rem]"><FilterSelect label="Sort" value={values.sort} placeholder="Newest" onChange={(value) => updateParams({ sort: value, page: '1' })} options={[{ label: 'Newest', value: 'newest' }, { label: 'Fee: Low to High', value: 'fee-low' }, { label: 'Fee: High to Low', value: 'fee-high' }, { label: 'Most Hired', value: 'most-hired' }]} /></div></div>{hasFilters && <button type="button" onClick={() => { setSearchText(''); setSearchParams(new URLSearchParams()) }} className="min-h-10 text-sm font-semibold text-[#1b3a6b] hover:text-[#0f2547] dark:text-[#c09a4e] dark:hover:text-[#d4af6a]">Clear filters</button>}</div>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3"><div className="flex items-center gap-2 text-sm text-[#364358] dark:text-[#96a8b8]"><span>Sort</span><div className="min-w-[12rem]"><FilterSelect label="Sort" value={values.sort} placeholder="Newest" onChange={(value) => updateParams({ sort: value, page: '1' })} options={[{ label: 'Newest', value: 'newest' }, { label: 'Fee: Low to High', value: 'fee-low' }, { label: 'Fee: High to Low', value: 'fee-high' }, { label: 'Most Hired', value: 'most-hired' }]} /></div></div>{hasFilters && <button type="button" onClick={() => { setSearchText(''); setSearchParams(new URLSearchParams()) }} className="min-h-10 text-sm font-semibold text-[#1b3a6b] hover:text-[#0f2547] dark:text-[#d4a843] dark:hover:text-[#d4af6a]">Clear filters</button>}</div>
       </div>
       <div className={`mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 ${lawyersQuery.isFetching ? 'opacity-70' : ''}`}>
         {lawyersQuery.isLoading ? Array.from({ length: 8 }, (_, index) => <LawyerCardSkeleton key={index} />) : lawyersQuery.isError ? null : result?.data.items.map((lawyer) => <LawyerCard key={lawyer.id} lawyer={lawyer} />)}

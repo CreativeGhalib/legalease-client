@@ -1,6 +1,6 @@
 @import "tailwindcss";
 /* Use .dark class for dark: variants instead of prefers-color-scheme media query */
-@variant dark (.dark &);
+@custom-variant dark (&:where(.dark, .dark *));
 
 /**
  * CSS Custom Properties for Safe Area Support
@@ -13,29 +13,30 @@
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-inset-left: env(safe-area-inset-left, 0px);
 
-  /* Premium legal palette — Deep Navy & Champagne Gold */
-  --color-brand-navy: #1b3a6b;    /* authoritative navy */
-  --color-brand-gold: #b8903a;    /* champagne gold */
-  --color-brand-gold-dk: #c09a4e; /* brighter gold for dark bg */
+  /* Premium legal palette — Midnight Counsel */
+  --color-brand-navy: #1b3a6b;
+  --color-brand-gold: #c49835;    /* antique gold */
+  --color-brand-gold-dk: #d4a843; /* rich deep gold for dark mode */
   --color-primary-dark: #1b3a6b;
   --color-primary-soft: #e8eef8;
   --color-text-dark: #0c1827;
-  --color-text-light: #ece5d6;    /* warm cream */
-  --color-bg-light: #f2ece0;      /* warm parchment */
+  --color-text-light: #e4d9c5;    /* warm ivory */
+  --color-bg-light: #f2ece0;
   --color-bg-surface-light: #fdf9f2;
   --color-bg-elevated-light: #ece5d6;
   --color-border-light: #d8ccb8;
-  --color-bg-dark: #07101f;       /* deep midnight */
-  --color-bg-surface-dark: #0c1728;
-  --color-bg-elevated-dark: #0f1e33;
-  --color-border-dark: #1c3050;
-  --color-focus: #b8903a;
+  --color-bg-dark: #0d1117;       /* warm charcoal — no blue cast */
+  --color-bg-surface-dark: #161d27;
+  --color-bg-elevated-dark: #1d2535;
+  --color-border-dark: #2a3850;
+  --color-focus: #c49835;
   --focus-outline-width: 3px;
 }
 
 html {
   font-family: "Aptos", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+  color-scheme: light; /* prevent OS dark mode from overriding light theme */
   background: linear-gradient(180deg, #f2ece0 0%, #ebe4d4 100%);
   color: var(--color-text-dark);
   transition: background-color 180ms ease, color 180ms ease;
@@ -48,7 +49,7 @@ html {
 
 html.dark {
   color-scheme: dark;
-  background: linear-gradient(180deg, #07101f 0%, #0b1824 100%);
+  background: linear-gradient(180deg, #0d1117 0%, #111520 100%);
   color: var(--color-text-light);
 }
 
@@ -79,8 +80,8 @@ html.dark body {
 }
 
 html.dark ::selection {
-  background: rgba(192, 154, 78, 0.30);
-  color: #ece5d6;
+  background: rgba(212, 168, 67, 0.32);
+  color: #e4d9c5;
 }
 
 ::selection {
@@ -104,14 +105,14 @@ html.dark select,
 html.dark textarea,
 html.dark option {
   color-scheme: dark;
-  background-color: #0f1e33;
-  color: #ece5d6;
+  background-color: #1d2535;
+  color: #e4d9c5;
 }
 
 html.dark select option,
 html.dark select optgroup {
-  background-color: #0f1e33;
-  color: #ece5d6;
+  background-color: #1d2535;
+  color: #e4d9c5;
 }
 
 .theme-select {
@@ -125,8 +126,8 @@ html.dark select optgroup {
 }
 
 html.dark .theme-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23c09a4e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-color: #0f1e33;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23d4a843' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-color: #1d2535;
 }
 
 .theme-select svg {
@@ -324,16 +325,16 @@ body:has([role="dialog"][aria-modal="true"]) {
   box-shadow: 0 4px 10px rgb(27 58 107 / 0.28);
 }
 
-/* gold primary on midnight navy bg */
+/* gold primary on warm charcoal bg */
 html.dark .le-button-primary {
-  background: #c09a4e;
-  color: #07101f;
-  box-shadow: 0 1px 2px rgb(7 16 31 / 0.30);
+  background: #d4a843;
+  color: #0d1117;
+  box-shadow: 0 1px 2px rgb(13 17 23 / 0.35);
 }
 
 html.dark .le-button-primary:hover:not(:disabled) {
-  background: #a8832d;
-  box-shadow: 0 4px 12px rgb(192 154 78 / 0.35);
+  background: #e8bf58;
+  box-shadow: 0 4px 14px rgb(212 168 67 / 0.40);
 }
 
 /**
@@ -346,22 +347,22 @@ html.dark .le-button-primary:hover:not(:disabled) {
 }
 
 .le-button-secondary:hover:not(:disabled) {
-  border-color: #b8903a;
+  border-color: #c49835;
   background: #dde6f5;
   color: #0f2547;
 }
 
-/* dark surface secondary on midnight navy bg */
+/* dark surface secondary on warm charcoal bg */
 html.dark .le-button-secondary {
-  border: 1px solid #243d66;
-  background: #0f1e33;
-  color: #a8bbcc;
+  border: 1px solid #374c62;
+  background: #1d2535;
+  color: #96a8b8;
 }
 
 html.dark .le-button-secondary:hover:not(:disabled) {
-  border-color: #c09a4e;
-  background: #132540;
-  color: #ece5d6;
+  border-color: #d4a843;
+  background: #22303e;
+  color: #e4d9c5;
 }
 
 /**
