@@ -63,7 +63,7 @@ export default function PublicLayout() {
    */
   const navClass = ({ isActive }) => {
     const baseClasses = 'inline-flex items-center border-b-2 px-0.5 py-2 text-sm font-semibold tracking-[0.01em] transition focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600'
-    const activeClasses = 'border-indigo-700 text-indigo-800'
+    const activeClasses = 'le-nav-active border-indigo-700 text-indigo-800'
     const inactiveClasses = 'border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-950'
     return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`
   }

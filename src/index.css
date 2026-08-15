@@ -116,6 +116,11 @@ html.dark [class*="bg-indigo-100"] {
   background-color: rgba(99, 102, 241, 0.12) !important;
 }
 
+html.dark .le-nav-active {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
 /**
  * Interactive Elements
  * Remove tap highlight, enable hardware acceleration
