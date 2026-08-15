@@ -1,24 +1,125 @@
 @import "tailwindcss";
 
+/**
+ * CSS Custom Properties for Safe Area Support
+ * Automatically populated by env() values on iOS 15+
+ * Fallback to 0 on unsupporting browsers
+ */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+
+  /* Color palette with WCAG AA compliance */
+  --color-primary-dark: #3730a3; /* Indigo 700 - meets AA for white text */
+  --color-text-dark: #0f172a; /* Slate 950 */
+  --color-text-light: #e2e8f0; /* Slate 100 */
+  --color-bg-light: #f8fafc; /* Slate 50 */
+  --color-bg-dark: #020817; /* Slate 950 */
+  
+  /* Focus states with sufficient contrast */
+  --color-focus: #818cf8; /* Indigo 400 */
+  --focus-outline-width: 3px;
+}
+
 html {
   font-family: "Aptos", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+  background: var(--color-bg-light);
+  color: var(--color-text-dark);
+  /* Enable smooth color transitions */
+  transition: background-color 180ms ease, color 180ms ease;
+  /* Improve font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Support viewport safe areas */
+  padding-top: var(--safe-area-inset-top, 0);
+  padding-left: var(--safe-area-inset-left, 0);
+  padding-right: var(--safe-area-inset-right, 0);
 }
 
+html.dark {
+  color-scheme: dark;
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+/**
+ * Typography
+ */
 .le-display {
   font-family: Georgia, "Times New Roman", serif;
   letter-spacing: -0.025em;
 }
 
+/**
+ * Body - Accessible defaults
+ */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--color-bg-light);
   line-height: 1.5;
   overflow-x: clip;
+  /* Prevent layout shift when scrollbar appears */
+  scrollbar-gutter: stable;
 }
 
+html.dark body {
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+/**
+ * Dark mode color overrides for Tailwind classes
+ * Ensures sufficient contrast in dark mode
+ */
+html.dark [class*="bg-slate-50"],
+html.dark [class*="bg-slate-100"],
+html.dark [class*="bg-slate-200"],
+html.dark [class*="bg-white"],
+html.dark [class*="bg-slate-900"][class*="/"],
+html.dark [class*="bg-slate-950"] {
+  background-color: #0f172a !important;
+}
+
+html.dark [class*="border-slate-200"],
+html.dark [class*="border-slate-300"],
+html.dark [class*="border-slate-100"] {
+  border-color: #334155 !important;
+}
+
+/* Enhanced contrast for text in dark mode */
+html.dark [class*="text-slate-950"],
+html.dark [class*="text-slate-900"],
+html.dark [class*="text-slate-800"],
+html.dark [class*="text-slate-700"] {
+  color: #f8fafc !important;
+}
+
+html.dark [class*="text-slate-600"],
+html.dark [class*="text-slate-500"] {
+  color: #e2e8f0 !important;
+  opacity: 0.95;
+}
+
+html.dark [class*="text-slate-400"],
+html.dark [class*="text-slate-300"] {
+  color: #cbd5e1 !important;
+  opacity: 1;
+}
+
+html.dark [class*="bg-indigo-50"],
+html.dark [class*="bg-indigo-100"] {
+  background-color: rgba(99, 102, 241, 0.12) !important;
+}
+
+/**
+ * Interactive Elements
+ * Remove tap highlight, enable hardware acceleration
+ */
 button,
 a,
 input,
@@ -32,10 +133,16 @@ a {
   touch-action: manipulation;
 }
 
+/**
+ * Form inputs - Prevent zoom on iOS
+ * 16px+ font size prevents auto-zoom on input focus
+ */
 input,
 select,
 textarea {
   font-size: 16px;
+  /* Improve readability */
+  letter-spacing: 0.3px;
 }
 
 @media (min-width: 640px) {
@@ -43,9 +150,13 @@ textarea {
   select,
   textarea {
     font-size: 0.875rem;
+    letter-spacing: normal;
   }
 }
 
+/**
+ * Modal/Dialog - Lock scroll on body
+ */
 body:has([role="dialog"][aria-modal="true"]) {
   overflow: hidden;
 }
@@ -54,14 +165,55 @@ body:has([role="dialog"][aria-modal="true"]) {
   overscroll-behavior: contain;
 }
 
+/**
+ * Focus Visible - Keyboard navigation accessibility
+ * WCAG AA compliant focus indicator with sufficient contrast
+ */
 :focus-visible {
-  outline: 3px solid #818cf8;
-  outline-offset: 3px;
+  outline: var(--focus-outline-width) solid var(--color-focus);
+  outline-offset: 2px;
 }
 
+/* Remove default focus for mouse users where not needed */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/**
+ * Screen Reader Only Content
+ * Visible on focus, hidden by default
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/**
+ * Button Base Class
+ * Ensures 48px+ minimum touch targets (WCAG mobile)
+ */
 .le-button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 48px; /* WCAG mobile minimum */
+  min-width: 48px;
   align-items: center;
   justify-content: center;
   border-radius: 0.75rem;
@@ -70,6 +222,20 @@ body:has([role="dialog"][aria-modal="true"]) {
   font-weight: 650;
   line-height: 1.25rem;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  /* Improve touch feedback */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.le-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.le-button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .le-button:disabled {
@@ -77,10 +243,19 @@ body:has([role="dialog"][aria-modal="true"]) {
   opacity: 0.6;
 }
 
+.le-button:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/**
+ * Primary Button - High contrast for accessibility
+ */
 .le-button-primary {
   background: #4338ca;
   color: #ffffff;
   box-shadow: 0 1px 2px rgb(15 23 42 / 0.12);
+  /* WCAG AA contrast ratio: 4.5:1 for normal text */
 }
 
 .le-button-primary:hover:not(:disabled) {
@@ -88,6 +263,9 @@ body:has([role="dialog"][aria-modal="true"]) {
   box-shadow: 0 4px 10px rgb(67 56 202 / 0.22);
 }
 
+/**
+ * Secondary Button
+ */
 .le-button-secondary {
   border: 1px solid #c7d2fe;
   background: #eef2ff;
@@ -100,6 +278,9 @@ body:has([role="dialog"][aria-modal="true"]) {
   color: #312e81;
 }
 
+/**
+ * Danger Button
+ */
 .le-button-danger {
   border: 1px solid #fecdd3;
   background: #fff1f2;
@@ -111,8 +292,72 @@ body:has([role="dialog"][aria-modal="true"]) {
   background: #ffe4e6;
 }
 
+/**
+ * Mobile Typography
+ * Improves readability on small screens
+ */
 @media (max-width: 639px) {
   body {
     font-size: 15px;
+  }
+  
+  h1, .text-4xl, .text-5xl, .text-6xl {
+    /* Reduce excessive font sizes on mobile */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
+
+/**
+ * Landscape Orientation Support
+ * Ensure navigation remains accessible in landscape
+ */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    /* Reduce vertical padding on small screens */
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  header {
+    min-height: 3.5rem;
+  }
+  
+  .le-button {
+    min-height: 40px;
+  }
+}
+
+/**
+ * Reduced Motion Support
+ * Respect user's prefers-reduced-motion setting
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/**
+ * Print Styles
+ * Optimize for printing
+ */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  .no-print {
+    display: none !important;
   }
 }

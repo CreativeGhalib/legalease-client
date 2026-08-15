@@ -2,12 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { BadgeCheck, CircleAlert, CreditCard, Eye, EyeOff } from 'lucide-react'
 import { changePublication, startVerificationCheckout } from '../../api/paymentApi'
 import { getApiErrorMessage } from '../../utils/apiError'
+import { showSuccessToast } from '../../utils/toast'
 
 export default function VerificationPublishingPanel({ profile }) {
   const client = useQueryClient()
   const refresh = () => client.invalidateQueries({ queryKey: ['lawyer-profile', 'me'] })
   const checkout = useMutation({ mutationFn: startVerificationCheckout, onSuccess: ({ checkoutUrl }) => { window.location.assign(checkoutUrl) } })
-  const publication = useMutation({ mutationFn: changePublication, onSuccess: refresh })
+  const publication = useMutation({ mutationFn: changePublication, onSuccess: () => { refresh(); showSuccessToast('Demo email notification queued for your publishing update.') } })
   const fee = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(profile.publishingFeeMinor / 100)
   const locked = ['suspended', 'deleted'].includes(profile.publicationStatus)
   const message = checkout.isError ? getApiErrorMessage(checkout.error) : publication.isError ? getApiErrorMessage(publication.error) : ''

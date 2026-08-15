@@ -2,11 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LegalEase</title>
+    
+    <!-- Viewport Meta Tags - Critical for responsive design and safe area support -->
+    <meta 
+      name="viewport" 
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes" 
+    />
+    
+    <!-- iOS Safe Area Support - Enables safe-area-inset-* CSS env() variables -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#f8fafc" />
+    
+    <!-- Accessibility & SEO -->
+    <meta name="description" content="LegalEase - Find and hire expert legal counsel. Browse lawyers by practice area, understand their expertise, and connect with confidence." />
+    <meta name="keywords" content="legal counsel, lawyer directory, find lawyer, legal services" />
+    <meta name="author" content="LegalEase" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="LegalEase - Legal Counsel" />
+    <meta property="og:description" content="Find and hire expert legal counsel" />
+    
+    <!-- Prevent zoom on input focus on iOS -->
+    <style>
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"],
+      select,
+      textarea {
+        font-size: 16px;
+      }
+    </style>
+    
+    <title>LegalEase - Legal Counsel</title>
   </head>
   <body>
+    <!-- Root element for React application -->
     <div id="root"></div>
+    
+    <!-- Main application script -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

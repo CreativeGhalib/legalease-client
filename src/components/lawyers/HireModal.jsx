@@ -4,6 +4,7 @@ import { createHiringRequest } from '../../api/hiringRequestApi'
 import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 import useModalFocus from '../../hooks/useModalFocus'
 import { getApiErrorMessage } from '../../utils/apiError'
+import { showSuccessToast } from '../../utils/toast'
 
 export default function HireModal({ lawyer, onClose }) {
   const client = useQueryClient()
@@ -11,6 +12,7 @@ export default function HireModal({ lawyer, onClose }) {
     mutationFn: () => createHiringRequest(lawyer.id),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ['hiring-requests', 'mine'] })
+      showSuccessToast('Demo email notification queued for the lawyer.')
       onClose()
     },
   })
