@@ -46,31 +46,14 @@ export default function LegalCategories() {
 
       {/* Categories grid - Responsive layout */}
       <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-        <motion.div 
-          className="contents"
-          initial={reduceMotion ? false : 'hidden'}
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={{
-            hidden: {},
-            show: {
-              transition: {
-                staggerChildren: 0.05,
-              },
-            },
-          }}
-        >
-          {categories.map(([label, Icon]) => (
+        <>
+          {categories.map(([label, Icon], index) => (
             <motion.div
               key={label}
-              variants={
-                reduceMotion
-                  ? undefined
-                  : {
-                      hidden: { opacity: 0, y: 12 },
-                      show: { opacity: 1, y: 0 },
-                    }
-              }
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={reduceMotion ? undefined : { duration: 0.3, delay: index * 0.05 }}
             >
               {/* Category Link - 48px+ minimum height for mobile */}
               <Link
@@ -92,7 +75,7 @@ export default function LegalCategories() {
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </>
       </div>
     </section>
   )
