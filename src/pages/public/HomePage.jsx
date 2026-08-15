@@ -52,7 +52,7 @@ export default function HomePage() {
           className="absolute right-4 top-4 md:right-14 md:top-12"
           aria-hidden="true"
         >
-          <div className="grid h-20 w-20 place-items-center rounded-full border border-white/15 bg-white/5 text-indigo-200 md:h-56 md:w-56">
+          <div className="grid h-20 w-20 place-items-center rounded-full border border-white/15 bg-transparent text-indigo-200 md:h-56 md:w-56">
             <Scale className="h-10 w-10 md:h-22 md:w-22" strokeWidth={1.2} />
           </div>
         </div>
