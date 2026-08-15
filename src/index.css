@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Use .dark class for dark: variants instead of prefers-color-scheme media query */
+@variant dark (.dark &);
 
 /**
  * CSS Custom Properties for Safe Area Support
