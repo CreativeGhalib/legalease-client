@@ -63,14 +63,14 @@ export default function PublicLayout() {
    */
   const navClass = ({ isActive }) => {
     const baseClasses = 'inline-flex items-center border-b-2 px-0.5 py-2 text-sm font-semibold tracking-[0.01em] transition focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600'
-    const activeClasses = 'le-nav-active border-indigo-700 text-indigo-800'
-    const inactiveClasses = 'border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-950'
+    const activeClasses = 'le-nav-active border-indigo-700 text-indigo-800 dark:border-indigo-400 dark:text-indigo-300'
+    const inactiveClasses = 'border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-950 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-slate-100'
     return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`
   }
 
   return (
     <div 
-      className="min-h-screen bg-slate-50 text-slate-950"
+      className="min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100"
       style={{
         paddingTop: 'var(--safe-area-inset-top, 0)',
       }}
@@ -85,7 +85,7 @@ export default function PublicLayout() {
 
       {/* Header - Sticky navigation with safe area support */}
       <header 
-        className="sticky top-0 z-50 border-b border-slate-200/90 bg-white/95 shadow-[0_1px_0_rgb(15_23_42/0.03)] backdrop-blur"
+        className="sticky top-0 z-50 border-b border-slate-200/90 bg-white/95 shadow-[0_1px_0_rgb(15_23_42/0.03)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/90"
         style={{
           paddingTop: 'var(--safe-area-inset-top, 0)',
           paddingLeft: 'var(--safe-area-inset-left, 0)',
@@ -98,15 +98,15 @@ export default function PublicLayout() {
           <Link 
             to="/" 
             onClick={() => setMenuOpen(false)}
-            className="inline-flex items-center gap-2.5 text-slate-950 hover:opacity-80 transition focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+            className="inline-flex items-center gap-2.5 text-slate-950 hover:opacity-80 transition focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:text-slate-100"
             aria-label="LegalEase - Home"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-slate-900 text-amber-200 shadow-sm">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-slate-900 text-amber-200 shadow-sm dark:bg-slate-800">
               <Scale size={19} strokeWidth={1.8} aria-hidden="true" />
             </span>
             <span>
               <span className="le-display block text-xl font-bold leading-none">LegalEase</span>
-              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-slate-500">Legal counsel</span>
+              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-300">Legal counsel</span>
             </span>
           </Link>
 
@@ -123,8 +123,8 @@ export default function PublicLayout() {
               to="/lawyers"
               className={({ isActive }) => {
                 const baseClasses = 'inline-flex items-center py-2 text-sm font-semibold transition focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600'
-                const activeClasses = 'text-indigo-700'
-                const inactiveClasses = 'text-slate-700 hover:text-slate-950'
+                const activeClasses = 'text-indigo-700 dark:text-indigo-300'
+                const inactiveClasses = 'text-slate-700 hover:text-slate-950 dark:text-slate-300 dark:hover:text-slate-100'
                 return `${baseClasses} ${isActive || location.pathname.startsWith('/lawyers') ? activeClasses : inactiveClasses}`
               }}
             >
@@ -145,7 +145,7 @@ export default function PublicLayout() {
                 id="desktop-lawyer-search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                className="h-10 w-44 rounded-lg border border-slate-300 py-2 pl-9 pr-3 text-sm focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition xl:w-56"
+                className="h-10 w-44 rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400 xl:w-56"
                 placeholder="Search lawyers"
                 aria-label="Search for lawyers by name or specialization"
               />
@@ -173,7 +173,7 @@ export default function PublicLayout() {
             {!isChecking && (
               isAuthenticated ? (
                 <>
-                  <span className="hidden max-w-32 truncate text-sm font-medium text-slate-600 sm:inline" aria-label={`Logged in as ${user.fullName}`}>
+                  <span className="hidden max-w-32 truncate text-sm font-medium text-slate-600 dark:text-slate-300 sm:inline" aria-label={`Logged in as ${user.fullName}`}>
                     {user.fullName}
                   </span>
                   <NavLink 
@@ -185,7 +185,7 @@ export default function PublicLayout() {
                   <button 
                     type="button"
                     onClick={handleLogout}
-                    className="py-2 text-slate-800 text-sm font-semibold hover:text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition"
+                    className="py-2 text-slate-800 text-sm font-semibold hover:text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition dark:text-slate-200 dark:hover:text-slate-100"
                   >
                     Logout
                   </button>
@@ -222,7 +222,7 @@ export default function PublicLayout() {
               aria-controls="mobile-navigation"
               aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={menuOpen}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg text-slate-800 hover:bg-slate-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition"
+              className="grid min-h-12 min-w-12 place-items-center rounded-lg text-slate-800 hover:bg-slate-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition dark:text-slate-200 dark:hover:bg-slate-800"
             >
               {menuOpen ? (
                 <X size={24} aria-hidden="true" />
@@ -252,7 +252,7 @@ export default function PublicLayout() {
 
           <div
             id="mobile-navigation"
-            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 pt-[calc(4.5rem+1rem)] shadow-2xl"
+            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 pt-[calc(4.5rem+1rem)] shadow-2xl dark:bg-slate-900"
             style={{
               paddingBottom: 'max(1rem, var(--safe-area-inset-bottom, 0))',
               paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
@@ -276,7 +276,7 @@ export default function PublicLayout() {
                   id="mobile-lawyer-search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="min-h-12 w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3 transition focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+                  className="min-h-12 w-full rounded-lg border border-slate-300 bg-white py-2 pl-10 pr-3 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400"
                   placeholder="Search by name or specialization"
                   aria-label="Search for lawyers"
                 />
@@ -285,8 +285,8 @@ export default function PublicLayout() {
               {!isChecking && (
                 isAuthenticated ? (
                   <>
-                    <div className="my-3 border-t border-slate-200 py-3">
-                      <p className="mb-2 px-0.5 text-sm font-medium text-slate-700">{user.fullName}</p>
+                    <div className="my-3 border-t border-slate-200 py-3 dark:border-slate-700">
+                      <p className="mb-2 px-0.5 text-sm font-medium text-slate-700 dark:text-slate-200">{user.fullName}</p>
                     </div>
                     <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>
                       Dashboard
@@ -294,7 +294,7 @@ export default function PublicLayout() {
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-slate-700 transition hover:text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-slate-700 transition hover:text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 dark:text-slate-200 dark:hover:text-slate-100"
                     >
                       Logout
                     </button>
