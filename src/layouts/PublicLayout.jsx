@@ -27,8 +27,8 @@ export default function PublicLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'light'
-    return window.localStorage.getItem(THEME_KEY) || 'light'
+    if (typeof window === 'undefined') return 'dark'
+    return window.localStorage.getItem(THEME_KEY) || 'dark'
   })
 
   useBodyScrollLock(menuOpen)
