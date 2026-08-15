@@ -233,110 +233,82 @@ export default function PublicLayout() {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
-        {menuOpen && (
-          <ModalFocusRegion 
-            label="Mobile navigation"
-            onClose={() => setMenuOpen(false)}
-            className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 lg:hidden"
-          >
-            {/* Scrim/overlay */}
-            <button 
-              type="button"
-              tabIndex={-1}
-              aria-label="Close navigation menu"
-              className="absolute inset-0 w-full bg-slate-950/35 hover:bg-slate-950/40 transition"
-              onClick={() => setMenuOpen(false)}
-            />
-
-            {/* Mobile menu panel */}
-            <div 
-              id="mobile-navigation"
-              className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 shadow-2xl"
-              style={{
-                paddingBottom: 'max(1rem, var(--safe-area-inset-bottom, 0))',
-                paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
-              }}
-            >
-              <nav aria-label="Mobile navigation" className="grid gap-1">
-                {/* Home link */}
-                <NavLink 
-                  to="/" 
-                  end
-                  onClick={() => setMenuOpen(false)}
-                  className={navClass}
-                >
-                  Home
-                </NavLink>
-
-                {/* Browse Lawyers link */}
-                <NavLink 
-                  to="/lawyers"
-                  onClick={() => setMenuOpen(false)}
-                  className={navClass}
-                >
-                  Browse Lawyers
-                </NavLink>
-
-                {/* Mobile Search */}
-                <form onSubmit={submitSearch} className="relative mt-3 mb-3">
-                  <label className="sr-only" htmlFor="mobile-lawyer-search">
-                    Search lawyers
-                  </label>
-                  <Search 
-                    className="pointer-events-none absolute left-3 top-3 text-slate-400"
-                    size={17}
-                    aria-hidden="true"
-                  />
-                  <input 
-                    id="mobile-lawyer-search"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    className="min-h-12 w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3 focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition"
-                    placeholder="Search by name or specialization"
-                    aria-label="Search for lawyers"
-                  />
-                </form>
-
-                {/* User section */}
-                {!isChecking && (
-                  isAuthenticated ? (
-                    <>
-                      <div className="border-t border-slate-200 py-3 my-3">
-                        <p className="text-sm font-medium text-slate-700 px-0.5 mb-2">
-                          {user.fullName}
-                        </p>
-                      </div>
-                      <NavLink 
-                        to="/dashboard"
-                        onClick={() => setMenuOpen(false)}
-                        className={navClass}
-                      >
-                        Dashboard
-                      </NavLink>
-                      <button 
-                        type="button"
-                        onClick={handleLogout}
-                        className="min-h-11 w-full text-left text-sm font-semibold text-slate-700 hover:text-slate-950 px-0.5 py-2 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 transition"
-                      >
-                        Logout
-                      </button>
-                    </>
-                  ) : (
-                    <NavLink 
-                      to="/login"
-                      onClick={() => setMenuOpen(false)}
-                      className={navClass}
-                    >
-                      Login
-                    </NavLink>
-                  )
-                )}
-              </nav>
-            </div>
-          </ModalFocusRegion>
-        )}
       </header>
+
+      {/* Mobile Navigation Menu */}
+      {menuOpen && (
+        <ModalFocusRegion
+          label="Mobile navigation"
+          onClose={() => setMenuOpen(false)}
+          className="fixed inset-0 z-[60] lg:hidden"
+        >
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-label="Close navigation menu"
+            className="absolute inset-0 w-full bg-slate-950/35 transition hover:bg-slate-950/40"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          <div
+            id="mobile-navigation"
+            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white p-4 pt-[calc(4.5rem+1rem)] shadow-2xl"
+            style={{
+              paddingBottom: 'max(1rem, var(--safe-area-inset-bottom, 0))',
+              paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
+            }}
+          >
+            <nav aria-label="Mobile navigation" className="grid gap-1">
+              <NavLink to="/" end onClick={() => setMenuOpen(false)} className={navClass}>
+                Home
+              </NavLink>
+
+              <NavLink to="/lawyers" onClick={() => setMenuOpen(false)} className={navClass}>
+                Browse Lawyers
+              </NavLink>
+
+              <form onSubmit={submitSearch} className="relative mb-3 mt-3">
+                <label className="sr-only" htmlFor="mobile-lawyer-search">
+                  Search lawyers
+                </label>
+                <Search className="pointer-events-none absolute left-3 top-3 text-slate-400" size={17} aria-hidden="true" />
+                <input
+                  id="mobile-lawyer-search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  className="min-h-12 w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3 transition focus:border-indigo-600 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+                  placeholder="Search by name or specialization"
+                  aria-label="Search for lawyers"
+                />
+              </form>
+
+              {!isChecking && (
+                isAuthenticated ? (
+                  <>
+                    <div className="my-3 border-t border-slate-200 py-3">
+                      <p className="mb-2 px-0.5 text-sm font-medium text-slate-700">{user.fullName}</p>
+                    </div>
+                    <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>
+                      Dashboard
+                    </NavLink>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-slate-700 transition hover:text-slate-950 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <NavLink to="/login" onClick={() => setMenuOpen(false)} className={navClass}>
+                    Login
+                  </NavLink>
+                )
+              )}
+            </nav>
+          </div>
+        </ModalFocusRegion>
+      )}
 
       {/* Main Content Area */}
       <main 

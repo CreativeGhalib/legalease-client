@@ -49,17 +49,17 @@ export default function HomePage() {
 
         {/* Decorative scales icon - responsive sizing */}
         <div 
-          className="absolute hidden -right-8 top-12 sm:block sm:right-6 md:right-14"
+          className="absolute right-4 top-6 sm:right-6 sm:top-10 md:right-14"
           aria-hidden="true"
         >
-          <div className="grid h-40 w-40 place-items-center rounded-full border border-white/15 bg-white/5 text-indigo-200 sm:h-56 sm:w-56">
-            <Scale size={88} strokeWidth={1.2} />
+          <div className="grid h-24 w-24 place-items-center rounded-full border border-white/15 bg-white/5 text-indigo-200 sm:h-40 sm:w-40 md:h-56 md:w-56">
+            <Scale className="h-12 w-12 sm:h-16 sm:w-16 md:h-22 md:w-22" strokeWidth={1.2} />
           </div>
         </div>
 
         {/* Hero content - properly responsive text */}
         <motion.div 
-          className="max-w-2xl"
+          className="relative z-10 max-w-2xl pr-20 sm:pr-32 md:pr-0"
           {...rise}
           transition={{ duration: 0.55 }}
         >
