@@ -59,7 +59,7 @@ export default function LegalCategories() {
               <Link
                 to={`/lawyers?specialization=${encodeURIComponent(label)}&page=1`}
                 aria-label={`Browse ${label} lawyers`}
-                className="group flex min-h-32 sm:min-h-40 flex-col justify-between rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-sm transition hover:-translate-y-1 hover:border-[#b8903a]/50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] dark:border-[#2a3850] dark:bg-[#161d27] dark:hover:border-[#d4a843]/60 dark:focus-visible:ring-[#d4a843]"
+                className="group flex min-h-32 sm:min-h-40 flex-col items-center justify-center gap-3 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#b8903a]/50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] dark:border-[#2a3850] dark:bg-[#161d27] dark:hover:border-[#d4a843]/60 dark:focus-visible:ring-[#d4a843]"
               >
                 {/* Icon */}
                 <Icon
