@@ -5,17 +5,195 @@ import { useAuth } from '../../auth/useAuth'
 import { getMyAccountProfile } from '../../api/userProfileApi'
 import { getMyLawyerProfile } from '../../api/lawyerProfileApi'
 
-function readableDate(value) { return value ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(value)) : '—' }
-function Detail({ icon: Icon, label, value }) { return <div className="flex min-h-28 gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><Icon className="mt-0.5 shrink-0 text-indigo-700" size={19} /><div className="min-w-0"><p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{label}</p><p className="mt-2 break-words text-sm font-semibold text-slate-900">{value || '—'}</p></div></div> }
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function readableDate(value) {
+  return value
+    ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(value))
+    : '—'
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function DetailCard({ icon: Icon, label, value }) {
+  return (
+    <div className="flex min-h-28 gap-3 rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-5 shadow-sm">
+      <Icon className="mt-0.5 shrink-0 text-indigo-700" size={19} />
+      <div className="min-w-0">
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-[#a8bbcc]">
+          {label}
+        </p>
+        <p className="mt-2 break-words text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">
+          {value || '—'}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="grid gap-4">
+      <div className="h-28 animate-pulse rounded-2xl bg-slate-200 dark:bg-[#0c1728]" />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="h-24 animate-pulse rounded-2xl bg-slate-200 dark:bg-[#0c1728]" />
+        <div className="h-24 animate-pulse rounded-2xl bg-slate-200 dark:bg-[#0c1728]" />
+      </div>
+    </div>
+  )
+}
+
+// ─── Role-specific panels ─────────────────────────────────────────────────────
+
+function UserPanel() {
+  return (
+    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:bg-[#1b3a6b]/15 p-6">
+      <h2 className="font-semibold text-slate-950 dark:text-[#ece5d6]">Manage your account</h2>
+      <p className="mt-2 max-w-xl text-sm leading-6 text-slate-700 dark:text-[#ece5d6]">
+        Keep your display name and account photo up to date. Your hiring history and transactions
+        are available from the dashboard navigation.
+      </p>
+      <Link
+        to="/dashboard/user/update-profile"
+        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800"
+      >
+        Update profile
+      </Link>
+    </div>
+  )
+}
+
+function LawyerPanel({ lawyerProfile }) {
+  return (
+    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:bg-[#1b3a6b]/15 p-6">
+      <div className="flex items-start gap-3">
+        <FileCheck2 className="mt-0.5 shrink-0 text-indigo-700" size={21} />
+        <div>
+          <h2 className="font-semibold text-slate-950 dark:text-[#ece5d6]">
+            Professional profile status
+          </h2>
+
+          {lawyerProfile.isLoading && (
+            <p className="mt-2 text-sm text-slate-600 dark:text-[#a8bbcc]">
+              Loading your professional profile…
+            </p>
+          )}
+
+          {lawyerProfile.data && (
+            <div className="mt-3 grid gap-1.5 text-sm text-slate-700 dark:text-[#ece5d6]">
+              <p>
+                Profile:{' '}
+                {lawyerProfile.data.isCompleteForPublishing
+                  ? 'Complete for publishing'
+                  : 'Draft incomplete'}
+              </p>
+              <p>Availability: {lawyerProfile.data.availability}</p>
+              <p>Verification: {lawyerProfile.data.verificationStatus}</p>
+              <p>Publication: {lawyerProfile.data.publicationStatus}</p>
+            </div>
+          )}
+
+          {!lawyerProfile.isLoading && !lawyerProfile.data && (
+            <p className="mt-2 text-sm text-slate-700 dark:text-[#ece5d6]">
+              Create your professional profile to prepare it for public discovery.
+            </p>
+          )}
+
+          <Link
+            to="/dashboard/lawyer/manage-legal-profile"
+            className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800"
+          >
+            Manage legal profile
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AdminPanel() {
+  return (
+    <div className="mt-6 rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-6">
+      <BadgeCheck className="text-indigo-700" size={21} />
+      <h2 className="mt-3 font-semibold text-slate-950 dark:text-[#ece5d6]">
+        Administration workspace
+      </h2>
+      <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-[#ece5d6]">
+        Manage users, moderate lawyer profiles, review transactions, and view analytics from the
+        dashboard sidebar.
+      </p>
+    </div>
+  )
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DashboardOverviewPage() {
   const { user } = useAuth()
-  const account = useQuery({ queryKey: ['account', 'me'], queryFn: getMyAccountProfile })
   const role = user?.role?.trim().toLowerCase()
-  const lawyerProfile = useQuery({ queryKey: ['lawyer-profile', 'me'], queryFn: getMyLawyerProfile, enabled: role === 'lawyer', retry: false })
-  const current = account.data ?? user
 
-  if (account.isLoading) return <div className="grid gap-4"><div className="h-28 animate-pulse rounded-2xl bg-slate-200" /><div className="grid gap-3 sm:grid-cols-2"><div className="h-24 animate-pulse rounded-2xl bg-slate-200" /><div className="h-24 animate-pulse rounded-2xl bg-slate-200" /></div></div>
+  const accountQuery = useQuery({
+    queryKey: ['account', 'me'],
+    queryFn: getMyAccountProfile,
+  })
 
-  return <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">Account overview</p><h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Welcome back, {current?.fullName}</h1><p className="mt-3 max-w-2xl leading-7 text-slate-600">Your account details and available LegalEase tools are shown here.</p><div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3"><Detail icon={Mail} label="Email" value={current?.email} /><Detail icon={UserRound} label="Account role" value={current?.role} /><Detail icon={CalendarDays} label="Joined LegalEase" value={readableDate(current?.createdAt)} /></div>{role === 'user' && <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 p-6"><h2 className="font-semibold text-slate-950">Manage your account</h2><p className="mt-2 max-w-xl text-sm leading-6 text-slate-700">Keep your display name and account photo up to date. Your hiring history and transactions are available from the dashboard navigation.</p><Link to="/dashboard/user/update-profile" className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800">Update profile</Link></div>}{role === 'lawyer' && <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 p-6"><div className="flex items-start gap-3"><FileCheck2 className="mt-0.5 shrink-0 text-indigo-700" size={21} /><div><h2 className="font-semibold text-slate-950">Professional profile status</h2>{lawyerProfile.isLoading ? <p className="mt-2 text-sm text-slate-600">Loading your professional profile…</p> : lawyerProfile.data ? <div className="mt-3 grid gap-1.5 text-sm text-slate-700"><p>Profile: {lawyerProfile.data.isCompleteForPublishing ? 'Complete for publishing' : 'Draft incomplete'}</p><p>Availability: {lawyerProfile.data.availability}</p><p>Verification: {lawyerProfile.data.verificationStatus}</p><p>Publication: {lawyerProfile.data.publicationStatus}</p></div> : <p className="mt-2 text-sm text-slate-700">Create your professional profile to prepare it for public discovery.</p>}<Link to="/dashboard/lawyer/manage-legal-profile" className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800">Manage legal profile</Link></div></div></div>}{role === 'admin' && <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6"><BadgeCheck className="text-indigo-700" size={21} /><h2 className="mt-3 font-semibold text-slate-950">Administration workspace</h2><p className="mt-2 text-sm leading-6 text-slate-700">User management, lawyer moderation, transactions, and analytics will appear here when they are backed by real server data.</p></div>}</div>
+  const lawyerProfileQuery = useQuery({
+    queryKey: ['lawyer-profile', 'me'],
+    queryFn: getMyLawyerProfile,
+    enabled: role === 'lawyer',
+    retry: false,
+  })
+
+  if (accountQuery.isLoading) return <LoadingSkeleton />
+
+  if (accountQuery.isError) {
+    return (
+      <div className="rounded-2xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/30 p-6">
+        <p className="font-semibold text-rose-800 dark:text-rose-300">
+          Account details could not be loaded.
+        </p>
+        <p className="mt-2 text-sm text-rose-700 dark:text-rose-400">
+          Your session is still active. Try refreshing the page.
+        </p>
+        <button
+          type="button"
+          onClick={() => accountQuery.refetch()}
+          className="mt-4 min-h-10 rounded-lg bg-rose-700 px-4 text-sm font-semibold text-white"
+        >
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  // Prefer fresh account data; fall back to session user for immediate display
+  const current = accountQuery.data ?? user
+
+  return (
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">
+        Account overview
+      </p>
+      <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 dark:text-[#ece5d6] sm:text-4xl">
+        Welcome back, {current?.fullName}
+      </h1>
+      <p className="mt-3 max-w-2xl leading-7 text-slate-600 dark:text-[#a8bbcc]">
+        Your account details and available LegalEase tools are shown here.
+      </p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <DetailCard icon={Mail} label="Email" value={current?.email} />
+        <DetailCard icon={UserRound} label="Account role" value={current?.role} />
+        <DetailCard
+          icon={CalendarDays}
+          label="Joined LegalEase"
+          value={readableDate(current?.createdAt)}
+        />
+      </div>
+
+      {role === 'user' && <UserPanel />}
+      {role === 'lawyer' && <LawyerPanel lawyerProfile={lawyerProfileQuery} />}
+      {role === 'admin' && <AdminPanel />}
+    </div>
+  )
 }
