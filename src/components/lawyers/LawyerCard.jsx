@@ -42,7 +42,9 @@ export default function LawyerCard({ lawyer, compact = false, showHireCount = fa
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#e8eef8] via-[#f2ece0] to-[#fdf9f2] dark:from-[#22303e] dark:via-[#161d27] dark:to-[#0d1117]">
         <div aria-label={`Profile photo fallback for ${lawyer.fullName}`} className="absolute inset-0 grid place-items-center text-2xl font-bold text-[#1b3a6b] sm:text-3xl dark:text-[#d4a843]">{initials(lawyer.fullName)}</div>
         {lawyer.professionalPhotoUrl ? <img src={lawyer.professionalPhotoUrl} alt={`Portrait of ${lawyer.fullName}`} onError={(event) => { event.currentTarget.style.display = 'none' }} className="relative z-10 h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : null}
-        <div className="absolute left-2 top-2 z-20 sm:left-3 sm:top-3"><AvailabilityBadge availability={lawyer.availability} /></div>
+        <div className="absolute left-1.5 top-1.5 z-20 sm:left-3 sm:top-3">
+          <AvailabilityBadge availability={lawyer.availability} />
+        </div>
         <button type="button" aria-label={shortlisted ? `Remove ${lawyer.fullName} from shortlist` : `Add ${lawyer.fullName} to shortlist`} onClick={handleShortlist} className="absolute right-2 top-2 z-20 grid h-9 w-9 place-items-center rounded-full border border-white/80 bg-white/90 text-slate-800 shadow-sm transition hover:scale-105 dark:border-slate-600 dark:bg-slate-800/90 dark:text-slate-100">
           <Heart className={shortlisted ? 'fill-rose-500 text-rose-500' : 'text-slate-600 dark:text-slate-300'} size={17} />
         </button>
