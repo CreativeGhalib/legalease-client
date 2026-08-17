@@ -144,17 +144,47 @@ All phases complete as of 2026-08-17:
 ## 📦 PACKAGES TO INSTALL (server)
 
 ```bash
-# P0 - Security
-npm install express-rate-limit helmet express-mongo-sanitize xss-clean
+# P0 - Security (already installed)
+npm install express-rate-limit helmet compression
 
-# P1 - Reliability  
+# P1 - Reliability (already installed)
 npm install winston winston-daily-rotate-file
 
-# P2 - Performance
-npm install compression
+# NOTE: express-mongo-sanitize and xss-clean are NOT compatible with Express 5
+# Use the custom src/middleware/sanitize.js instead (already done)
 ```
 
-```bash
-# P3 - Quality (devDependencies)
-npm install -D envalid
-```
+---
+
+## 🔜 DEFERRED — Sentry Error Monitoring (Optional — do when ready)
+
+**Why:** Production crash হলে email/Slack-এ জানতে পারবেন। Winston শুধু log করে, Sentry alert পাঠায়।
+
+### Steps to implement later:
+
+**Step 1 — Account তৈরি করুন (আপনাকে করতে হবে)**
+1. [sentry.io](https://sentry.io) → Get Started Free → GitHub দিয়ে login
+2. Data location: **United States**
+3. Project 1: Platform = **Node.js**, name = `legalease-server` → copy DSN
+4. Project 2: Platform = **React**, name = `legalease-client` → copy DSN
+
+**Step 2 — GitHub Secrets add করুন**
+- Server repo secrets: `SENTRY_DSN` = (server DSN)
+- Client repo secrets: `VITE_SENTRY_DSN` = (client DSN)
+- Local `.env` files-এও add করুন
+
+**Step 3 — Agent দিয়ে code integrate করুন**
+
+Agent-কে বলুন: *"Sentry integrate kore dao — SENTRY_DSN env var diye server e @sentry/node, client e @sentry/react"*
+
+Agent এই কাজগুলো করবে:
+- `npm install @sentry/node` (server)
+- `npm install @sentry/react @sentry/vite-plugin` (client)
+- `src/config/sentry.js` তৈরি করবে
+- `src/server.js` এ Sentry init যোগ করবে
+- `src/middleware/errorHandler.js` এ `Sentry.captureException()` যোগ করবে
+- `src/main.jsx` এ client-side Sentry init যোগ করবে
+- `vite.config.js` এ Sentry vite plugin যোগ করবে
+- CI yml-এ `SENTRY_DSN` secret reference যোগ করবে
+
+**Estimated time:** DSN পেলে 15 মিনিট।
