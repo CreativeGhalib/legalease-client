@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Menu, MoonStar, Scale, Search, SunMedium, X } from 'lucide-react'
+import { LayoutDashboard, LogIn, LogOut, Menu, MoonStar, Scale, Search, SunMedium, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
@@ -246,63 +246,101 @@ export default function PublicLayout() {
 
           <div
             id="mobile-navigation"
-            className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-[#fdf9f2] p-4 pt-[calc(4.5rem+1rem)] shadow-2xl dark:bg-[#161d27]"
+            className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-[#fdf9f2] shadow-2xl dark:bg-[#161d27]"
             style={{
-              paddingBottom: 'max(1rem, var(--safe-area-inset-bottom, 0))',
-              paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
+              paddingBottom: 'max(1.5rem, var(--safe-area-inset-bottom, 0))',
             }}
           >
-            <nav aria-label="Mobile navigation" className="grid gap-0.5">
-              {/* Nav items — full-width list style, proper dark/light colors */}
+            {/* Drawer header — logo + close button */}
+            <div className="flex items-center justify-between border-b border-[#d8ccb8] px-5 py-4 dark:border-[#2a3850]">
+              <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2.5">
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#1b3a6b] text-[#fdf9f2] dark:bg-[#d4a843]/20 dark:text-[#d4a843]">
+                  <Scale size={16} strokeWidth={1.8} />
+                </span>
+                <span>
+                  <span className="block text-base font-bold leading-none text-[#0c1827] dark:text-[#e4d9c5]">LegalEase</span>
+                  <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-[#69798e] dark:text-[#5a6c7a]">Legal Counsel</span>
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                className="grid h-9 w-9 place-items-center rounded-lg text-[#364358] hover:bg-[#e5dccf] dark:text-[#96a8b8] dark:hover:bg-[#1d2535]"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Nav items */}
+            <nav aria-label="Mobile navigation" className="grid gap-0.5 p-3">
               <NavLink
                 to="/"
                 end
                 onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                  `flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
                     isActive
                       ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
                       : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
                   }`
                 }
               >
-                Home
+                {({ isActive }) => (
+                  <>
+                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${
+                      isActive ? 'bg-[#1b3a6b]/15 dark:bg-[#d4a843]/15' : 'bg-[#e5dccf] dark:bg-[#1d2535]'
+                    }`}>
+                      <Scale size={15} strokeWidth={1.8} />
+                    </span>
+                    Home
+                  </>
+                )}
               </NavLink>
 
               <NavLink
                 to="/lawyers"
                 onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                  `flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
                     isActive || location.pathname.startsWith('/lawyers')
                       ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
                       : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
                   }`
                 }
               >
-                Browse Lawyers
+                {({ isActive }) => (
+                  <>
+                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${
+                      isActive || location.pathname.startsWith('/lawyers') ? 'bg-[#1b3a6b]/15 dark:bg-[#d4a843]/15' : 'bg-[#e5dccf] dark:bg-[#1d2535]'
+                    }`}>
+                      <Search size={15} />
+                    </span>
+                    Browse Lawyers
+                  </>
+                )}
               </NavLink>
 
-              <form onSubmit={submitSearch} className="relative my-2">
-                <label className="sr-only" htmlFor="mobile-lawyer-search">
-                  Search lawyers
-                </label>
-                <Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={17} aria-hidden="true" />
+              {/* Search form */}
+              <form onSubmit={submitSearch} className="relative my-1">
+                <label className="sr-only" htmlFor="mobile-lawyer-search">Search lawyers</label>
+                <Search className="pointer-events-none absolute left-3 top-3.5 text-[#69798e] dark:text-[#5a6c7a]" size={16} aria-hidden="true" />
                 <input
                   id="mobile-lawyer-search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="min-h-12 w-full rounded-xl border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]"
+                  className="min-h-12 w-full rounded-xl border border-[#c5b89e] bg-[#e4d9c5]/60 py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:bg-white focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a] dark:focus:bg-[#0d1420]"
                   placeholder="Search by name or specialization"
                   aria-label="Search for lawyers"
                 />
               </form>
 
+              {/* Auth section */}
               {!isChecking && (
                 isAuthenticated ? (
                   <>
                     <div className="my-1 border-t border-[#d8ccb8] pt-2 dark:border-[#2a3850]">
-                      <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#69798e] dark:text-[#5a6c7a]">
+                      <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#69798e] dark:text-[#5a6c7a]">
                         {user.fullName}
                       </p>
                     </div>
@@ -310,20 +348,32 @@ export default function PublicLayout() {
                       to="/dashboard"
                       onClick={() => setMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                        `flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
                           isActive
                             ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
                             : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
                         }`
                       }
                     >
-                      Dashboard
+                      {({ isActive }) => (
+                        <>
+                          <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${
+                            isActive ? 'bg-[#1b3a6b]/15 dark:bg-[#d4a843]/15' : 'bg-[#e5dccf] dark:bg-[#1d2535]'
+                          }`}>
+                            <LayoutDashboard size={15} />
+                          </span>
+                          Dashboard
+                        </>
+                      )}
                     </NavLink>
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="flex min-h-12 w-full items-center rounded-xl px-3 text-sm font-semibold text-[#0c1827] transition hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]"
+                      className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 text-sm font-semibold text-[#0c1827] transition hover:bg-red-50 hover:text-red-600 focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#e4d9c5] dark:hover:bg-red-950/30 dark:hover:text-red-400"
                     >
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#e5dccf] dark:bg-[#1d2535]">
+                        <LogOut size={15} />
+                      </span>
                       Logout
                     </button>
                   </>
@@ -332,14 +382,23 @@ export default function PublicLayout() {
                     to="/login"
                     onClick={() => setMenuOpen(false)}
                     className={({ isActive }) =>
-                      `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                      `flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
                         isActive
                           ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
                           : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
                       }`
                     }
                   >
-                    Login
+                    {({ isActive }) => (
+                      <>
+                        <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${
+                          isActive ? 'bg-[#1b3a6b]/15 dark:bg-[#d4a843]/15' : 'bg-[#e5dccf] dark:bg-[#1d2535]'
+                        }`}>
+                          <LogIn size={15} />
+                        </span>
+                        Login
+                      </>
+                    )}
                   </NavLink>
                 )
               )}
