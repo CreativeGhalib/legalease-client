@@ -6,9 +6,9 @@ let nextToastId = 0
 
 function Toast({ message, variant, onDismiss }) {
   const palette = {
-    error: 'border-rose-200 bg-white text-rose-800',
-    success: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-    info: 'border-sky-200 bg-sky-50 text-sky-900',
+    error: 'border-rose-200 dark:border-rose-900/50 bg-white dark:bg-[#0c1728] text-rose-800 dark:text-rose-300',
+    success: 'border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-300',
+    info: 'border-sky-200 dark:border-sky-900/50 bg-sky-50 dark:bg-sky-950/30 text-sky-900 dark:text-sky-300',
   }
 
   useEffect(() => {

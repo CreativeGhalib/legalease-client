@@ -24,6 +24,21 @@
     <meta property="og:title" content="LegalEase - Legal Counsel" />
     <meta property="og:description" content="Find and hire expert legal counsel" />
     
+    <!-- Apply the stored/system theme before first paint to prevent a light/dark flash. -->
+    <script>
+      (function () {
+        try {
+          var KEY = 'legalEase-theme';
+          var stored = window.localStorage.getItem(KEY);
+          var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+          if (!stored) window.localStorage.setItem(KEY, theme);
+        } catch (error) {
+          /* localStorage/matchMedia unavailable; default light theme applies. */
+        }
+      })();
+    </script>
+
     <!-- Prevent zoom on input focus on iOS -->
     <style>
       input[type="text"],

@@ -5,7 +5,7 @@ export default function PasswordField({ label, autoComplete, error, registration
   const errorId = `${registration.name}-error`
 
   return (
-    <div className="block text-sm font-medium text-slate-800">
+    <div className="block text-sm font-medium text-slate-800 dark:text-[#ece5d6]">
       <label htmlFor={registration.name}>{label}</label>
       <span className="relative mt-1 block">
         <input
@@ -14,7 +14,7 @@ export default function PasswordField({ label, autoComplete, error, registration
           autoComplete={autoComplete}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
-          className="min-h-11 w-full rounded-md border border-slate-300 py-2 pl-3 pr-16 text-slate-950 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+          className="min-h-11 w-full rounded-md border border-slate-300 dark:border-[#1c3050] py-2 pl-3 pr-16 text-slate-950 dark:text-[#ece5d6] outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
           {...registration}
         />
         <button
@@ -22,7 +22,7 @@ export default function PasswordField({ label, autoComplete, error, registration
           onClick={() => setIsVisible((visible) => !visible)}
           aria-label={isVisible ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
           aria-pressed={isVisible}
-          className="absolute inset-y-0 right-0 grid min-w-11 place-items-center text-slate-600 transition hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-slate-900"
+          className="absolute inset-y-0 right-0 grid min-w-11 place-items-center text-slate-600 dark:text-[#a8bbcc] transition hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-slate-900"
         >
           {isVisible ? (
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-5">
@@ -36,7 +36,7 @@ export default function PasswordField({ label, autoComplete, error, registration
           )}
         </button>
       </span>
-      {error && <span id={errorId} className="mt-1 block text-sm text-red-700">{error.message}</span>}
+      {error && <span id={errorId} className="mt-1 block text-sm text-red-700 dark:text-red-300">{error.message}</span>}
     </div>
   )
 }

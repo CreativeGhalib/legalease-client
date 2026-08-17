@@ -36,11 +36,11 @@ export default function LawyerShowcase({
           </p>
           <h2 
             id={`section-${title.replace(/\s+/g, '-').toLowerCase()}`}
-            className="mt-2 text-3xl font-semibold tracking-tight text-slate-950"
+            className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-[#ece5d6]"
           >
             {title}
           </h2>
-          <p className="mt-3 leading-7 text-slate-600">
+          <p className="mt-3 leading-7 text-slate-600 dark:text-[#a8bbcc]">
             {description}
           </p>
         </div>

@@ -6,8 +6,7 @@ import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import SiteFooter from '../components/common/SiteFooter'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
-
-const THEME_KEY = 'legalEase-theme'
+import useTheme from '../hooks/useTheme'
 
 /**
  * PublicLayout Component
@@ -26,10 +25,7 @@ export default function PublicLayout() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [search, setSearch] = useState('')
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'dark'
-    return window.localStorage.getItem(THEME_KEY) || 'dark'
-  })
+  const { theme, toggleTheme } = useTheme()
 
   useBodyScrollLock(menuOpen)
   useCloseOnDesktop(() => setMenuOpen(false))
@@ -38,11 +34,7 @@ export default function PublicLayout() {
     setMenuOpen(false)
   }, [location.pathname, location.search])
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    document.documentElement.classList.toggle('dark', theme === 'dark')
-    window.localStorage.setItem(THEME_KEY, theme)
-  }, [theme])
+
 
   async function handleLogout() {
     await logout()
@@ -157,7 +149,7 @@ export default function PublicLayout() {
             {/* Theme Toggle - 48px minimum touch target */}
             <button 
               type="button"
-              onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+              onClick={toggleTheme}
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -204,7 +196,7 @@ export default function PublicLayout() {
             {!location.pathname.startsWith('/dashboard') && (
               <button 
                 type="button"
-                onClick={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+                onClick={toggleTheme}
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 className="grid min-h-12 min-w-12 place-items-center rounded-lg border border-[#c5b89e] bg-[#e4d9c5] text-[#364358] shadow-sm hover:bg-[#ddd4c2] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
                 title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}

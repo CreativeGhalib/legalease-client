@@ -134,46 +134,6 @@ html.dark .theme-select {
   color: inherit;
 }
 
-html.dark [class*="bg-slate-50"],
-html.dark [class*="bg-slate-100"],
-html.dark [class*="bg-slate-200"],
-html.dark [class*="bg-white"],
-html.dark [class*="bg-slate-900"][class*="/"],
-html.dark [class*="bg-slate-950"] {
-  background-color: #0c1728 !important;
-}
-
-html.dark [class*="border-slate-200"],
-html.dark [class*="border-slate-300"],
-html.dark [class*="border-slate-100"] {
-  border-color: #1c3050 !important;
-}
-
-/* Enhanced contrast for text in dark mode */
-html.dark [class*="text-slate-950"],
-html.dark [class*="text-slate-900"],
-html.dark [class*="text-slate-800"],
-html.dark [class*="text-slate-700"] {
-  color: #ece5d6 !important;
-}
-
-html.dark [class*="text-slate-600"],
-html.dark [class*="text-slate-500"] {
-  color: #a8bbcc !important;
-  opacity: 0.95;
-}
-
-html.dark [class*="text-slate-400"],
-html.dark [class*="text-slate-300"] {
-  color: #8fa3b5 !important;
-  opacity: 1;
-}
-
-html.dark [class*="bg-indigo-50"],
-html.dark [class*="bg-indigo-100"] {
-  background-color: rgba(27, 58, 107, 0.15) !important;
-}
-
 html.dark .le-nav-active {
   border-color: #c09a4e !important;
   color: #c09a4e !important;
