@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { LayoutDashboard, MoonStar, ShieldCheck, SunMedium, X } from 'lucide-react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { LayoutDashboard, LogOut, MoonStar, ShieldCheck, SunMedium, X } from 'lucide-react'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
@@ -64,15 +64,44 @@ function SidebarNavigation({ links, onLinkClick }) {
   )
 }
 
+function SidebarFooter({ onLogout, onLinkClick }) {
+  return (
+    <div className="mt-auto pt-4 border-t border-slate-200 dark:border-[#1c3050] grid gap-1">
+      <Link
+        to="/"
+        onClick={onLinkClick}
+        className="flex min-h-11 items-center gap-2.5 rounded-xl px-3.5 text-sm font-semibold text-slate-600 dark:text-[#a8bbcc] hover:bg-slate-100 dark:hover:bg-[#0c1728] hover:text-slate-950 dark:hover:text-[#ece5d6] transition"
+      >
+        ← Home
+      </Link>
+      <button
+        type="button"
+        onClick={onLogout}
+        className="flex min-h-11 w-full items-center gap-2.5 rounded-xl px-3.5 text-sm font-semibold text-slate-600 dark:text-[#a8bbcc] hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 transition"
+      >
+        <LogOut size={16} />
+        Logout
+      </button>
+    </div>
+  )
+}
+
 // ─── Main Layout ──────────────────────────────────────────────────────────────
 
 export default function DashboardLayout() {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
   const role = user?.role?.trim().toLowerCase()
   const links = dashboardRouteRegistry[role] ?? []
+
+  async function handleLogout() {
+    setOpen(false)
+    await logout()
+    navigate('/', { replace: true })
+  }
 
   useBodyScrollLock(open)
   useCloseOnDesktop(() => setOpen(false))
@@ -126,10 +155,11 @@ export default function DashboardLayout() {
       {/* ── Content grid ─────────────────────────────────────────────────── */}
       <div className="grid gap-8 lg:grid-cols-[16.5rem_minmax(0,1fr)]">
         {/* Desktop sidebar */}
-        <aside className="hidden rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-5 shadow-sm lg:block lg:self-start">
+        <aside className="hidden rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-5 shadow-sm lg:flex lg:flex-col lg:self-start">
           <SidebarIdentity />
           <SidebarAccountCard user={user} role={role} />
           <SidebarNavigation links={links} onLinkClick={closeMenu} />
+          <SidebarFooter onLogout={handleLogout} onLinkClick={closeMenu} />
         </aside>
 
         {/* Mobile sidebar drawer */}
@@ -148,11 +178,12 @@ export default function DashboardLayout() {
             />
             <aside
               id="dashboard-navigation"
-              className="absolute inset-y-0 left-0 w-[min(20rem,calc(100%-2rem))] overflow-y-auto bg-white dark:bg-[#0c1728] p-5 shadow-2xl"
+              className="absolute inset-y-0 left-0 w-[min(20rem,calc(100%-2rem))] overflow-y-auto bg-white dark:bg-[#0c1728] p-5 shadow-2xl flex flex-col"
             >
               <SidebarIdentity />
               <SidebarAccountCard user={user} role={role} />
               <SidebarNavigation links={links} onLinkClick={closeMenu} />
+              <SidebarFooter onLogout={handleLogout} onLinkClick={closeMenu} />
             </aside>
           </ModalFocusRegion>
         )}
