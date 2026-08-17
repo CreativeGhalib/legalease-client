@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { LayoutDashboard, Menu, MoonStar, ShieldCheck, SunMedium, X } from 'lucide-react'
+import { LayoutDashboard, MoonStar, ShieldCheck, SunMedium, X } from 'lucide-react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
@@ -116,9 +116,9 @@ export default function DashboardLayout() {
             aria-label={open ? 'Close dashboard menu' : 'Open dashboard menu'}
             aria-expanded={open}
             onClick={() => setOpen((current) => !current)}
-            className="grid min-h-11 min-w-11 shrink-0 place-items-center rounded-xl border border-slate-300 dark:border-[#1c3050] text-slate-800 dark:text-[#ece5d6]"
+            className="grid min-h-11 min-w-11 shrink-0 place-items-center rounded-xl border border-slate-300 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] text-slate-800 dark:text-[#ece5d6]"
           >
-            {open ? <X /> : <Menu />}
+            {open ? <X size={18} /> : <LayoutDashboard size={18} />}
           </button>
         </div>
       </div>

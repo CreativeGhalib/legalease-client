@@ -190,10 +190,10 @@ export default function PublicLayout() {
             )}
           </div>
 
-          {/* Mobile Actions */}
-          <div className="flex items-center gap-2 lg:hidden">
-            {/* Mobile Theme Toggle — hidden on dashboard (dashboard has its own) */}
-            {!location.pathname.startsWith('/dashboard') && (
+          {/* Mobile Actions — hidden entirely on /dashboard (dashboard has its own top bar) */}
+          {!location.pathname.startsWith('/dashboard') && (
+            <div className="flex items-center gap-2 lg:hidden">
+              {/* Mobile Theme Toggle */}
               <button 
                 type="button"
                 onClick={toggleTheme}
@@ -207,24 +207,24 @@ export default function PublicLayout() {
                   <MoonStar size={18} aria-hidden="true" />
                 )}
               </button>
-            )}
 
-            {/* Mobile Menu Toggle - 48px minimum touch target */}
-            <button 
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-controls="mobile-navigation"
-              aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={menuOpen}
-              className="grid min-h-12 min-w-12 place-items-center rounded-lg text-[#364358] hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
-            >
-              {menuOpen ? (
-                <X size={24} aria-hidden="true" />
-              ) : (
-                <Menu size={24} aria-hidden="true" />
-              )}
-            </button>
-          </div>
+              {/* Mobile Menu Toggle */}
+              <button 
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-controls="mobile-navigation"
+                aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={menuOpen}
+                className="grid min-h-12 min-w-12 place-items-center rounded-lg text-[#364358] hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#96a8b8] dark:hover:bg-[#22303e]"
+              >
+                {menuOpen ? (
+                  <X size={24} aria-hidden="true" />
+                ) : (
+                  <Menu size={24} aria-hidden="true" />
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
       </header>
@@ -252,25 +252,47 @@ export default function PublicLayout() {
               paddingRight: 'max(1rem, var(--safe-area-inset-right, 0))',
             }}
           >
-            <nav aria-label="Mobile navigation" className="grid gap-1">
-              <NavLink to="/" end onClick={() => setMenuOpen(false)} className={navClass}>
+            <nav aria-label="Mobile navigation" className="grid gap-0.5">
+              {/* Nav items — full-width list style, proper dark/light colors */}
+              <NavLink
+                to="/"
+                end
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                    isActive
+                      ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
+                      : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
+                  }`
+                }
+              >
                 Home
               </NavLink>
 
-              <NavLink to="/lawyers" onClick={() => setMenuOpen(false)} className={navClass}>
+              <NavLink
+                to="/lawyers"
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                    isActive || location.pathname.startsWith('/lawyers')
+                      ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
+                      : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
+                  }`
+                }
+              >
                 Browse Lawyers
               </NavLink>
 
-              <form onSubmit={submitSearch} className="relative mb-3 mt-3">
+              <form onSubmit={submitSearch} className="relative my-2">
                 <label className="sr-only" htmlFor="mobile-lawyer-search">
                   Search lawyers
                 </label>
-                <Search className="pointer-events-none absolute left-3 top-3 text-slate-400" size={17} aria-hidden="true" />
+                <Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={17} aria-hidden="true" />
                 <input
                   id="mobile-lawyer-search"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="min-h-12 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]"
+                  className="min-h-12 w-full rounded-xl border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] transition focus:border-[#1b3a6b] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]"
                   placeholder="Search by name or specialization"
                   aria-label="Search for lawyers"
                 />
@@ -279,22 +301,44 @@ export default function PublicLayout() {
               {!isChecking && (
                 isAuthenticated ? (
                   <>
-                    <div className="my-3 border-t border-[#d8ccb8] py-3 dark:border-[#2a3850]">
-                      <p className="mb-2 px-0.5 text-sm font-medium text-[#364358] dark:text-[#96a8b8]">{user.fullName}</p>
+                    <div className="my-1 border-t border-[#d8ccb8] pt-2 dark:border-[#2a3850]">
+                      <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[#69798e] dark:text-[#5a6c7a]">
+                        {user.fullName}
+                      </p>
                     </div>
-                    <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={navClass}>
+                    <NavLink
+                      to="/dashboard"
+                      onClick={() => setMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                          isActive
+                            ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
+                            : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
+                        }`
+                      }
+                    >
                       Dashboard
                     </NavLink>
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="min-h-11 w-full px-0.5 py-2 text-left text-sm font-semibold text-[#364358] transition hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#96a8b8] dark:hover:text-[#e4d9c5]"
+                      className="flex min-h-12 w-full items-center rounded-xl px-3 text-sm font-semibold text-[#0c1827] transition hover:bg-[#e5dccf] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]"
                     >
                       Logout
                     </button>
                   </>
                 ) : (
-                  <NavLink to="/login" onClick={() => setMenuOpen(false)} className={navClass}>
+                  <NavLink
+                    to="/login"
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex min-h-12 items-center rounded-xl px-3 text-sm font-semibold transition ${
+                        isActive
+                          ? 'bg-[#1b3a6b]/10 text-[#1b3a6b] dark:bg-[#d4a843]/10 dark:text-[#d4a843]'
+                          : 'text-[#0c1827] hover:bg-[#e5dccf] dark:text-[#e4d9c5] dark:hover:bg-[#1d2535]'
+                      }`
+                    }
+                  >
                     Login
                   </NavLink>
                 )
