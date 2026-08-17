@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { LayoutDashboard, LogOut, MoonStar, ShieldCheck, SunMedium, X } from 'lucide-react'
+import { BarChart3, Briefcase, CreditCard, FileText, Inbox, LayoutDashboard, LogOut, MessageSquare, MoonStar, Receipt, Scale, ShieldCheck, SunMedium, UserPen, Users, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
@@ -39,27 +39,55 @@ function SidebarAccountCard({ user, role }) {
   )
 }
 
+const ICON_MAP = {
+  LayoutDashboard,
+  FileText,
+  UserPen,
+  MessageSquare,
+  CreditCard,
+  Inbox,
+  Briefcase,
+  Users,
+  Scale,
+  Receipt,
+  BarChart3,
+}
+
 function SidebarNavigation({ links, onLinkClick }) {
   const linkClass = ({ isActive }) =>
-    `flex min-h-11 items-center rounded-xl px-3.5 text-sm font-semibold transition ${
+    `flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
       isActive
         ? 'bg-indigo-700 text-white shadow-sm'
-        : 'text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100 dark:hover:bg-[#0c1728] hover:text-slate-950 dark:hover:text-[#ece5d6]'
+        : 'text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100 dark:hover:bg-[#162236] hover:text-slate-950 dark:hover:text-[#ece5d6]'
     }`
 
   return (
-    <nav aria-label="Dashboard navigation" className="grid gap-1.5">
-      {links.map((link) => (
-        <NavLink
-          key={link.to}
-          to={link.to}
-          end={link.to === '/dashboard'}
-          onClick={onLinkClick}
-          className={linkClass}
-        >
-          {link.label}
-        </NavLink>
-      ))}
+    <nav aria-label="Dashboard navigation" className="grid gap-1">
+      {links.map((link) => {
+        const Icon = ICON_MAP[link.icon] ?? LayoutDashboard
+        return (
+          <NavLink
+            key={link.to}
+            to={link.to}
+            end={link.to === '/dashboard'}
+            onClick={onLinkClick}
+            className={linkClass}
+          >
+            {({ isActive }) => (
+              <>
+                <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg transition ${
+                  isActive
+                    ? 'bg-indigo-500/30'
+                    : 'bg-slate-100 dark:bg-[#0c1728] group-hover:bg-slate-200'
+                }`}>
+                  <Icon size={14} />
+                </span>
+                {link.label}
+              </>
+            )}
+          </NavLink>
+        )
+      })}
     </nav>
   )
 }
