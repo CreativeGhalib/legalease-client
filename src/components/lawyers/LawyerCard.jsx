@@ -41,7 +41,7 @@ export default function LawyerCard({ lawyer, compact = false, showHireCount = fa
     <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] shadow-[0_10px_26px_rgba(7,16,31,0.05)] transition duration-200 hover:-translate-y-1 hover:border-[#b8903a]/40 hover:shadow-[0_16px_32px_rgba(184,144,58,0.14)] dark:border-[#2a3850] dark:bg-[#161d27] dark:hover:border-[#d4a843]/60 dark:hover:shadow-[0_16px_28px_rgba(7,16,31,0.35)]">
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#e8eef8] via-[#f2ece0] to-[#fdf9f2] dark:from-[#22303e] dark:via-[#161d27] dark:to-[#0d1117]">
         <div aria-label={`Profile photo fallback for ${lawyer.fullName}`} className="absolute inset-0 grid place-items-center text-2xl font-bold text-[#1b3a6b] sm:text-3xl dark:text-[#d4a843]">{initials(lawyer.fullName)}</div>
-        {lawyer.professionalPhotoUrl ? <img src={lawyer.professionalPhotoUrl} alt={`Portrait of ${lawyer.fullName}`} onError={(event) => { event.currentTarget.style.display = 'none' }} className="relative z-10 h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : null}
+        {lawyer.professionalPhotoUrl ? <img src={lawyer.professionalPhotoUrl} alt={`Portrait of ${lawyer.fullName}`} loading="lazy" decoding="async" onError={(event) => { event.currentTarget.style.display = 'none' }} className="relative z-10 h-full w-full object-cover transition duration-300 group-hover:scale-105" /> : null}
         <div className="absolute left-1.5 top-1.5 z-20 sm:left-3 sm:top-3">
           <AvailabilityBadge availability={lawyer.availability} />
         </div>
