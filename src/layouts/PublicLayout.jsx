@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { LayoutDashboard, LogIn, LogOut, Menu, MoonStar, Scale, Search, SunMedium, X } from 'lucide-react'
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import SiteFooter from '../components/common/SiteFooter'
@@ -406,6 +406,9 @@ export default function PublicLayout() {
           </div>
         </ModalFocusRegion>
       )}
+
+      {/* Scroll to top on every route change */}
+      <ScrollRestoration />
 
       {/* Main Content Area */}
       <main 
