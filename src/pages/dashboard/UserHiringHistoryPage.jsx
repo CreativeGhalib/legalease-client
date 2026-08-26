@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { getMyHiringRequests } from '../../api/hiringRequestApi'
-import { startHiringCheckout } from '../../api/paymentApi'
+import { startHiringCheckout, startSslcommerzCheckout } from '../../api/paymentApi'
 import { createReview } from '../../api/reviewApi'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import ProfileAvatar from '../../components/common/ProfileAvatar'
@@ -104,11 +104,16 @@ function RequestCard({ item }) {
     mutationFn: () => startHiringCheckout(item.id),
     onSuccess: ({ checkoutUrl }) => window.location.assign(checkoutUrl),
   })
+  const sslcommerzMutation = useMutation({
+    mutationFn: () => startSslcommerzCheckout(item.id),
+    onSuccess: ({ redirectUrl }) => window.location.assign(redirectUrl),
+  })
   const [reviewOpen, setReviewOpen] = useState(false)
 
   const isPaid = item.paymentStatus === 'paid'
   const isCheckout = item.paymentStatus === 'checkout_created'
   const canPay = item.status === 'accepted' && !isPaid
+  const gatewayPending = payMutation.isPending || sslcommerzMutation.isPending
 
   return (
     <article className="rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-5 shadow-sm">
@@ -159,18 +164,24 @@ function RequestCard({ item }) {
         </span>
 
         {canPay && (
-          <button
-            type="button"
-            disabled={payMutation.isPending}
-            onClick={() => payMutation.mutate()}
-            className="le-button le-button-primary whitespace-nowrap"
-          >
-            {payMutation.isPending
-              ? 'Opening…'
-              : isCheckout
-              ? 'Continue secure payment'
-              : 'Pay consultation fee'}
-          </button>
+          <div className="flex w-full flex-col gap-2 sm:w-auto">
+            <button
+              type="button"
+              disabled={gatewayPending}
+              onClick={() => payMutation.mutate()}
+              className="le-button le-button-primary whitespace-nowrap"
+            >
+              {payMutation.isPending ? 'Opening…' : isCheckout ? 'Continue secure payment' : 'Pay consultation fee (Card)'}
+            </button>
+            <button
+              type="button"
+              disabled={gatewayPending}
+              onClick={() => sslcommerzMutation.mutate()}
+              className="le-button whitespace-nowrap border border-pink-300 bg-pink-50 text-pink-700 hover:bg-pink-100 dark:border-[#3a1c30] dark:bg-[#301625] dark:text-pink-200 dark:hover:bg-[#40203a]"
+            >
+              {sslcommerzMutation.isPending ? 'Redirecting…' : 'bKash / Nagad / Rocket'}
+            </button>
+          </div>
         )}
 
         <Link
@@ -195,9 +206,9 @@ function RequestCard({ item }) {
           </span>
         )}
 
-        {payMutation.isError && (
+        {(payMutation.isError || sslcommerzMutation.isError) && (
           <p role="alert" className="basis-full text-sm text-rose-700 dark:text-rose-300">
-            {getApiErrorMessage(payMutation.error)}
+            {getApiErrorMessage(payMutation.error ?? sslcommerzMutation.error)}
           </p>
         )}
       </div>

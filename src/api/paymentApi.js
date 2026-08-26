@@ -16,6 +16,10 @@ export async function startHiringCheckout(id) {
   return (await api.post(`/payments/hiring/${id}/checkout`)).data.data
 }
 
+export async function startSslcommerzCheckout(id) {
+  return (await api.post(`/payments/hiring/${id}/sslcommerz/initiate`)).data.data
+}
+
 export async function getMyPayments() {
   return (await api.get('/payments/mine')).data.data.items
 }

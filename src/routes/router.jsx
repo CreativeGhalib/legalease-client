@@ -110,6 +110,30 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: '/payment/sslcommerz/success',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage sslcommerz />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/payment/sslcommerz/fail',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage sslcommerz failed />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/payment/sslcommerz/cancel',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage sslcommerz cancelled />
+          </ProtectedRoute>
+        ),
+      },
 
       // ── Protected dashboard ──────────────────────────────────────────────────
       {
