@@ -14,6 +14,8 @@ import LegalCategories from '../../components/home/LegalCategories'
 import StatsBar from '../../components/home/StatsBar'
 import RecentLawyers from '../../components/home/RecentLawyers'
 import AIIntakeTrigger from '../../components/common/AIIntakeModal'
+import { buildOrganizationSchema } from '../../utils/schema'
+import { setSeo } from '../../utils/seo'
 
 const heroCategories = [
   { key: 'criminalLaw', url: 'Criminal Law', icon: Gavel },
@@ -38,8 +40,17 @@ export default function HomePage() {
   const topQuery = useQuery({ queryKey: ['top-lawyers'], queryFn: getTopLawyers })
   const rise = reduceMotion ? undefined : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }
 
+  setSeo({
+    title: 'LegalEase — Find & Hire Verified Lawyers in Bangladesh',
+    description: 'Browse verified, published lawyer profiles by specialization, fee, and availability.',
+  })
+  void reduceMotion
+
   return (
     <>
+      {/* Organization JSON-LD */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema()) }} />
+
       {/* Skip to content link for screen readers and keyboard navigation */}
       <a
         href="#main-content"

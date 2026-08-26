@@ -85,10 +85,14 @@ function normalizedParams(searchParams) {
   return { ...values, page: values.page || '1', sort: values.sort || 'newest' }
 }
 
-export default function BrowseLawyersPage() {
+export default function BrowseLawyersPage({ presetSpecialization }) {
   const { user } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
-  const values = normalizedParams(searchParams)
+  const values = (() => {
+    const base = normalizedParams(searchParams)
+    if (presetSpecialization) base.specialization = presetSpecialization
+    return base
+  })()
   const [searchText, setSearchText] = useState(values.search)
   useEffect(() => setSearchText(values.search), [values.search])
   useEffect(() => {
@@ -107,10 +111,13 @@ export default function BrowseLawyersPage() {
     setSearchParams(output)
   }
 
-  const queryParams = useMemo(() => Object.fromEntries(Object.entries(values).filter(([key, value]) => value && !(key === 'page' && value === '1') && !(key === 'sort' && value === 'newest'))), [values])
+  const queryParams = useMemo(() => {
+    const entries = Object.entries(values).filter(([key, value]) => value && !(key === 'page' && value === '1') && !(key === 'sort' && value === 'newest'))
+    return Object.fromEntries(entries)
+  }, [values])
   const lawyersQuery = useQuery({ queryKey: ['public-lawyers', values], queryFn: () => getPublicLawyers(queryParams), placeholderData: (previous) => previous })
   const result = lawyersQuery.data
-  const hasFilters = Object.entries(values).some(([key, value]) => value && value !== defaults[key])
+  const hasFilters = Object.entries(values).some(([key, value]) => key !== 'specialization' && value && value !== defaults[key])
 
   return (
     <section>
@@ -121,7 +128,7 @@ export default function BrowseLawyersPage() {
         <div className="flex items-center gap-2 text-sm font-semibold text-[#0c1827] dark:text-[#e4d9c5]"><SlidersHorizontal size={17} />Search &amp; filters</div>
         <div className="mt-4 grid gap-3 lg:grid-cols-6">
           <label className="relative lg:col-span-2"><span className="sr-only">Search lawyers</span><Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={18} /><input value={searchText} onChange={(event) => setSearchText(event.target.value)} data-tour="browse-search" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Name or specialization" /></label>
-          <FilterSelect label="Specialization" value={values.specialization} placeholder="All specializations" onChange={(value) => updateParams({ specialization: value, page: '1' })} options={[{ label: 'All specializations', value: '' }, ...specializations.map((item) => ({ label: item, value: item }))]} />
+          {!presetSpecialization && <FilterSelect label="Specialization" value={values.specialization} placeholder="All specializations" onChange={(value) => updateParams({ specialization: value, page: '1' })} options={[{ label: 'All specializations', value: '' }, ...specializations.map((item) => ({ label: item, value: item }))]} />}
           <label><span className="sr-only">Minimum consultation fee</span><input value={values.minFee} onChange={(event) => updateParams({ minFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Min fee" /></label>
           <label><span className="sr-only">Maximum consultation fee</span><input value={values.maxFee} onChange={(event) => updateParams({ maxFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Max fee" /></label>
           <FilterSelect label="Availability" value={values.availability} placeholder="All availability" onChange={(value) => updateParams({ availability: value, page: '1' })} options={[{ label: 'All availability', value: '' }, { label: 'Available', value: 'available' }, { label: 'Busy', value: 'busy' }]} />

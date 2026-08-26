@@ -27,6 +27,7 @@ import TermsOfServicePage from '../pages/public/TermsOfServicePage'
 import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
 import RefundPolicyPage from '../pages/public/RefundPolicyPage'
 import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
+import CategoryLandingPage from '../pages/public/CategoryLandingPage'
 import AdminDisputesPage from '../pages/dashboard/AdminDisputesPage'
 import AdminAuditLogPage from '../pages/dashboard/AdminAuditLogPage'
 import {
@@ -72,6 +73,7 @@ export const router = createBrowserRouter([
       },
       { path: '/terms', element: <TermsOfServicePage /> },
       { path: '/refund-policy', element: <RefundPolicyPage /> },
+      { path: '/lawyers/in/:categorySlug', element: <CategoryLandingPage /> },
 
       // ── Authentication (guest-only) ──────────────────────────────────────────
       {
