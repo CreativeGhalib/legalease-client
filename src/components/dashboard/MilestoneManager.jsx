@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createCaseMilestone, getCaseTimeline, updateCaseMilestone } from '../../api/caseApi'
+import CaseEvidence from './CaseEvidence'
 import ModalFocusRegion from '../common/ModalFocusRegion'
 import { getApiErrorMessage } from '../../utils/apiError'
 
@@ -93,6 +94,10 @@ export default function MilestoneManager({ item, onClose }) {
             </li>
           ))}
         </ul>
+
+        <div className="mt-5">
+          <CaseEvidence hiringRequestId={item.id} isLawyer />
+        </div>
 
         <form
           onSubmit={(event) => { event.preventDefault(); createMilestoneMutation.mutate() }}

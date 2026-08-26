@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { CircleDot, CheckCircle2, LoaderCircle } from 'lucide-react'
 import { getCaseTimeline } from '../../api/caseApi'
+import CaseEvidence from './CaseEvidence'
 import { ErrorState } from '../common/QueryFeedback'
 
 function formatDate(value) {
@@ -14,7 +15,7 @@ const STATUS_META = {
   pending: { icon: CircleDot, classes: 'text-slate-400 dark:text-[#7090a4]', label: 'Pending' },
 }
 
-export default function CaseTimeline({ hiringRequestId }) {
+export default function CaseTimeline({ hiringRequestId, isLawyer = false }) {
   const caseQuery = useQuery({
     queryKey: ['case', hiringRequestId],
     queryFn: () => getCaseTimeline(hiringRequestId),
@@ -74,6 +75,10 @@ export default function CaseTimeline({ hiringRequestId }) {
           })}
         </ol>
       )}
+
+      <div className="mt-4">
+        <CaseEvidence hiringRequestId={hiringRequestId} isLawyer={isLawyer} />
+      </div>
     </div>
   )
 }

@@ -11,3 +11,17 @@ export async function createCaseMilestone(hiringRequestId, payload) {
 export async function updateCaseMilestone(milestoneId, payload) {
   return (await api.patch(`/cases/milestones/${milestoneId}`, payload)).data.data.milestone
 }
+
+export async function getCaseDocuments(hiringRequestId) {
+  return (await api.get(`/cases/${hiringRequestId}/documents`)).data.data.items
+}
+
+export async function uploadCaseDocument(hiringRequestId, file) {
+  const data = new FormData()
+  data.append('image', file)
+  return (await api.post(`/cases/${hiringRequestId}/documents`, data)).data.data.document
+}
+
+export async function deleteCaseDocument(documentId) {
+  await api.delete(`/cases/documents/${documentId}`)
+}
