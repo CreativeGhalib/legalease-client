@@ -4,8 +4,11 @@ import { ChevronDown, Search, SlidersHorizontal } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import { getPublicLawyers } from '../../api/lawyerDiscoveryApi'
 import { EmptyState, ErrorState } from '../../components/common/QueryFeedback'
+import OnboardingTour from '../../components/common/OnboardingTour'
+import { USER_TOUR_STEPS } from '../../components/common/onboardingTourSteps'
 import LawyerCard from '../../components/lawyers/LawyerCard'
 import LawyerCardSkeleton from '../../components/lawyers/LawyerCardSkeleton'
+import { useAuth } from '../../auth/useAuth'
 import { getApiErrorMessage } from '../../utils/apiError'
 
 const specializations = ['Family Law', 'Criminal Law', 'Corporate Law', 'Property Law', 'Immigration Law', 'Employment Law', 'Civil Litigation', 'Intellectual Property']
@@ -82,6 +85,7 @@ function normalizedParams(searchParams) {
 }
 
 export default function BrowseLawyersPage() {
+  const { user } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const values = normalizedParams(searchParams)
   const [searchText, setSearchText] = useState(values.search)
@@ -109,12 +113,13 @@ export default function BrowseLawyersPage() {
 
   return (
     <section>
+      {user?.role?.trim().toLowerCase() !== 'admin' && <OnboardingTour tourKey="user" steps={USER_TOUR_STEPS} />}
       <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#d4a843]">PUBLIC DIRECTORY</p>
       <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-semibold text-[#0c1827] dark:text-[#e4d9c5] sm:text-4xl">Browse legal professionals</h1><p className="mt-2 max-w-2xl text-[#364358] dark:text-[#96a8b8]">Search verified, published lawyer profiles by expertise, availability, and consultation fee.</p></div>{result && <p className="text-sm text-[#364358] dark:text-[#96a8b8]">{result.meta.totalItems} professional{result.meta.totalItems === 1 ? '' : 's'} found</p>}</div>
-      <div className="mt-8 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-[0_10px_24px_rgba(7,16,31,0.05)] dark:border-[#2a3850] dark:bg-[#161d27] sm:p-5">
+      <div data-tour="browse-filters" className="mt-8 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-[0_10px_24px_rgba(7,16,31,0.05)] dark:border-[#2a3850] dark:bg-[#161d27] sm:p-5">
         <div className="flex items-center gap-2 text-sm font-semibold text-[#0c1827] dark:text-[#e4d9c5]"><SlidersHorizontal size={17} />Search &amp; filters</div>
         <div className="mt-4 grid gap-3 lg:grid-cols-6">
-          <label className="relative lg:col-span-2"><span className="sr-only">Search lawyers</span><Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={18} /><input value={searchText} onChange={(event) => setSearchText(event.target.value)} className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Name or specialization" /></label>
+          <label className="relative lg:col-span-2"><span className="sr-only">Search lawyers</span><Search className="pointer-events-none absolute left-3 top-3 text-[#69798e] dark:text-[#5a6c7a]" size={18} /><input value={searchText} onChange={(event) => setSearchText(event.target.value)} data-tour="browse-search" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] py-2 pl-10 pr-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Name or specialization" /></label>
           <FilterSelect label="Specialization" value={values.specialization} placeholder="All specializations" onChange={(value) => updateParams({ specialization: value, page: '1' })} options={[{ label: 'All specializations', value: '' }, ...specializations.map((item) => ({ label: item, value: item }))]} />
           <label><span className="sr-only">Minimum consultation fee</span><input value={values.minFee} onChange={(event) => updateParams({ minFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Min fee" /></label>
           <label><span className="sr-only">Maximum consultation fee</span><input value={values.maxFee} onChange={(event) => updateParams({ maxFee: event.target.value, page: '1' })} type="number" min="0" step="0.01" className="theme-input min-h-11 w-full rounded-lg border border-[#c5b89e] bg-[#e4d9c5] px-3 text-sm text-[#0c1827] placeholder:text-[#69798e] focus:border-[#1b3a6b] focus:outline-none dark:border-[#374c62] dark:bg-[#1d2535] dark:text-[#e4d9c5] dark:placeholder:text-[#5a6c7a]" placeholder="Max fee" /></label>

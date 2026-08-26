@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
+import { AuthContext } from '../../auth/authContext'
 import BrowseLawyersPage from './BrowseLawyersPage'
 
 const mockUseQuery = vi.fn()
@@ -34,11 +35,13 @@ describe('BrowseLawyersPage dark mode styling', () => {
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={['/lawyers']}>
-          <BrowseLawyersPage />
-        </MemoryRouter>
-      </QueryClientProvider>,
+      <AuthContext.Provider value={{ user: null, isAuthenticated: false, isChecking: false, logout: vi.fn(), refreshAuth: vi.fn() }}>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter initialEntries={['/lawyers']}>
+            <BrowseLawyersPage />
+          </MemoryRouter>
+        </QueryClientProvider>
+      </AuthContext.Provider>,
     )
 
     const searchInput = screen.getByPlaceholderText('Name or specialization')

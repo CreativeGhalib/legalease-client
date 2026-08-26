@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { deleteMyLawyerProfile, getMyLawyerProfile, saveMyLawyerProfile, uploadProfessionalPhoto } from '../../api/lawyerProfileApi'
 import { getApiErrorMessage } from '../../utils/apiError'
 import VerificationPublishingPanel from '../../components/lawyers/VerificationPublishingPanel'
+import OnboardingTour from '../../components/common/OnboardingTour'
+import { LAWYER_TOUR_STEPS } from '../../components/common/onboardingTourSteps'
 
 const profileKey = ['lawyer-profile', 'me']
 const emptyProfile = {
@@ -107,8 +109,9 @@ export default function ManageLegalProfilePage() {
       <p className="text-sm font-semibold tracking-wide text-indigo-700">LAWYER PROFILE</p>
       <h2 className="mt-1 text-2xl font-semibold text-slate-950 dark:text-[#ece5d6]">Manage legal profile</h2>
       <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-[#a8bbcc]">Keep your practice information current. Draft and unpublished profiles remain private until you complete verification and choose to publish.</p>
+      <OnboardingTour tourKey="lawyer" steps={LAWYER_TOUR_STEPS} />
       {profile && <p className={`mt-4 rounded-lg px-4 py-3 text-sm ${completeness ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300' : 'bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200'}`}>{completeness ? 'Your profile contains the required publishing information.' : 'Draft saved. Add a photo, specialization, bio, fee, experience, and license number before publishing later.'}</p>}
-      {profile && <div className="mt-6"><VerificationPublishingPanel profile={profile} /></div>}
+      {profile && <div className="mt-6" data-tour="verification-panel"><VerificationPublishingPanel profile={profile} /></div>}
       <form className="mt-6 space-y-6" onSubmit={handleSubmit((values) => saveMutation.mutate(values))}>
         <section className="rounded-xl border border-slate-200 dark:border-[#1c3050] p-5">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-[#ece5d6]">Professional photo</h3>
@@ -116,7 +119,7 @@ export default function ManageLegalProfilePage() {
             {displayPhoto ? <img src={displayPhoto} alt="Professional profile preview" className="h-20 w-20 rounded-full object-cover ring-2 ring-slate-200" /> : <div className="grid h-20 w-20 place-items-center rounded-full bg-slate-100 dark:bg-[#0c1728] text-xs text-slate-500 dark:text-[#a8bbcc]">No photo</div>}
             <div>
               <input ref={photoInputRef} className="sr-only" id="professional-photo" type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setSelectedPhoto(event.target.files?.[0] ?? null)} />
-              <button type="button" onClick={() => photoInputRef.current?.click()} className="rounded-lg border border-indigo-200 bg-indigo-50 dark:bg-[#1b3a6b]/15 px-4 py-2.5 text-sm font-semibold text-indigo-800 hover:bg-indigo-100">{displayPhoto ? 'Choose new photo' : 'Choose professional photo'}</button>
+              <button type="button" data-tour="profile-photo-button" onClick={() => photoInputRef.current?.click()} className="rounded-lg border border-indigo-200 bg-indigo-50 dark:bg-[#1b3a6b]/15 px-4 py-2.5 text-sm font-semibold text-indigo-800 hover:bg-indigo-100">{displayPhoto ? 'Choose new photo' : 'Choose professional photo'}</button>
               <p className="mt-2 text-sm text-slate-600 dark:text-[#a8bbcc]">{selectedPhoto ? `Selected: ${selectedPhoto.name}` : displayPhoto ? 'Current photo shown above.' : 'No photo selected yet.'}</p>
               <p className="mt-1 text-xs text-slate-500 dark:text-[#a8bbcc]">JPG, PNG, or WebP; maximum 3 MB. Click “{profile ? 'Save changes' : 'Create draft profile'}” below to upload and save it.</p>
             </div>
@@ -133,9 +136,9 @@ export default function ManageLegalProfilePage() {
         <section className="rounded-xl border border-slate-200 dark:border-[#1c3050] p-5">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-[#ece5d6]">Practice details</h3>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Consultation fee (USD)<input type="number" min="0.01" step="0.01" className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('consultationFee')} /></label>
+            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Consultation fee (USD)<input type="number" min="0.01" step="0.01" data-tour="profile-fee-input" className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('consultationFee')} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Experience (years)<input type="number" min="0" step="1" className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('experienceYears')} /></label>
-            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Bar Council license number<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('licenseNumber', { maxLength: 120 })} /></label>
+            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Bar Council license number<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" data-tour="profile-license-input" {...register('licenseNumber', { maxLength: 120 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Bar association branch<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('barAssociationBranch', { maxLength: 120 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Location<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('location', { maxLength: 160 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Languages<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" placeholder="English, Bangla" {...register('languages')} /></label>
