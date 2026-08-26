@@ -1,10 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { getMyHiringRequests } from '../../api/hiringRequestApi'
 import { startHiringCheckout } from '../../api/paymentApi'
+import { createReview } from '../../api/reviewApi'
+import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import ProfileAvatar from '../../components/common/ProfileAvatar'
+import StarRatingInput from '../../components/lawyers/StarRating'
 import { ErrorState } from '../../components/common/QueryFeedback'
+import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 import { getApiErrorMessage } from '../../utils/apiError'
+import { showSuccessToast } from '../../utils/toast'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -19,6 +25,76 @@ function paymentLabel(status) {
   return 'Unpaid'
 }
 
+// ─── Review Dialog ────────────────────────────────────────────────────────────
+
+function ReviewDialog({ item, onClose }) {
+  const queryClient = useQueryClient()
+  const [rating, setRating] = useState(5)
+  const [feedback, setFeedback] = useState('')
+  useBodyScrollLock(true)
+
+  const reviewMutation = useMutation({
+    mutationFn: () => createReview({ hiringRequestId: item.id, rating, feedback: feedback.trim() }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['hiring-requests', 'mine'] })
+      showSuccessToast('Thanks — your engagement review is live.')
+      onClose()
+    },
+  })
+
+  return (
+    <ModalFocusRegion
+      labelledBy="review-dialog-title"
+      onClose={onClose}
+      closeOnEscape={!reviewMutation.isPending}
+      className="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 p-4"
+    >
+      <form
+        onSubmit={(event) => { event.preventDefault(); reviewMutation.mutate() }}
+        className="w-full max-w-md rounded-2xl bg-white dark:bg-[#0c1728] p-6 shadow-xl"
+      >
+        <h2 id="review-dialog-title" className="text-xl font-bold text-slate-950 dark:text-[#ece5d6]">
+          Review your engagement
+        </h2>
+        <p className="mt-1 text-sm text-slate-600 dark:text-[#a8bbcc]">
+          How was your experience with {item.lawyer.fullName}? One review per engagement.
+        </p>
+
+        <div className="mt-5">
+          <p className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Rating</p>
+          <div className="mt-2"><StarRatingInput value={rating} onChange={setRating} /></div>
+        </div>
+
+        <label className="mt-4 block text-sm font-medium text-slate-800 dark:text-[#ece5d6]" htmlFor="review-feedback">
+          Feedback <span className="font-normal text-slate-500 dark:text-[#a8bbcc]">(optional)</span>
+        </label>
+        <textarea
+          id="review-feedback"
+          value={feedback}
+          onChange={(event) => setFeedback(event.target.value)}
+          maxLength={1000}
+          rows={4}
+          className="mt-2 w-full rounded-xl border border-slate-300 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-3 text-sm text-slate-950 dark:text-[#ece5d6]"
+        />
+        <p className="mt-1 text-right text-xs text-slate-500 dark:text-[#a8bbcc]">{feedback.length}/1000</p>
+
+        {reviewMutation.isError && (
+          <p role="alert" className="mt-3 text-sm text-rose-700 dark:text-rose-300">
+            {getApiErrorMessage(reviewMutation.error)}
+          </p>
+        )}
+
+        <div className="mt-6 flex justify-end gap-3">
+          <button type="button" onClick={onClose} disabled={reviewMutation.isPending} className="le-button le-button-secondary">Cancel</button>
+          <button type="submit" disabled={reviewMutation.isPending} className="le-button le-button-primary">
+            {reviewMutation.isPending ? 'Submitting…' : 'Submit review'}
+          </button>
+        </div>
+      </form>
+    </ModalFocusRegion>
+  )
+}
+
 // ─── Request Card ─────────────────────────────────────────────────────────────
 // Each card owns its own pay mutation so that an error on one card never
 // bleeds into or disables the pay button on another card.
@@ -28,6 +104,7 @@ function RequestCard({ item }) {
     mutationFn: () => startHiringCheckout(item.id),
     onSuccess: ({ checkoutUrl }) => window.location.assign(checkoutUrl),
   })
+  const [reviewOpen, setReviewOpen] = useState(false)
 
   const isPaid = item.paymentStatus === 'paid'
   const isCheckout = item.paymentStatus === 'checkout_created'
@@ -97,17 +174,31 @@ function RequestCard({ item }) {
           View lawyer
         </Link>
 
+        {isPaid && !item.reviewed && (
+          <button
+            type="button"
+            onClick={() => setReviewOpen(true)}
+            className="le-button whitespace-nowrap border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 dark:text-[#a8bbcc] dark:hover:bg-[#1b3a6b]/40"
+          >
+            Rate engagement
+          </button>
+        )}
+        {isPaid && item.reviewed && (
+          <span className="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1.5 font-semibold text-emerald-800 dark:text-emerald-300">
+            Rated ✓
+          </span>
+        )}
+
         {payMutation.isError && (
           <p role="alert" className="basis-full text-sm text-rose-700 dark:text-rose-300">
             {getApiErrorMessage(payMutation.error)}
           </p>
         )}
       </div>
+      {reviewOpen && <ReviewDialog item={item} onClose={() => setReviewOpen(false)} />}
     </article>
   )
 }
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function UserHiringHistoryPage() {
   const requestsQuery = useQuery({
