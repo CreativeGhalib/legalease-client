@@ -12,6 +12,7 @@ import LawyerShowcase from '../../components/home/LawyerShowcase'
 import LegalCategories from '../../components/home/LegalCategories'
 import StatsBar from '../../components/home/StatsBar'
 import RecentLawyers from '../../components/home/RecentLawyers'
+import AIIntakeTrigger from '../../components/common/AIIntakeModal'
 
 const heroCategories = [
   ['Criminal Law', Gavel],
@@ -79,14 +80,17 @@ export default function HomePage() {
               eyebrow="LEGAL CLARITY, HUMANLY CONNECTED"
               title="Find Expert Legal Help in Minutes"
               footer={
-                <Link
-                  to="/lawyers"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#d4a843] px-6 py-3 text-sm font-semibold text-[#0d1117] transition hover:bg-[#e8bf58] focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95 sm:min-h-11"
-                  aria-label="Browse lawyers — primary call to action"
-                >
-                  Browse Lawyers
-                  <ArrowRight size={18} aria-hidden="true" />
-                </Link>
+                <>
+                  <Link
+                    to="/lawyers"
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#d4a843] px-6 py-3 text-sm font-semibold text-[#0d1117] transition hover:bg-[#e8bf58] focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95 sm:min-h-11"
+                    aria-label="Browse lawyers — primary call to action"
+                  >
+                    Browse Lawyers
+                    <ArrowRight size={18} aria-hidden="true" />
+                  </Link>
+                  <AIIntakeTrigger variant="hero" />
+                </>
               }
             >
               Find a lawyer whose experience fits your case, understand their practice at a glance,

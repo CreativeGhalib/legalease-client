@@ -9,6 +9,7 @@ import { USER_TOUR_STEPS } from '../../components/common/onboardingTourSteps'
 import LawyerCard from '../../components/lawyers/LawyerCard'
 import LawyerCardSkeleton from '../../components/lawyers/LawyerCardSkeleton'
 import { useAuth } from '../../auth/useAuth'
+import AIIntakeTrigger from '../../components/common/AIIntakeModal'
 import { getApiErrorMessage } from '../../utils/apiError'
 
 const specializations = ['Family Law', 'Criminal Law', 'Corporate Law', 'Property Law', 'Immigration Law', 'Employment Law', 'Civil Litigation', 'Intellectual Property']
@@ -115,7 +116,7 @@ export default function BrowseLawyersPage() {
     <section>
       {user?.role?.trim().toLowerCase() !== 'admin' && <OnboardingTour tourKey="user" steps={USER_TOUR_STEPS} />}
       <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#d4a843]">PUBLIC DIRECTORY</p>
-      <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-semibold text-[#0c1827] dark:text-[#e4d9c5] sm:text-4xl">Browse legal professionals</h1><p className="mt-2 max-w-2xl text-[#364358] dark:text-[#96a8b8]">Search verified, published lawyer profiles by expertise, availability, and consultation fee.</p></div>{result && <p className="text-sm text-[#364358] dark:text-[#96a8b8]">{result.meta.totalItems} professional{result.meta.totalItems === 1 ? '' : 's'} found</p>}</div>
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-semibold text-[#0c1827] dark:text-[#e4d9c5] sm:text-4xl">Browse legal professionals</h1><p className="mt-2 max-w-2xl text-[#364358] dark:text-[#96a8b8]">Search verified, published lawyer profiles by expertise, availability, and consultation fee.</p></div><div className="flex flex-wrap items-center gap-3">{result && <p className="text-sm text-[#364358] dark:text-[#96a8b8]">{result.meta.totalItems} professional{result.meta.totalItems === 1 ? '' : 's'} found</p>}<AIIntakeTrigger /></div></div>
       <div data-tour="browse-filters" className="mt-8 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 shadow-[0_10px_24px_rgba(7,16,31,0.05)] dark:border-[#2a3850] dark:bg-[#161d27] sm:p-5">
         <div className="flex items-center gap-2 text-sm font-semibold text-[#0c1827] dark:text-[#e4d9c5]"><SlidersHorizontal size={17} />Search &amp; filters</div>
         <div className="mt-4 grid gap-3 lg:grid-cols-6">
