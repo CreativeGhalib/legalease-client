@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next'
+
 export default function AvailabilityBadge({ availability }) {
+  const { t } = useTranslation()
   const isBusy = availability === 'busy'
   return (
     <span
@@ -8,7 +11,7 @@ export default function AvailabilityBadge({ availability }) {
           : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
       }`}
     >
-      {isBusy ? 'Busy' : 'Available'}
+      {isBusy ? t('status.busy') : t('status.available')}
     </span>
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowUpRight, Heart, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import AvailabilityBadge from './AvailabilityBadge'
 import TierBadge from './TierBadge'
 
@@ -21,6 +22,7 @@ function getStoredShortlist() {
 }
 
 export default function LawyerCard({ lawyer, compact = false, showHireCount = false }) {
+  const { t } = useTranslation()
   const [shortlisted, setShortlisted] = useState(() => getStoredShortlist().includes(lawyer.id))
   const isHired = Number(lawyer.paidHireCount || 0) > 0
 
@@ -59,7 +61,7 @@ export default function LawyerCard({ lawyer, compact = false, showHireCount = fa
         {showHireCount && <p className="mt-2 truncate text-[11px] font-medium text-[#69798e] sm:text-xs dark:text-[#7090a4]">{lawyer.paidHireCount} completed hire{lawyer.paidHireCount === 1 ? '' : 's'}</p>}
         <div className="mt-3 flex flex-col items-start gap-2 border-t border-[#d8ccb8] pt-3 sm:mt-4 sm:pt-4 dark:border-[#2a3850]">
           <p className="min-w-0"><span className="block text-[11px] text-[#69798e] sm:text-xs dark:text-[#7090a4]">Consultation</span><span className="block truncate text-sm font-semibold text-[#0c1827] dark:text-[#e4d9c5]">${(lawyer.consultationFeeMinor / 100).toFixed(2)}</span></p>
-          <Link to={`/lawyers/${lawyer.id}`} aria-label={`View details for ${lawyer.fullName}`} className="le-button w-full gap-1 px-2 text-xs sm:px-4 sm:text-sm le-button-secondary"><span className="sm:hidden">View</span><span className="hidden sm:inline">View details</span><ArrowUpRight className="shrink-0" size={16} /></Link>
+          <Link to={`/lawyers/${lawyer.id}`} aria-label={`View details for ${lawyer.fullName}`} className="le-button w-full gap-1 px-2 text-xs sm:px-4 sm:text-sm le-button-secondary"><span className="sm:hidden">{t('buttons.viewDetails')}</span><span className="hidden sm:inline">{t('buttons.viewDetails')}</span><ArrowUpRight className="shrink-0" size={16} /></Link>
         </div>
       </div>
     </article>

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { ArrowRight, BadgeCheck, Building2, Gavel, Handshake, Scale, Search, ShieldCheck } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -15,10 +16,10 @@ import RecentLawyers from '../../components/home/RecentLawyers'
 import AIIntakeTrigger from '../../components/common/AIIntakeModal'
 
 const heroCategories = [
-  ['Criminal Law', Gavel],
-  ['Family Law', Handshake],
-  ['Corporate Law', Building2],
-  ['Property Law', ShieldCheck],
+  { key: 'criminalLaw', url: 'Criminal Law', icon: Gavel },
+  { key: 'familyLaw', url: 'Family Law', icon: Handshake },
+  { key: 'corporateLaw', url: 'Corporate Law', icon: Building2 },
+  { key: 'propertyLaw', url: 'Property Law', icon: ShieldCheck },
 ]
 
 /**
@@ -32,6 +33,7 @@ const heroCategories = [
  */
 export default function HomePage() {
   const reduceMotion = useReducedMotion()
+  const { t } = useTranslation()
   const featuredQuery = useQuery({ queryKey: ['featured-lawyers'], queryFn: getFeaturedLawyers })
   const topQuery = useQuery({ queryKey: ['top-lawyers'], queryFn: getTopLawyers })
   const rise = reduceMotion ? undefined : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }
@@ -77,35 +79,34 @@ export default function HomePage() {
           <SwiperSlide>
             <HeroSlide
               as="h1"
-              eyebrow="LEGAL CLARITY, HUMANLY CONNECTED"
-              title="Find Expert Legal Help in Minutes"
+              eyebrow={t('hero.slide1.eyebrow')}
+              title={t('hero.slide1.title')}
               footer={
                 <>
                   <Link
                     to="/lawyers"
                     className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#d4a843] px-6 py-3 text-sm font-semibold text-[#0d1117] transition hover:bg-[#e8bf58] focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95 sm:min-h-11"
-                    aria-label="Browse lawyers — primary call to action"
-                  >
-                    Browse Lawyers
-                    <ArrowRight size={18} aria-hidden="true" />
+                  aria-label="Browse lawyers — primary call to action"
+                >
+                  {t('hero.slide1.cta')}
+                  <ArrowRight size={18} aria-hidden="true" />
                   </Link>
                   <AIIntakeTrigger variant="hero" />
                 </>
               }
             >
-              Find a lawyer whose experience fits your case, understand their practice at a glance,
-              and take your next step with confidence.
+              {t('hero.slide1.subtitle')}
             </HeroSlide>
           </SwiperSlide>
 
           {/* Slide 2 — how it works */}
           <SwiperSlide>
-            <HeroSlide as="h2" eyebrow="SIMPLE BY DESIGN" title="How It Works">
+            <HeroSlide as="h2" eyebrow={t('hero.slide2.eyebrow')} title="How It Works">
               <ol className="mt-5 grid max-w-lg gap-4 sm:grid-cols-3">
                 {[
-                  ['01', 'Browse', Search],
-                  ['02', 'Hire', Handshake],
-                  ['03', 'Resolve', Gavel],
+                  ['01', t('hero.step.browse'), Search],
+                  ['02', t('hero.step.hire'), Handshake],
+                  ['03', t('hero.step.resolve'), Gavel],
                 ].map(([step, label, Icon]) => (
                   <li key={step} className="flex items-center gap-3 rounded-xl border border-[#d4a843]/20 bg-[#d4a843]/5 p-3 sm:flex-col sm:items-start">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#d4a843]/15 text-[#d4a843]">
@@ -124,36 +125,35 @@ export default function HomePage() {
           <SwiperSlide>
             <HeroSlide
               as="h2"
-              eyebrow="FOR PRACTITIONERS"
-              title="Are You a Lawyer?"
+              eyebrow={t('hero.slide3.eyebrow')}
+              title={t('hero.slide3.title')}
               footer={
                 <Link
                   to="/register"
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#d4a843] px-6 py-3 text-sm font-semibold text-[#0d1117] transition hover:bg-[#e8bf58] focus:outline-2 focus:outline-offset-2 focus:outline-[#d4a843] active:scale-95 sm:min-h-11"
                 >
-                  Join LegalEase
+                  {t('hero.slide3.cta')}
                   <ArrowRight size={18} aria-hidden="true" />
                 </Link>
               }
             >
-              Join 450+ professionals on LegalEase. Publish a verified profile and let clients find
-              you when it matters.
+              {t('hero.slide3.subtitle')}
             </HeroSlide>
           </SwiperSlide>
 
           {/* Slide 4 — category showcase */}
           <SwiperSlide>
-            <HeroSlide as="h2" eyebrow="PRACTICE AREAS" title="Start with your legal matter">
+            <HeroSlide as="h2" eyebrow={t('hero.slide4.eyebrow')} title={t('hero.slide4.title')}>
               <div className="mt-5 grid max-w-md grid-cols-2 gap-2 sm:max-w-lg sm:grid-cols-3">
-                {heroCategories.map(([label, Icon]) => (
+                {heroCategories.map(({ key, url, icon: Icon }) => (
                   <Link
-                    key={label}
-                    to={`/lawyers?specialization=${encodeURIComponent(label)}&page=1`}
+                    key={key}
+                    to={`/lawyers?specialization=${encodeURIComponent(url)}&page=1`}
                     className="flex min-h-12 items-center gap-2 rounded-xl border border-[#d4a843]/25 bg-[#d4a843]/5 px-3 text-sm font-semibold text-[#e4d9c5] transition hover:border-[#d4a843]/60 hover:bg-[#d4a843]/10 focus-visible:ring-2 focus-visible:ring-[#d4a843]"
-                    aria-label={`Browse ${label} lawyers`}
+                    aria-label={`Browse ${url} lawyers`}
                   >
                     <Icon size={16} className="shrink-0 text-[#d4a843]" aria-hidden="true" />
-                    <span className="truncate">{label.replace(' Law', '')}</span>
+                    <span className="truncate">{t(`categories.${key}`)}</span>
                   </Link>
                 ))}
               </div>

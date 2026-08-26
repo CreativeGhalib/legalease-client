@@ -1,0 +1,55 @@
+{
+  "nav": {
+    "home": "Home",
+    "browseLawyers": "Browse Lawyers",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "searchPlaceholder": "Search lawyers"
+  },
+  "buttons": {
+    "viewDetails": "View details",
+    "browseAll": "Browse all"
+  },
+  "status": {
+    "available": "Available",
+    "busy": "Busy"
+  },
+  "categories": {
+    "familyLaw": "Family Law",
+    "criminalLaw": "Criminal Law",
+    "corporateLaw": "Corporate Law",
+    "propertyLaw": "Property Law",
+    "immigrationLaw": "Immigration Law",
+    "employmentLaw": "Employment Law",
+    "civilLitigation": "Civil Litigation",
+    "intellectualProperty": "Intellectual Property"
+  },
+  "hero": {
+    "slide1": {
+      "eyebrow": "LEGAL CLARITY, HUMANLY CONNECTED",
+      "title": "Find Expert Legal Help in Minutes",
+      "subtitle": "Find a lawyer whose experience fits your case, understand their practice at a glance, and take your next step with confidence.",
+      "cta": "Browse Lawyers"
+    },
+    "step": {
+      "browse": "Browse",
+      "hire": "Hire",
+      "resolve": "Resolve"
+    },
+    "slide2": {
+      "eyebrow": "SIMPLE BY DESIGN",
+      "title": "How It Works"
+    },
+    "slide3": {
+      "eyebrow": "FOR PRACTITIONERS",
+      "title": "Are You a Lawyer?",
+      "subtitle": "Join 450+ professionals on LegalEase. Publish a verified profile and let clients find you when it matters.",
+      "cta": "Join LegalEase"
+    },
+    "slide4": {
+      "eyebrow": "PRACTICE AREAS",
+      "title": "Start with your legal matter"
+    }
+  }
+}

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { LayoutDashboard, LogIn, LogOut, Menu, MoonStar, Scale, Search, SunMedium, X } from 'lucide-react'
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import NavDropdown from '../components/common/NavDropdown'
+import LanguageSwitcher from '../components/common/LanguageSwitcher'
 import SiteFooter from '../components/common/SiteFooter'
 import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
@@ -22,6 +24,7 @@ import useTheme from '../hooks/useTheme'
  * - Mobile-responsive header with hamburger menu
  */
 export default function PublicLayout() {
+  const { t } = useTranslation()
   const { isAuthenticated, isChecking, logout, user } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -108,14 +111,14 @@ export default function PublicLayout() {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-5 lg:flex" aria-label="Main navigation">
-            <NavLink 
-              to="/" 
-              end 
+            <NavLink
+              to="/"
+              end
               className={navClass}
             >
-              Home
+              {t('nav.home')}
             </NavLink>
-            <NavLink 
+            <NavLink
               to="/lawyers"
               className={({ isActive }) => {
                 const baseClasses = 'inline-flex items-center py-2 text-sm font-semibold transition focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b]'
@@ -124,7 +127,7 @@ export default function PublicLayout() {
                 return `${baseClasses} ${isActive || location.pathname.startsWith('/lawyers') ? activeClasses : inactiveClasses}`
               }}
             >
-              Browse Lawyers
+              {t('nav.browseLawyers')}
             </NavLink>
 
             {/* Desktop Search */}
@@ -172,19 +175,23 @@ export default function PublicLayout() {
                   <span className="hidden max-w-32 truncate text-sm font-medium text-[#364358] dark:text-[#96a8b8] sm:inline" aria-label={`Logged in as ${user.fullName}`}>
                     {user.fullName}
                   </span>
-                  <NavDropdown label="Dashboard" items={dashboardLinks} />
-                  <button 
+                  <NavDropdown label={t('nav.dashboard')} items={dashboardLinks} />
+                  <button
                     type="button"
                     onClick={handleLogout}
                     className="py-2 text-[#364358] text-sm font-semibold hover:text-[#0c1827] focus:outline-2 focus:outline-offset-2 focus:outline-[#1b3a6b] transition dark:text-[#96a8b8] dark:hover:text-[#e4d9c5]"
                   >
-                    Logout
+                    {t('nav.logout')}
                   </button>
+                  <LanguageSwitcher />
                 </>
               ) : (
-                <NavLink to="/login" className={navClass}>
-                  Login
-                </NavLink>
+                <>
+                  <NavLink to="/login" className={navClass}>
+                    {t('nav.login')}
+                  </NavLink>
+                  <LanguageSwitcher />
+                </>
               )
             )}
           </div>
@@ -292,7 +299,7 @@ export default function PublicLayout() {
                     }`}>
                       <Scale size={15} strokeWidth={1.8} />
                     </span>
-                    Home
+                    {t('nav.home')}
                   </>
                 )}
               </NavLink>
@@ -315,7 +322,7 @@ export default function PublicLayout() {
                     }`}>
                       <Search size={15} />
                     </span>
-                    Browse Lawyers
+                    {t('nav.browseLawyers')}
                   </>
                 )}
               </NavLink>
@@ -333,6 +340,11 @@ export default function PublicLayout() {
                   aria-label="Search for lawyers"
                 />
               </form>
+
+              {/* Language switcher */}
+              <div className="my-1 px-1">
+                <LanguageSwitcher compact />
+              </div>
 
               {/* Auth section */}
               {!isChecking && (
@@ -361,7 +373,7 @@ export default function PublicLayout() {
                           }`}>
                             <LayoutDashboard size={15} />
                           </span>
-                          Dashboard
+                          {t('nav.dashboard')}
                         </>
                       )}
                     </NavLink>
@@ -373,7 +385,7 @@ export default function PublicLayout() {
                       <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#e5dccf] dark:bg-[#1d2535]">
                         <LogOut size={15} />
                       </span>
-                      Logout
+                      {t('nav.logout')}
                     </button>
                   </>
                 ) : (
@@ -395,7 +407,7 @@ export default function PublicLayout() {
                         }`}>
                           <LogIn size={15} />
                         </span>
-                        Login
+                        {t('nav.login')}
                       </>
                     )}
                   </NavLink>

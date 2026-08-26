@@ -1,16 +1,17 @@
 import { BriefcaseBusiness, Building2, Fingerprint, Gavel, Handshake, House, Scale, ShieldCheck } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const categories = [
-  ['Family Law', Handshake],
-  ['Criminal Law', Gavel],
-  ['Corporate Law', Building2],
-  ['Property Law', House],
-  ['Immigration Law', Fingerprint],
-  ['Employment Law', BriefcaseBusiness],
-  ['Civil Litigation', Scale],
-  ['Intellectual Property', ShieldCheck],
+  { key: 'familyLaw', url: 'Family Law', icon: Handshake },
+  { key: 'criminalLaw', url: 'Criminal Law', icon: Gavel },
+  { key: 'corporateLaw', url: 'Corporate Law', icon: Building2 },
+  { key: 'propertyLaw', url: 'Property Law', icon: House },
+  { key: 'immigrationLaw', url: 'Immigration Law', icon: Fingerprint },
+  { key: 'employmentLaw', url: 'Employment Law', icon: BriefcaseBusiness },
+  { key: 'civilLitigation', url: 'Civil Litigation', icon: Scale },
+  { key: 'intellectualProperty', url: 'Intellectual Property', icon: ShieldCheck },
 ]
 
 /**
@@ -25,6 +26,7 @@ const categories = [
  */
 export default function LegalCategories() {
   const reduceMotion = useReducedMotion()
+  const { t } = useTranslation()
 
   return (
     <section className="mt-20" id="practice-areas" aria-labelledby="practice-areas-heading">
@@ -47,9 +49,9 @@ export default function LegalCategories() {
       {/* Categories grid - Responsive layout */}
       <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
         <>
-          {categories.map(([label, Icon], index) => (
+          {categories.map(({ key, url, icon: Icon }, index) => (
             <motion.div
-              key={label}
+              key={key}
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -57,8 +59,8 @@ export default function LegalCategories() {
             >
               {/* Category Link - 48px+ minimum height for mobile */}
               <Link
-                to={`/lawyers?specialization=${encodeURIComponent(label)}&page=1`}
-                aria-label={`Browse ${label} lawyers`}
+                to={`/lawyers?specialization=${encodeURIComponent(url)}&page=1`}
+                aria-label={`Browse ${url} lawyers`}
                 className="group flex min-h-32 sm:min-h-40 flex-col items-center justify-center gap-3 rounded-2xl border border-[#d8ccb8] bg-[#fdf9f2] p-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#b8903a]/50 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] dark:border-[#2a3850] dark:bg-[#161d27] dark:hover:border-[#d4a843]/60 dark:focus-visible:ring-[#d4a843]"
               >
                 {/* Icon */}
@@ -70,7 +72,7 @@ export default function LegalCategories() {
 
                 {/* Category label */}
                 <span className="text-sm font-semibold leading-snug text-[#0c1827] dark:text-[#e4d9c5]">
-                  {label}
+                  {t(`categories.${key}`)}
                 </span>
               </Link>
             </motion.div>
