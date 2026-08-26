@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import { createHiringRequest } from '../../api/hiringRequestApi'
+import AttorneyPrivilegeDisclaimer from '../common/AttorneyPrivilegeDisclaimer'
 import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 import useModalFocus from '../../hooks/useModalFocus'
 import { getApiErrorMessage } from '../../utils/apiError'
@@ -37,6 +38,7 @@ export default function HireModal({ lawyer, onClose }) {
           <div><dt className="text-slate-500 dark:text-[#a8bbcc]">Availability</dt><dd className="font-semibold capitalize text-emerald-700 dark:text-emerald-300">{lawyer.availability}</dd></div>
         </dl>
         <p className="mt-4 text-sm text-slate-600 dark:text-[#a8bbcc]">The lawyer reviews this request first. If accepted, you can pay securely from My hiring requests.</p>
+        <AttorneyPrivilegeDisclaimer className="mt-4" />
         {request.isError && <p role="alert" className="mt-3 text-sm text-rose-700 dark:text-rose-300">{getApiErrorMessage(request.error)}</p>}
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
           <button type="button" onClick={onClose} disabled={request.isPending} className="min-h-11 rounded-lg px-4 text-sm font-semibold text-slate-700 dark:text-[#ece5d6]">Cancel</button>
