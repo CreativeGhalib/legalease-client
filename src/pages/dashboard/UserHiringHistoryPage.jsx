@@ -5,6 +5,7 @@ import { getMyHiringRequests } from '../../api/hiringRequestApi'
 import { startHiringCheckout, startSslcommerzCheckout } from '../../api/paymentApi'
 import { createReview } from '../../api/reviewApi'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
+import CaseTimeline from '../../components/dashboard/CaseTimeline'
 import ProfileAvatar from '../../components/common/ProfileAvatar'
 import StarRatingInput from '../../components/lawyers/StarRating'
 import { ErrorState } from '../../components/common/QueryFeedback'
@@ -109,6 +110,7 @@ function RequestCard({ item }) {
     onSuccess: ({ redirectUrl }) => window.location.assign(redirectUrl),
   })
   const [reviewOpen, setReviewOpen] = useState(false)
+  const [showProgress, setShowProgress] = useState(false)
 
   const isPaid = item.paymentStatus === 'paid'
   const isCheckout = item.paymentStatus === 'checkout_created'
@@ -205,6 +207,16 @@ function RequestCard({ item }) {
             Rated ✓
           </span>
         )}
+        {isPaid && (
+          <button
+            type="button"
+            onClick={() => setShowProgress((current) => !current)}
+            aria-expanded={showProgress}
+            className="le-button whitespace-nowrap border border-slate-300 dark:border-[#1c3050] text-slate-700 dark:text-[#a8bbcc]"
+          >
+            {showProgress ? 'Hide case progress' : 'View case progress'}
+          </button>
+        )}
 
         {(payMutation.isError || sslcommerzMutation.isError) && (
           <p role="alert" className="basis-full text-sm text-rose-700 dark:text-rose-300">
@@ -212,6 +224,7 @@ function RequestCard({ item }) {
           </p>
         )}
       </div>
+      {showProgress && isPaid && <div className="mt-4"><CaseTimeline hiringRequestId={item.id} /></div>}
       {reviewOpen && <ReviewDialog item={item} onClose={() => setReviewOpen(false)} />}
     </article>
   )

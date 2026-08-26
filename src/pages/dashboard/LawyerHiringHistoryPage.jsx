@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { decideHiringRequest, getReceivedHiringRequests } from '../../api/hiringRequestApi'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
+import MilestoneManager from '../../components/dashboard/MilestoneManager'
 import SlaCountdown from '../../components/hiring/SlaCountdown'
 import ProfileAvatar from '../../components/common/ProfileAvatar'
 import { ErrorState } from '../../components/common/QueryFeedback'
@@ -69,6 +70,7 @@ function DecisionDialog({ confirm, decisionMutation, onCancel }) {
 // ─── Request Card ─────────────────────────────────────────────────────────────
 
 function RequestCard({ item, decisionMutation, onDecide }) {
+  const [managerOpen, setManagerOpen] = useState(false)
   const isPaid = item.paymentStatus === 'paid'
   const isCheckout = item.paymentStatus === 'checkout_created'
 
@@ -145,7 +147,18 @@ function RequestCard({ item, decisionMutation, onDecide }) {
             Auto-closed after 48h without a response
           </span>
         )}
+        {isPaid && item.milestoneSummary && (
+          <button
+            type="button"
+            onClick={() => setManagerOpen(true)}
+            aria-expanded={managerOpen}
+            className="min-h-11 rounded-xl border border-indigo-200 bg-indigo-50 px-4 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 dark:text-[#a8bbcc] dark:hover:bg-[#1b3a6b]/40"
+          >
+            Milestones {item.milestoneSummary.completed}/{item.milestoneSummary.total}
+          </button>
+        )}
       </div>
+      {managerOpen && isPaid && <MilestoneManager item={item} onClose={() => setManagerOpen(false)} />}
     </article>
   )
 }
@@ -155,6 +168,7 @@ function RequestCard({ item, decisionMutation, onDecide }) {
 export default function LawyerHiringHistoryPage() {
   const queryClient = useQueryClient()
   const [confirm, setConfirm] = useState(null)
+  const [pipeline, setPipeline] = useState('all')
 
   const requestsQuery = useQuery({
     queryKey: ['hiring-requests', 'received'],
@@ -182,6 +196,16 @@ export default function LawyerHiringHistoryPage() {
     )
   }
 
+  const allItems = requestsQuery.data
+  const pipelineFilters = [
+    { key: 'all', label: 'All', test: () => true },
+    { key: 'awaiting-decision', label: 'Awaiting decision', test: (item) => item.status === 'pending' },
+    { key: 'accepted-unpaid', label: 'Accepted · awaiting payment', test: (item) => item.status === 'accepted' && item.paymentStatus !== 'paid' },
+    { key: 'active-paid', label: 'Paid · active case', test: (item) => item.paymentStatus === 'paid' && !(item.milestoneSummary && item.milestoneSummary.total > 0 && item.milestoneSummary.completed === item.milestoneSummary.total) },
+    { key: 'completed-case', label: 'Case completed', test: (item) => item.milestoneSummary && item.milestoneSummary.total > 0 && item.milestoneSummary.completed === item.milestoneSummary.total },
+  ]
+  const visibleItems = allItems.filter(pipelineFilters.find((filter) => filter.key === pipeline).test)
+
   return (
     <section>
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">
@@ -194,13 +218,35 @@ export default function LawyerHiringHistoryPage() {
         Requests clients sent to you. Only pending requests need your Accept or Reject decision.
       </p>
 
-      {requestsQuery.data.length === 0 ? (
-        <div className="mt-7 rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-6 text-slate-600 dark:text-[#a8bbcc]">
-          No client hiring requests yet.
+      <div role="group" aria-label="Pipeline filter" className="mt-6 flex flex-wrap gap-2">
+        {pipelineFilters.map((filter) => {
+          const count = allItems.filter(filter.test).length
+          const active = pipeline === filter.key
+          return (
+            <button
+              key={filter.key}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setPipeline(filter.key)}
+              className={`min-h-10 rounded-full border px-3.5 text-sm font-semibold transition ${
+                active
+                  ? 'border-indigo-700 bg-indigo-700 text-white'
+                  : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-[#1c3050] dark:text-[#a8bbcc] dark:hover:bg-[#162236]'
+              }`}
+            >
+              {filter.label} ({count})
+            </button>
+          )
+        })}
+      </div>
+
+      {visibleItems.length === 0 ? (
+        <div className="mt-7 rounded-2xl border border-dashed border-slate-300 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-6 text-slate-600 dark:text-[#a8bbcc]">
+          No requests in this stage of the pipeline.
         </div>
       ) : (
         <div className="mt-7 grid gap-4">
-          {requestsQuery.data.map((item) => (
+          {visibleItems.map((item) => (
             <RequestCard
               key={item.id}
               item={item}
