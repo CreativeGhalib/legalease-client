@@ -28,6 +28,7 @@ import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
 import RefundPolicyPage from '../pages/public/RefundPolicyPage'
 import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
 import AdminDisputesPage from '../pages/dashboard/AdminDisputesPage'
+import AdminAuditLogPage from '../pages/dashboard/AdminAuditLogPage'
 import {
   DeferredAdminAnalyticsPage,
   DeferredAdminLawyersPage,
@@ -271,6 +272,14 @@ export const router = createBrowserRouter([
             element: (
               <RoleRoute roles={['admin']}>
                 <AdminDisputesPage />
+              </RoleRoute>
+            ),
+          },
+          {
+            path: 'admin/audit-logs',
+            element: (
+              <RoleRoute roles={['admin']}>
+                <AdminAuditLogPage />
               </RoleRoute>
             ),
           },

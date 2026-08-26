@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Scale } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import api from '../../api/axios'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import { EmptyState, ErrorState } from '../../components/common/QueryFeedback'
@@ -117,6 +118,12 @@ export default function AdminDisputesPage() {
       </h1>
 
       <div role="group" aria-label="Status filter" className="mt-5 flex flex-wrap gap-2">
+        <Link
+          to="/dashboard/admin/audit-logs"
+          className="mr-2 inline-flex min-h-10 items-center rounded-full border border-indigo-200 bg-indigo-50 px-4 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 dark:text-[#a8bbcc] dark:hover:bg-[#1b3a6b]/40"
+        >
+          Audit log →
+        </Link>
         {[['', 'All'], ['open', 'Open'], ['resolved_refund', 'Refunded'], ['resolved_release', 'Released']].map(([value, label]) => {
           const active = statusFilter === value
           return (
