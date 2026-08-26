@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BarChart3, Briefcase, CreditCard, FileText, Inbox, LayoutDashboard, LogOut, MessageSquare, MoonStar, Receipt, Scale, ShieldCheck, SunMedium, UserPen, Users, X } from 'lucide-react'
+import { BarChart3, Briefcase, CreditCard, FileText, Inbox, KeyRound, LayoutDashboard, LogOut, MessageSquare, MoonStar, Receipt, Scale, ShieldCheck, SunMedium, UserPen, Users, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
@@ -95,6 +95,14 @@ function SidebarNavigation({ links, onLinkClick }) {
 function SidebarFooter({ onLogout, onLinkClick }) {
   return (
     <div className="mt-auto pt-4 border-t border-slate-200 dark:border-[#1c3050] grid gap-1">
+      <Link
+        to="/dashboard/change-password"
+        onClick={onLinkClick}
+        className="flex min-h-11 items-center gap-2.5 rounded-xl px-3.5 text-sm font-semibold text-slate-600 dark:text-[#a8bbcc] hover:bg-slate-100 dark:hover:bg-[#0c1728] hover:text-slate-950 dark:hover:text-[#ece5d6] transition"
+      >
+        <KeyRound size={16} />
+        Change password
+      </Link>
       <Link
         to="/"
         onClick={onLinkClick}

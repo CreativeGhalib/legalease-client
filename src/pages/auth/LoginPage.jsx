@@ -51,6 +51,11 @@ export default function LoginPage() {
           {errors.email && <span className="mt-1 block text-sm text-red-700 dark:text-red-300">{errors.email.message}</span>}
         </label>
         <PasswordField label="Password" autoComplete="current-password" error={errors.password} registration={register('password', { required: 'Password is required.' })} />
+        <div className="flex justify-end">
+          <Link to="/forgot-password" className="text-sm font-medium text-slate-600 underline-offset-2 transition hover:text-slate-950 hover:underline dark:text-[#a8bbcc] dark:hover:text-[#ece5d6]">
+            Forgot your password?
+          </Link>
+        </div>
         <button disabled={isSubmitting} type="submit" className="min-h-11 w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
           {isSubmitting ? 'Signing in...' : 'Sign in'}
         </button>

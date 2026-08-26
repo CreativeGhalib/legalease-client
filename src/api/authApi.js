@@ -27,3 +27,15 @@ export async function authenticateWithGoogle(payload) {
 export async function completeGoogleAccountOnboarding(payload) {
   return userFrom(await api.post('/auth/google/onboarding', payload))
 }
+
+export async function requestPasswordReset(email) {
+  return (await api.post('/auth/forgot-password', { email })).data.data
+}
+
+export async function submitPasswordReset(payload) {
+  return (await api.post('/auth/reset-password', payload)).data.data
+}
+
+export async function changeAccountPassword(payload) {
+  return (await api.patch('/auth/change-password', payload)).data.data
+}

@@ -6,6 +6,9 @@ import DashboardLayout from '../layouts/DashboardLayout'
 import PublicLayout from '../layouts/PublicLayout'
 import LoginPage from '../pages/auth/LoginPage'
 import RegisterPage from '../pages/auth/RegisterPage'
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage'
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage'
+import ChangePasswordPage from '../pages/dashboard/ChangePasswordPage'
 import DashboardOverviewPage from '../pages/dashboard/DashboardOverviewPage'
 import FutureDashboardPage from '../pages/dashboard/FutureDashboardPage'
 import UpdateAccountProfilePage from '../pages/dashboard/UpdateAccountProfilePage'
@@ -88,6 +91,10 @@ export const router = createBrowserRouter([
         ),
       },
 
+      // ── Password reset (public — token links must work for any holder) ──────
+      { path: '/forgot-password', element: <ForgotPasswordPage /> },
+      { path: '/reset-password', element: <ResetPasswordPage /> },
+
       // ── Payment return pages ─────────────────────────────────────────────────
       {
         path: '/payment/success',
@@ -117,6 +124,7 @@ export const router = createBrowserRouter([
         children: [
           // Dashboard index — shown for all roles
           { index: true, element: <DashboardOverviewPage /> },
+          { path: 'change-password', element: <ChangePasswordPage /> },
 
           // User routes — /dashboard/user redirects to overview (Phase 6 complete)
           {
