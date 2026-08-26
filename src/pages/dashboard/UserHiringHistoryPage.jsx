@@ -139,9 +139,15 @@ function RequestCard({ item }) {
       </div>
 
       <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-slate-100 dark:border-[#1c3050] pt-4">
-        <span className="rounded-full bg-indigo-50 dark:bg-[#1b3a6b]/15 px-3 py-1 font-semibold capitalize text-indigo-800">
-          Request: {item.status}
-        </span>
+        {item.status === 'expired' ? (
+          <span className="rounded-full bg-rose-50 px-3 py-1 font-semibold text-rose-700 dark:bg-rose-900/30 dark:text-rose-300">
+            Expired — no response within 48 hours
+          </span>
+        ) : (
+          <span className="rounded-full bg-indigo-50 dark:bg-[#1b3a6b]/15 px-3 py-1 font-semibold capitalize text-indigo-800">
+            Request: {item.status}
+          </span>
+        )}
         <span
           className={`rounded-full px-3 py-1 font-semibold ${
             isPaid

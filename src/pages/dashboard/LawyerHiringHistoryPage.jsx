@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { decideHiringRequest, getReceivedHiringRequests } from '../../api/hiringRequestApi'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
+import SlaCountdown from '../../components/hiring/SlaCountdown'
 import ProfileAvatar from '../../components/common/ProfileAvatar'
 import { ErrorState } from '../../components/common/QueryFeedback'
 import { getApiErrorMessage } from '../../utils/apiError'
@@ -120,6 +121,7 @@ function RequestCard({ item, decisionMutation, onDecide }) {
 
         {item.status === 'pending' && (
           <>
+            <SlaCountdown expiresAt={item.expiresAt} />
             <button
               type="button"
               disabled={decisionMutation.isPending}
@@ -137,6 +139,11 @@ function RequestCard({ item, decisionMutation, onDecide }) {
               Reject request
             </button>
           </>
+        )}
+        {item.status === 'expired' && (
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-[#162236] dark:text-[#96a8b8]">
+            Auto-closed after 48h without a response
+          </span>
         )}
       </div>
     </article>
