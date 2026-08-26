@@ -8,6 +8,16 @@ import AppErrorBoundary from './components/common/AppErrorBoundary'
 import ToastViewport from './components/common/ToastViewport'
 import './index.css'
 
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN
+if (sentryDsn) {
+  import('@sentry/react')
+    .then((Sentry) => {
+      Sentry.init({ dsn: sentryDsn })
+      window.__legaleaseSentry = Sentry
+    })
+    .catch(() => undefined)
+}
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
 })

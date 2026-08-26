@@ -6,6 +6,7 @@ import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
 import NavDropdown from '../components/common/NavDropdown'
 import LanguageSwitcher from '../components/common/LanguageSwitcher'
+import CookieConsent from '../components/common/CookieConsent'
 import SiteFooter from '../components/common/SiteFooter'
 import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
@@ -435,6 +436,9 @@ export default function PublicLayout() {
 
       {/* Footer */}
       <SiteFooter />
+
+      {/* Cookie consent */}
+      <CookieConsent />
     </div>
   )
 }
