@@ -402,6 +402,42 @@ html.dark .le-button-danger:hover:not(:disabled) {
 }
 
 /**
+ * Hero Carousel (Swiper) — scoped overrides
+ * Keeps slides vertically centered and restyles pagination bullets to brand gold.
+ */
+.hero-carousel {
+  padding-bottom: 2.75rem;
+  z-index: 0;
+}
+
+.hero-carousel .swiper-slide {
+  display: flex;
+  align-items: center;
+}
+
+.hero-carousel .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #96a8b8;
+  opacity: 0.45;
+  transition: all 0.25s ease;
+}
+
+.hero-carousel .swiper-pagination-bullet-active {
+  background: #d4a843;
+  opacity: 1;
+  width: 20px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel .swiper-pagination-bullet,
+  .hero-carousel .swiper-pagination-bullet-active {
+    transition: none;
+  }
+}
+
+/**
  * Print Styles
  * Optimize for printing
  */
