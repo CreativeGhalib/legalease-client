@@ -3,8 +3,14 @@ import { BadgeCheck, CalendarDays, CalendarClock, FileCheck2, Mail, UserRound } 
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { getMyAccountProfile } from '../../api/userProfileApi'
-import { getLawyerAppointments, getMyAppointments } from '../../api/appointmentApi'
-import { cancelAppointment as apiCancelAppointment, completeAppointment as apiCompleteAppointment } from '../../api/appointmentApi'
+import {
+  cancelAppointment as apiCancelAppointment,
+  completeAppointment as apiCompleteAppointment,
+  getLawyerAppointments,
+  getMyAppointments,
+  startAppointmentCheckoutSslcommerz,
+  startAppointmentCheckoutStripe,
+} from '../../api/appointmentApi'
 import { getMyLawyerProfile } from '../../api/lawyerProfileApi'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -140,6 +146,14 @@ function UpcomingConsultations({ role }) {
 
   const cancelMutation = useMutation({ mutationFn: apiCancelAppointment, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['appointments'] }) })
   const completeMutation = useMutation({ mutationFn: apiCompleteAppointment, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['appointments'] }) })
+  const checkoutStripeMutation = useMutation({
+    mutationFn: startAppointmentCheckoutStripe,
+    onSuccess: (data) => { if (data?.checkoutUrl) window.location.href = data.checkoutUrl },
+  })
+  const checkoutSslMutation = useMutation({
+    mutationFn: startAppointmentCheckoutSslcommerz,
+    onSuccess: (data) => { if (data?.redirectUrl) window.location.href = data.redirectUrl },
+  })
 
   if (appointmentsQuery.isLoading) return <div className="mt-10 h-24 animate-pulse rounded-2xl bg-slate-200 dark:bg-[#0c1728]" aria-hidden="true" />
   if (appointmentsQuery.isError) return null
@@ -160,17 +174,57 @@ function UpcomingConsultations({ role }) {
       <ul role="list" className="mt-4 grid gap-3">
         {scheduled.map((appointment) => (
           <li key={appointment.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white dark:bg-[#0c1728] px-4 py-3 shadow-sm">
-            <p className="text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">
-              {appointment.dateKey} · {appointment.start}–{appointment.end}
-              <span className="ml-2 font-normal text-slate-600 dark:text-[#a8bbcc]">with {appointment.counterpartName}</span>
-            </p>
-            <span className="flex gap-2">
+            <div className="flex flex-col gap-0.5">
+              <p className="text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">
+                {appointment.dateKey} · {appointment.start}–{appointment.end}
+                <span className="ml-2 font-normal text-slate-600 dark:text-[#a8bbcc]">with {appointment.counterpartName}</span>
+              </p>
+              {appointment.amountMinor > 0 && (
+                <span className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                  appointment.paymentStatus === 'paid'
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                    : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                }`}>
+                  {appointment.paymentStatus === 'paid'
+                    ? `Paid · $${(appointment.amountMinor / 100).toFixed(2)}`
+                    : `Unpaid · $${(appointment.amountMinor / 100).toFixed(2)}`}
+                </span>
+              )}
+            </div>
+            <span className="flex flex-wrap gap-2">
+              {!isLawyer && appointment.paymentStatus === 'unpaid' && appointment.amountMinor > 0 && (
+                <>
+                  <button
+                    type="button"
+                    id={`pay-stripe-${appointment.id}`}
+                    disabled={checkoutStripeMutation.isPending || checkoutSslMutation.isPending}
+                    onClick={() => checkoutStripeMutation.mutate(appointment.id)}
+                    className="min-h-9 rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+                  >
+                    {checkoutStripeMutation.isPending ? 'Redirecting…' : 'Pay (Card)'}
+                  </button>
+                  <button
+                    type="button"
+                    id={`pay-ssl-${appointment.id}`}
+                    disabled={checkoutSslMutation.isPending || checkoutStripeMutation.isPending}
+                    onClick={() => checkoutSslMutation.mutate(appointment.id)}
+                    className="min-h-9 rounded-lg bg-emerald-600 px-3 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                  >
+                    {checkoutSslMutation.isPending ? 'Redirecting…' : 'Pay (bKash/Nagad)'}
+                  </button>
+                </>
+              )}
               {isLawyer && (
                 <button type="button" disabled={completeMutation.isPending} onClick={() => completeMutation.mutate(appointment.id)} className="min-h-9 rounded-lg bg-emerald-700 px-3 text-xs font-semibold text-white disabled:opacity-50">
                   Mark completed
                 </button>
               )}
-              <button type="button" disabled={cancelMutation.isPending} onClick={() => cancelMutation.mutate(appointment.id)} className="min-h-9 rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 text-xs font-semibold text-slate-600 dark:text-[#a8bbcc]">
+              <button
+                type="button"
+                disabled={cancelMutation.isPending || (!isLawyer && appointment.paymentStatus === 'paid')}
+                onClick={() => cancelMutation.mutate(appointment.id)}
+                className="min-h-9 rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 text-xs font-semibold text-slate-600 dark:text-[#a8bbcc] disabled:opacity-40"
+              >
                 Cancel
               </button>
             </span>

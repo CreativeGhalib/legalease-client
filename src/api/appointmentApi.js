@@ -23,3 +23,11 @@ export async function cancelAppointment(id) {
 export async function completeAppointment(id) {
   await api.patch(`/appointments/${id}/complete`)
 }
+
+export async function startAppointmentCheckoutStripe(id) {
+  return (await api.post(`/appointments/${id}/checkout/stripe`)).data.data
+}
+
+export async function startAppointmentCheckoutSslcommerz(id) {
+  return (await api.post(`/appointments/${id}/checkout/sslcommerz`)).data.data
+}
