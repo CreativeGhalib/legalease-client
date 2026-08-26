@@ -3,7 +3,9 @@ import { LayoutDashboard, LogIn, LogOut, Menu, MoonStar, Scale, Search, SunMediu
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
+import NavDropdown from '../components/common/NavDropdown'
 import SiteFooter from '../components/common/SiteFooter'
+import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 import useTheme from '../hooks/useTheme'
@@ -26,6 +28,8 @@ export default function PublicLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [search, setSearch] = useState('')
   const { theme, toggleTheme } = useTheme()
+  const role = user?.role?.trim().toLowerCase()
+  const dashboardLinks = dashboardRouteRegistry[role] ?? []
 
   useBodyScrollLock(menuOpen)
   useCloseOnDesktop(() => setMenuOpen(false))
@@ -168,12 +172,7 @@ export default function PublicLayout() {
                   <span className="hidden max-w-32 truncate text-sm font-medium text-[#364358] dark:text-[#96a8b8] sm:inline" aria-label={`Logged in as ${user.fullName}`}>
                     {user.fullName}
                   </span>
-                  <NavLink 
-                    to="/dashboard"
-                    className={navClass}
-                  >
-                    Dashboard
-                  </NavLink>
+                  <NavDropdown label="Dashboard" items={dashboardLinks} />
                   <button 
                     type="button"
                     onClick={handleLogout}
