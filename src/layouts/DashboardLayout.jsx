@@ -3,6 +3,7 @@ import { BarChart3, Briefcase, CreditCard, FileText, Inbox, KeyRound, LayoutDash
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
+import NotificationBell from '../components/common/NotificationBell'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 import useTheme from '../hooks/useTheme'
@@ -12,16 +13,19 @@ import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 
 function SidebarIdentity() {
   return (
-    <div className="mb-6 flex items-center gap-3">
-      <span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-700 text-white">
-        <ShieldCheck size={20} />
-      </span>
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
-          LegalEase
-        </p>
-        <p className="font-semibold text-slate-950 dark:text-[#ece5d6]">Dashboard</p>
+    <div className="mb-6 flex items-start justify-between gap-2">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-700 text-white">
+          <ShieldCheck size={20} />
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
+            LegalEase
+          </p>
+          <p className="font-semibold text-slate-950 dark:text-[#ece5d6]">Dashboard</p>
+        </div>
       </div>
+      <NotificationBell />
     </div>
   )
 }
@@ -166,6 +170,7 @@ export default function DashboardLayout() {
 
         {/* Mobile controls */}
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <button
             type="button"
             onClick={toggleTheme}
