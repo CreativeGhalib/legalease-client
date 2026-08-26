@@ -1,8 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { BadgeCheck, CalendarDays, FileCheck2, Mail, UserRound } from 'lucide-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { BadgeCheck, CalendarDays, CalendarClock, FileCheck2, Mail, UserRound } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { getMyAccountProfile } from '../../api/userProfileApi'
+import { getLawyerAppointments, getMyAppointments } from '../../api/appointmentApi'
+import { cancelAppointment as apiCancelAppointment, completeAppointment as apiCompleteAppointment } from '../../api/appointmentApi'
 import { getMyLawyerProfile } from '../../api/lawyerProfileApi'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -126,6 +128,59 @@ function AdminPanel() {
   )
 }
 
+// ─── Upcoming consultations (user + lawyer) ──────────────────────────────────
+
+function UpcomingConsultations({ role }) {
+  const queryClient = useQueryClient()
+  const isLawyer = role === 'lawyer'
+  const appointmentsQuery = useQuery({
+    queryKey: ['appointments', role],
+    queryFn: isLawyer ? getLawyerAppointments : getMyAppointments,
+  })
+
+  const cancelMutation = useMutation({ mutationFn: apiCancelAppointment, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['appointments'] }) })
+  const completeMutation = useMutation({ mutationFn: apiCompleteAppointment, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['appointments'] }) })
+
+  if (appointmentsQuery.isLoading) return <div className="mt-10 h-24 animate-pulse rounded-2xl bg-slate-200 dark:bg-[#0c1728]" aria-hidden="true" />
+  if (appointmentsQuery.isError) return null
+
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka' }).format(new Date())
+  const scheduled = (appointmentsQuery.data ?? [])
+    .filter((appointment) => appointment.status === 'scheduled' && appointment.dateKey >= today)
+    .sort((a, b) => `${a.dateKey}${a.start}`.localeCompare(`${b.dateKey}${b.start}`))
+    .slice(0, 5)
+
+  if (scheduled.length === 0) return null
+
+  return (
+    <div className="mt-10 rounded-2xl border border-indigo-100 bg-indigo-50/60 dark:border-[#1c3050] dark:bg-[#1b3a6b]/15 p-6">
+      <h2 className="flex items-center gap-2 font-semibold text-slate-950 dark:text-[#ece5d6]">
+        <CalendarClock size={18} className="text-indigo-700" /> Upcoming consultations
+      </h2>
+      <ul role="list" className="mt-4 grid gap-3">
+        {scheduled.map((appointment) => (
+          <li key={appointment.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white dark:bg-[#0c1728] px-4 py-3 shadow-sm">
+            <p className="text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">
+              {appointment.dateKey} · {appointment.start}–{appointment.end}
+              <span className="ml-2 font-normal text-slate-600 dark:text-[#a8bbcc]">with {appointment.counterpartName}</span>
+            </p>
+            <span className="flex gap-2">
+              {isLawyer && (
+                <button type="button" disabled={completeMutation.isPending} onClick={() => completeMutation.mutate(appointment.id)} className="min-h-9 rounded-lg bg-emerald-700 px-3 text-xs font-semibold text-white disabled:opacity-50">
+                  Mark completed
+                </button>
+              )}
+              <button type="button" disabled={cancelMutation.isPending} onClick={() => cancelMutation.mutate(appointment.id)} className="min-h-9 rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 text-xs font-semibold text-slate-600 dark:text-[#a8bbcc]">
+                Cancel
+              </button>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DashboardOverviewPage() {
@@ -194,6 +249,7 @@ export default function DashboardOverviewPage() {
       {role === 'user' && <UserPanel />}
       {role === 'lawyer' && <LawyerPanel lawyerProfile={lawyerProfileQuery} />}
       {role === 'admin' && <AdminPanel />}
+      {(role === 'user' || role === 'lawyer') && <UpcomingConsultations role={role} />}
     </div>
   )
 }

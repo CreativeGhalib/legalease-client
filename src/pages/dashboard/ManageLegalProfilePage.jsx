@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { deleteMyLawyerProfile, getMyLawyerProfile, saveMyLawyerProfile, uploadProfessionalPhoto } from '../../api/lawyerProfileApi'
 import { getApiErrorMessage } from '../../utils/apiError'
 import VerificationPublishingPanel from '../../components/lawyers/VerificationPublishingPanel'
+import WorkingHoursEditor from '../../components/dashboard/WorkingHoursEditor'
 import OnboardingTour from '../../components/common/OnboardingTour'
 import { LAWYER_TOUR_STEPS } from '../../components/common/onboardingTourSteps'
 
@@ -35,6 +36,7 @@ function formProfile(profile) {
 export default function ManageLegalProfilePage() {
   const queryClient = useQueryClient()
   const [selectedPhoto, setSelectedPhoto] = useState(null)
+  const [workingHours, setWorkingHours] = useState([])
   const [previewUrl, setPreviewUrl] = useState('')
   const photoInputRef = useRef(null)
   const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: emptyProfile })
@@ -50,6 +52,7 @@ export default function ManageLegalProfilePage() {
   const profile = profileQuery.data ?? null
 
   useEffect(() => { if (profileQuery.isSuccess) reset(formProfile(profile)) }, [profile, profileQuery.isSuccess, reset])
+  useEffect(() => { if (profileQuery.isSuccess) setWorkingHours(profile?.workingHours ?? []) }, [profile, profileQuery.isSuccess])
   useEffect(() => {
     if (!selectedPhoto) return undefined
     const nextUrl = URL.createObjectURL(selectedPhoto)
@@ -69,6 +72,7 @@ export default function ManageLegalProfilePage() {
         location: values.location,
         languages: listFromText(values.languages),
         availability: values.availability,
+        ...(workingHours.length > 0 && { workingHours }),
       }
       if (values.specialization.trim()) payload.specialization = values.specialization
       if (values.consultationFee !== '') payload.consultationFeeMinor = values.consultationFee
@@ -131,6 +135,13 @@ export default function ManageLegalProfilePage() {
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Primary specialization<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('specialization', { maxLength: 100 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Additional specializations<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" placeholder="Family law, mediation" {...register('additionalSpecializations')} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6] sm:col-span-2">Professional summary<textarea className="mt-1 min-h-32 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('bio', { maxLength: 3000 })} /></label>
+          </div>
+        </section>
+        <section className="rounded-xl border border-slate-200 dark:border-[#1c3050] p-5">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-[#ece5d6]">Weekly availability</h3>
+          <p className="mt-1 text-sm text-slate-600 dark:text-[#a8bbcc]">Clients book 30-minute consultation slots from these windows. Times are Dhaka time.</p>
+          <div className="mt-4">
+            <WorkingHoursEditor value={workingHours} onChange={setWorkingHours} />
           </div>
         </section>
         <section className="rounded-xl border border-slate-200 dark:border-[#1c3050] p-5">
