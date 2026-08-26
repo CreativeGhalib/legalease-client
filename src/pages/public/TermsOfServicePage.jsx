@@ -44,14 +44,19 @@ export default function TermsOfServicePage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="5. Payments">
+      <LegalSection title="5. Payments and escrow">
         <p>
-          Payments are processed through Stripe. The lawyer publishing verification fee is charged
-          to the lawyer when they request verification. Consultation fees are quoted in USD,
+          Payments are processed through Stripe or SSLCommerz. The lawyer publishing verification fee is
+          charged to the lawyer when they request verification. Consultation fees are quoted in USD,
           derived from the lawyer&rsquo;s published rate at the time of the request, and collected from the
-          client after acceptance. LegalEase holds no funds in escrow and does not currently offer
-          automatic refunds. You are responsible for any taxes applicable to your use of the
-          platform.
+          client after acceptance. At fulfillment, LegalEase records a 15% platform commission with the
+          remainder attributed to the lawyer.
+        </p>
+        <p>
+          Collected consultation funds are held in escrow status until the client confirms completion of
+          the engagement, or automatically 7 days after payment if no confirmation is made. Payouts to
+          lawyers are then settled manually via bKash or bank transfer — LegalEase does not yet operate
+          automated bank payouts. You are responsible for any taxes applicable to your use of the platform.
         </p>
       </LegalSection>
 

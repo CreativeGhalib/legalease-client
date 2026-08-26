@@ -24,6 +24,10 @@ export async function getMyPayments() {
   return (await api.get('/payments/mine')).data.data.items
 }
 
+export async function confirmCaseCompletion(hiringRequestId) {
+  return (await api.post(`/cases/${hiringRequestId}/confirm-completion`)).data.data
+}
+
 export async function changePublication(publicationStatus) {
   return (await api.patch('/lawyers/me/publication', { publicationStatus })).data.data
 }

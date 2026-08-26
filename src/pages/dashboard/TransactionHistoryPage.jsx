@@ -1,20 +1,80 @@
-import { lazy, Suspense } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { lazy, Suspense, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../auth/useAuth'
-import { getMyPayments } from '../../api/paymentApi'
+import { confirmCaseCompletion, getMyPayments } from '../../api/paymentApi'
+import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import { ErrorState } from '../../components/common/QueryFeedback'
+
 
 const InvoiceButton = lazy(() => import('../../components/transactions/InvoiceButton'))
 
 function date(value) { return value ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(value)) : null }
 
-function InvoiceAction({ item }) {
-  if (item.status !== 'paid') return null
+function ConfirmReleaseDialog({ item, onClose }) {
+  const queryClient = useQueryClient()
+  const confirmMutation = useMutation({
+    mutationFn: () => confirmCaseCompletion(item.hiringRequestId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['payments', 'mine'] }),
+  })
+
   return (
-    <Suspense fallback={<span className="inline-flex min-h-9 items-center text-xs text-slate-400 dark:text-[#7090a4]">Loading invoice…</span>}>
-      <InvoiceButton item={item} />
-    </Suspense>
+    <ModalFocusRegion
+      labelledBy="confirm-release-title"
+      onClose={onClose}
+      closeOnEscape={!confirmMutation.isPending}
+      className="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 p-4"
+    >
+      <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#0c1728] p-6 shadow-xl">
+        <h2 id="confirm-release-title" className="text-xl font-bold text-slate-950 dark:text-[#ece5d6]">
+          Confirm completion &amp; release payment
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-[#a8bbcc]">
+          Confirming tells LegalEase the engagement was delivered. The ${(item.amountMinor / 100).toFixed(2)}{' '}
+          escrow is marked released to {item.lawyerName || 'the lawyer'}. This cannot be undone.
+        </p>
+        {confirmMutation.isError && (
+          <p role="alert" className="mt-3 text-sm text-rose-700 dark:text-rose-300">
+            {confirmMutation.error?.response?.data?.error?.message ?? 'The release could not be completed.'}
+          </p>
+        )}
+        <div className="mt-6 flex justify-end gap-3">
+          <button type="button" onClick={onClose} disabled={confirmMutation.isPending} className="le-button le-button-secondary">Cancel</button>
+          <button type="button" disabled={confirmMutation.isPending} onClick={() => confirmMutation.mutate()} className="le-button le-button-primary">
+            {confirmMutation.isPending ? 'Releasing…' : 'Confirm & release'}
+          </button>
+        </div>
+      </div>
+    </ModalFocusRegion>
   )
+}
+
+function EscrowCell({ item }) {
+  const { user } = useAuth()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const isPayer = user?.role === 'user'
+
+  if (item.type !== 'hiring_fee' || !item.paidAt) return null
+
+  if (item.escrowStatus === 'released') {
+    return <span className="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300">Released ✓ {date(item.releasedAt)}</span>
+  }
+  if (item.escrowStatus === 'disputed') {
+    return <span className="rounded-full bg-amber-100 dark:bg-amber-900/40 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200">Dispute under review</span>
+  }
+  if (item.escrowStatus === 'held' && isPayer && item.hiringRequestId) {
+    return (
+      <>
+        <button type="button" onClick={() => setDialogOpen(true)} className="min-h-9 rounded-lg border border-indigo-200 bg-indigo-50 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 px-3 text-xs font-semibold text-indigo-700 dark:text-[#a8bbcc] transition hover:bg-indigo-100 dark:hover:bg-[#1b3a6b]/40">
+          Confirm completion &amp; release
+        </button>
+        {dialogOpen && <ConfirmReleaseDialog item={item} onClose={() => setDialogOpen(false)} />}
+      </>
+    )
+  }
+  if (item.escrowStatus === 'held') {
+    return <span className="rounded-full bg-slate-100 dark:bg-[#162236] px-3 py-1 text-xs font-semibold text-slate-600 dark:text-[#96a8b8]">Awaiting client confirmation</span>
+  }
+  return null
 }
 
 export default function TransactionHistoryPage() {
@@ -55,7 +115,10 @@ export default function TransactionHistoryPage() {
                 <span className={`rounded-full px-3 py-1 text-sm font-semibold capitalize ${item.status === 'paid' ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300' : 'bg-slate-100 dark:bg-[#0c1728] text-slate-700 dark:text-[#ece5d6]'}`}>
                   {item.status}
                 </span>
-                <InvoiceAction item={item} />
+                <EscrowCell item={item} />
+                <Suspense fallback={<span className="inline-flex min-h-9 items-center text-xs text-slate-400 dark:text-[#7090a4]">Loading invoice…</span>}>
+                  <InvoiceAction item={item} />
+                </Suspense>
               </div>
             </article>
           ))}
@@ -63,4 +126,9 @@ export default function TransactionHistoryPage() {
       )}
     </section>
   )
+}
+
+function InvoiceAction({ item }) {
+  if (item.status !== 'paid') return null
+  return <InvoiceButton item={item} />
 }

@@ -6,9 +6,9 @@ export default function RefundPolicyPage() {
       <LegalSection title="1. Scope">
         <p>
           This policy describes how payments made through LegalEase are treated. It should be read
-          together with our Terms of Service. LegalEase currently holds no funds in escrow and does
-          not operate automated refunds; the rules below describe exactly how each kind of payment
-          works today.
+          together with our Terms of Service. Consultation fees are recorded in escrow status at
+          fulfillment and marked released to the lawyer after client confirmation, or automatically
+          7 days after payment. Actual payouts to lawyers are settled manually via bKash or bank transfer.
         </p>
       </LegalSection>
 
@@ -25,11 +25,12 @@ export default function RefundPolicyPage() {
       <LegalSection title="3. Consultation fees for accepted engagements">
         <p>
           A consultation fee can only be paid after a lawyer accepts a hiring request, and the amount
-          is fixed by the rate published when the request was created. The fee supports the
-          engagement directly with that lawyer. Because the platform does not hold or release these
-          funds itself, refund requests for work already paid for must be raised first with the
-          lawyer. LegalEase moderation can review the record of the engagement and assist both
-          parties toward a fair outcome, but is not obliged to issue refunds from its own funds.
+          is fixed by the rate published when the request was created. The fee supports the engagement
+          directly with that lawyer. Once paid, the funds are marked released to the lawyer when you
+          confirm completion, or automatically 7 days after payment. If something goes wrong, raise it
+          through the contact channel on our Contact page — LegalEase moderation can review the record
+          of the engagement and assist both parties toward a fair outcome, and may issue a refund at its
+          discretion where warranted.
         </p>
       </LegalSection>
 
