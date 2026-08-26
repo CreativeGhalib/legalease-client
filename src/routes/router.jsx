@@ -23,6 +23,9 @@ import BrowseLawyersPage from '../pages/public/BrowseLawyersPage'
 import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
 import InfoPage from '../pages/public/InfoPage'
 import PaymentReturnPage from '../pages/public/PaymentReturnPage'
+import TermsOfServicePage from '../pages/public/TermsOfServicePage'
+import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
+import RefundPolicyPage from '../pages/public/RefundPolicyPage'
 import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
 import {
   DeferredAdminAnalyticsPage,
@@ -63,15 +66,10 @@ export const router = createBrowserRouter([
       },
       {
         path: '/privacy',
-        element: (
-          <InfoPage eyebrow="PRIVACY" title="Privacy matters">
-            <p>
-              LegalEase is designed to limit public data to professional profile information.
-              Authentication and payment data are handled through protected server-side workflows.
-            </p>
-          </InfoPage>
-        ),
+        element: <PrivacyPolicyPage />,
       },
+      { path: '/terms', element: <TermsOfServicePage /> },
+      { path: '/refund-policy', element: <RefundPolicyPage /> },
 
       // ── Authentication (guest-only) ──────────────────────────────────────────
       {
