@@ -2,8 +2,10 @@ import { lazy, Suspense, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../auth/useAuth'
 import { confirmCaseCompletion, getMyPayments } from '../../api/paymentApi'
+import { openDispute } from '../../api/disputeApi'
 import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import { ErrorState } from '../../components/common/QueryFeedback'
+import { showSuccessToast } from '../../utils/toast'
 
 
 const InvoiceButton = lazy(() => import('../../components/transactions/InvoiceButton'))
@@ -48,9 +50,66 @@ function ConfirmReleaseDialog({ item, onClose }) {
   )
 }
 
+function DisputeDialog({ item, onClose }) {
+  const queryClient = useQueryClient()
+  const [reason, setReason] = useState('')
+  const disputeMutation = useMutation({
+    mutationFn: () => openDispute({ hiringRequestId: item.hiringRequestId, reason: reason.trim() }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['payments', 'mine'] })
+      showSuccessToast('Dispute submitted — an admin will review it shortly.')
+      onClose()
+    },
+  })
+
+  return (
+    <ModalFocusRegion
+      labelledBy="dispute-dialog-title"
+      onClose={onClose}
+      closeOnEscape={!disputeMutation.isPending}
+      className="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 p-4"
+    >
+      <form
+        onSubmit={(event) => { event.preventDefault(); disputeMutation.mutate() }}
+        className="w-full max-w-md rounded-2xl bg-white dark:bg-[#0c1728] p-6 shadow-xl"
+      >
+        <h2 id="dispute-dialog-title" className="text-xl font-bold text-slate-950 dark:text-[#ece5d6]">Raise a dispute</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-[#a8bbcc]">
+          Explain what went wrong with this engagement. An admin will review the payment record and both parties.
+          Disputes pause all payment actions and must be raised within 30 days of payment.
+        </p>
+        <textarea
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+          minLength={10}
+          maxLength={1000}
+          required
+          rows={4}
+          aria-label="Dispute reason"
+          placeholder="Describe the issue (minimum 10 characters)…"
+          className="mt-3 w-full rounded-xl border border-slate-300 dark:border-[#1c3050] p-3 text-sm"
+        />
+        <p className="mt-1 text-right text-xs text-slate-400 dark:text-[#7090a4]">{reason.length}/1000</p>
+        {disputeMutation.isError && (
+          <p role="alert" className="mt-2 text-sm text-rose-700 dark:text-rose-300">
+            {disputeMutation.error?.response?.data?.error?.message ?? 'The dispute could not be submitted.'}
+          </p>
+        )}
+        <div className="mt-5 flex justify-end gap-3">
+          <button type="button" onClick={onClose} disabled={disputeMutation.isPending} className="le-button le-button-secondary">Cancel</button>
+          <button type="submit" disabled={disputeMutation.isPending || reason.trim().length < 10} className="le-button le-button-primary">
+            {disputeMutation.isPending ? 'Submitting…' : 'Submit dispute'}
+          </button>
+        </div>
+      </form>
+    </ModalFocusRegion>
+  )
+}
+
 function EscrowCell({ item }) {
   const { user } = useAuth()
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [disputeOpen, setDisputeOpen] = useState(false)
   const isPayer = user?.role === 'user'
 
   if (item.type !== 'hiring_fee' || !item.paidAt) return null
@@ -58,17 +117,24 @@ function EscrowCell({ item }) {
   if (item.escrowStatus === 'released') {
     return <span className="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300">Released ✓ {date(item.releasedAt)}</span>
   }
+  if (item.escrowStatus === 'refunded') {
+    return <span className="rounded-full bg-sky-100 dark:bg-sky-900/30 px-3 py-1 text-xs font-semibold text-sky-800 dark:text-sky-300">Refunded · ${((item.refundAmountMinor ?? item.amountMinor) / 100).toFixed(2)}</span>
+  }
   if (item.escrowStatus === 'disputed') {
     return <span className="rounded-full bg-amber-100 dark:bg-amber-900/40 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200">Dispute under review</span>
   }
   if (item.escrowStatus === 'held' && isPayer && item.hiringRequestId) {
     return (
-      <>
+      <div className="flex flex-col items-end gap-2">
         <button type="button" onClick={() => setDialogOpen(true)} className="min-h-9 rounded-lg border border-indigo-200 bg-indigo-50 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 px-3 text-xs font-semibold text-indigo-700 dark:text-[#a8bbcc] transition hover:bg-indigo-100 dark:hover:bg-[#1b3a6b]/40">
           Confirm completion &amp; release
         </button>
+        <button type="button" onClick={() => setDisputeOpen(true)} className="text-[11px] font-semibold text-rose-600 underline-offset-2 hover:underline dark:text-rose-300">
+          Raise dispute
+        </button>
         {dialogOpen && <ConfirmReleaseDialog item={item} onClose={() => setDialogOpen(false)} />}
-      </>
+        {disputeOpen && <DisputeDialog item={item} onClose={() => setDisputeOpen(false)} />}
+      </div>
     )
   }
   if (item.escrowStatus === 'held') {

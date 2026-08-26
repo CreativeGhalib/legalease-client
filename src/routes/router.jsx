@@ -27,6 +27,7 @@ import TermsOfServicePage from '../pages/public/TermsOfServicePage'
 import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
 import RefundPolicyPage from '../pages/public/RefundPolicyPage'
 import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
+import AdminDisputesPage from '../pages/dashboard/AdminDisputesPage'
 import {
   DeferredAdminAnalyticsPage,
   DeferredAdminLawyersPage,
@@ -262,6 +263,14 @@ export const router = createBrowserRouter([
             element: (
               <RoleRoute roles={['admin']}>
                 <DeferredAdminAnalyticsPage />
+              </RoleRoute>
+            ),
+          },
+          {
+            path: 'admin/disputes',
+            element: (
+              <RoleRoute roles={['admin']}>
+                <AdminDisputesPage />
               </RoleRoute>
             ),
           },

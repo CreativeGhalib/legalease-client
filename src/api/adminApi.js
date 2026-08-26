@@ -34,3 +34,11 @@ export async function getAdminTransactions(params = {}) {
 export async function getAdminAnalytics() {
   return (await api.get('/admin/analytics')).data.data
 }
+
+export async function releaseEscrowOverride(id, note) {
+  return (await api.post(`/admin/transactions/${id}/release`, { note })).data.data
+}
+
+export async function refundTransactionOverride(id, note) {
+  return (await api.post(`/admin/transactions/${id}/refund`, { note })).data.data
+}

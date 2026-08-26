@@ -142,6 +142,11 @@ function RequestCard({ item, decisionMutation, onDecide }) {
             </button>
           </>
         )}
+        {isPaid && item.disputeStatus === 'opened' && (
+          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
+            ⚠️ Dispute under review
+          </span>
+        )}
         {item.status === 'expired' && (
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-[#162236] dark:text-[#96a8b8]">
             Auto-closed after 48h without a response
