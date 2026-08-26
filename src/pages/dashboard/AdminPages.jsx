@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { Download } from 'lucide-react'
 import { BarChart, Bar, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import * as api from '../../api/adminApi'
 import { ErrorState, EmptyState } from '../../components/common/QueryFeedback'
@@ -7,11 +8,32 @@ import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 
 const money = (n) => `$${(n / 100).toFixed(2)}`
 
-function Shell({ title, eyebrow, children }) {
+function ExportButton({ resource, params }) {
+  const search = new URLSearchParams(
+    Object.entries(params).filter(([key, value]) => key !== 'page' && value !== undefined && value !== ''),
+  ).toString()
+  return (
+    <a
+      href={`/api/admin/${resource}/export${search ? `?${search}` : ''}`}
+      download
+      className="inline-flex min-h-10 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-300 dark:border-[#1c3050] px-3 text-sm font-semibold text-slate-700 dark:text-[#a8bbcc] transition hover:bg-slate-100 dark:hover:bg-[#162236]"
+    >
+      <Download size={15} aria-hidden="true" />
+      Export CSV
+    </a>
+  )
+}
+
+function Shell({ title, eyebrow, action, children }) {
   return (
     <section>
-      <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-700">{eyebrow}</p>
-      <h1 className="mt-2 text-3xl font-bold text-slate-950 dark:text-[#ece5d6] sm:text-4xl">{title}</h1>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-700">{eyebrow}</p>
+          <h1 className="mt-2 text-3xl font-bold text-slate-950 dark:text-[#ece5d6] sm:text-4xl">{title}</h1>
+        </div>
+        {action}
+      </div>
       {children}
     </section>
   )
@@ -145,7 +167,7 @@ export function AdminUsersPage() {
   }
 
   return (
-    <Shell eyebrow="Administration" title="Manage users">
+    <Shell eyebrow="Administration" title="Manage users" action={<ExportButton resource="users" params={params} />}>
       <p className="mt-3 text-slate-600 dark:text-[#a8bbcc]">
         Role and account-status changes take effect immediately and preserve historical records.
       </p>
@@ -281,7 +303,7 @@ export function AdminLawyersPage() {
   }
 
   return (
-    <Shell eyebrow="Administration" title="Manage lawyers">
+    <Shell eyebrow="Administration" title="Manage lawyers" action={<ExportButton resource="lawyers" params={params} />}>
       <p className="mt-3 text-slate-600 dark:text-[#a8bbcc]">Listing moderation never changes verified payment, paid-hire, or historical transaction records.</p>
       <select
         aria-label="Filter by publication status"
@@ -331,7 +353,7 @@ export function AdminTransactionsPage() {
   if (query.isError) return <ErrorState message="Transactions could not be loaded." onRetry={query.refetch} />
 
   return (
-    <Shell eyebrow="Financial records" title="All transactions">
+    <Shell eyebrow="Financial records" title="All transactions" action={<ExportButton resource="transactions" params={params} />}>
       <p className="mt-3 text-slate-600 dark:text-[#a8bbcc]">Read-only records. Payment state remains controlled by verified Stripe webhooks.</p>
       <div className="mt-5 flex flex-wrap gap-3">
         <SelectFilter
