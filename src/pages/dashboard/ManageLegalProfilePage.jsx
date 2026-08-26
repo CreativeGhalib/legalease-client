@@ -7,7 +7,7 @@ import VerificationPublishingPanel from '../../components/lawyers/VerificationPu
 
 const profileKey = ['lawyer-profile', 'me']
 const emptyProfile = {
-  specialization: '', additionalSpecializations: '', bio: '', consultationFee: '', experienceYears: '', licenseNumber: '', location: '', languages: '', availability: 'available',
+  specialization: '', additionalSpecializations: '', bio: '', consultationFee: '', experienceYears: '', licenseNumber: '', barAssociationBranch: '', location: '', languages: '', availability: 'available',
 }
 
 function listFromText(value) {
@@ -23,6 +23,7 @@ function formProfile(profile) {
     consultationFee: profile.consultationFeeMinor ? (profile.consultationFeeMinor / 100).toFixed(2) : '',
     experienceYears: profile.experienceYears ?? '',
     licenseNumber: profile.licenseNumber ?? '',
+    barAssociationBranch: profile.barAssociationBranch ?? '',
     location: profile.location ?? '',
     languages: (profile.languages ?? []).join(', '),
     availability: profile.availability ?? 'available',
@@ -62,6 +63,7 @@ export default function ManageLegalProfilePage() {
         additionalSpecializations: listFromText(values.additionalSpecializations),
         bio: values.bio,
         licenseNumber: values.licenseNumber,
+        barAssociationBranch: values.barAssociationBranch,
         location: values.location,
         languages: listFromText(values.languages),
         availability: values.availability,
@@ -133,7 +135,8 @@ export default function ManageLegalProfilePage() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Consultation fee (USD)<input type="number" min="0.01" step="0.01" className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('consultationFee')} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Experience (years)<input type="number" min="0" step="1" className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('experienceYears')} /></label>
-            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">License number<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('licenseNumber', { maxLength: 120 })} /></label>
+            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Bar Council license number<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('licenseNumber', { maxLength: 120 })} /></label>
+            <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Bar association branch<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('barAssociationBranch', { maxLength: 120 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Location<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('location', { maxLength: 160 })} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Languages<input className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" placeholder="English, Bangla" {...register('languages')} /></label>
             <label className="text-sm font-medium text-slate-800 dark:text-[#ece5d6]">Availability<select className="mt-1 w-full rounded-lg border border-slate-300 dark:border-[#1c3050] px-3 py-2" {...register('availability')}><option value="available">Available</option><option value="busy">Busy</option></select></label>
