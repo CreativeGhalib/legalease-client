@@ -10,6 +10,8 @@ import { getFeaturedLawyers, getTopLawyers } from '../../api/lawyerDiscoveryApi'
 import HeroSlide from '../../components/home/HeroSlide'
 import LawyerShowcase from '../../components/home/LawyerShowcase'
 import LegalCategories from '../../components/home/LegalCategories'
+import StatsBar from '../../components/home/StatsBar'
+import RecentLawyers from '../../components/home/RecentLawyers'
 
 const heroCategories = [
   ['Criminal Law', Gavel],
@@ -179,6 +181,12 @@ export default function HomePage() {
 
       {/* Main content region */}
       <div id="main-content">
+        {/* Live marketplace stats — hidden entirely while counts are zero */}
+        <StatsBar />
+
+        {/* Recently verified lawyers */}
+        <RecentLawyers />
+
         {/* Featured lawyers section */}
         <LawyerShowcase
           eyebrow="NEWLY AVAILABLE"
