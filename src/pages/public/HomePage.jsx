@@ -14,6 +14,7 @@ import LegalCategories from '../../components/home/LegalCategories'
 import StatsBar from '../../components/home/StatsBar'
 import RecentLawyers from '../../components/home/RecentLawyers'
 import AIIntakeTrigger from '../../components/common/AIIntakeModal'
+import LeadCaptureForm from '../../components/leads/LeadCaptureForm'
 import { buildOrganizationSchema } from '../../utils/schema'
 import { setSeo } from '../../utils/seo'
 
@@ -201,6 +202,15 @@ export default function HomePage() {
 
         {/* Recently verified lawyers */}
         <RecentLawyers />
+
+        <section className="my-10 grid gap-6 rounded-3xl bg-[#16233a] p-6 text-white shadow-lg md:grid-cols-[0.8fr_1.2fr] md:p-8">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[.18em] text-[#d4a843]">Free lawyer match</p>
+            <h2 className="mt-2 text-3xl font-bold">Tell us what happened. We’ll help narrow the search.</h2>
+            <p className="mt-3 text-sm leading-6 text-[#c8d3df]">Request a callback from LegalEase. Sharing this form does not create an attorney-client relationship.</p>
+          </div>
+          <div className="rounded-2xl bg-white p-5 text-slate-950 dark:bg-[#0c1728] dark:text-[#ece5d6]"><LeadCaptureForm source="hero" /></div>
+        </section>
 
         {/* Featured lawyers section */}
         <LawyerShowcase

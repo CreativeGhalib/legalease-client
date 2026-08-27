@@ -39,3 +39,11 @@ export async function submitPasswordReset(payload) {
 export async function changeAccountPassword(payload) {
   return (await api.patch('/auth/change-password', payload)).data.data
 }
+
+export async function requestPhoneOtp(phone) {
+  return (await api.post('/auth/phone/send-otp', { phone })).data.data
+}
+
+export async function verifyPhoneOtp(code) {
+  return (await api.post('/auth/phone/verify-otp', { code })).data.data
+}

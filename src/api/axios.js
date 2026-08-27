@@ -2,7 +2,7 @@ import axios from 'axios'
 import { showErrorToast } from '../utils/toast'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
   withCredentials: true,
   headers: { Accept: 'application/json' },
 })

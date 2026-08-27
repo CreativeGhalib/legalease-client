@@ -40,7 +40,7 @@ npm run build
 
 ## Production deployment
 
-Client and API deploy as separate Vercel projects. The production browser always uses `VITE_API_BASE_URL=/api`; Vercel rewrites `/api/:path*` to the final API deployment before the SPA `index.html` fallback.
+Client and API deploy as separate Vercel projects. The production browser uses `VITE_API_BASE_URL=/api/v1`; Vercel rewrites `/api/:path*` to the final API deployment before the SPA `index.html` fallback.
 
 Production client environment names:
 

@@ -8,6 +8,8 @@ import NavDropdown from '../components/common/NavDropdown'
 import LanguageSwitcher from '../components/common/LanguageSwitcher'
 import CookieConsent from '../components/common/CookieConsent'
 import SiteFooter from '../components/common/SiteFooter'
+import CallbackButton from '../components/leads/CallbackButton'
+import ExitIntentPopup from '../components/leads/ExitIntentPopup'
 import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
@@ -439,6 +441,8 @@ export default function PublicLayout() {
 
       {/* Cookie consent */}
       <CookieConsent />
+      <CallbackButton />
+      <ExitIntentPopup />
     </div>
   )
 }

@@ -55,6 +55,7 @@ const ICON_MAP = {
   Scale,
   Receipt,
   BarChart3,
+  KeyRound,
 }
 
 function SidebarNavigation({ links, onLinkClick }) {
