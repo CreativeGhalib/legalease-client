@@ -16,6 +16,7 @@ import UserHiringHistoryPage from '../pages/dashboard/UserHiringHistoryPage'
 import LawyerHiringHistoryPage from '../pages/dashboard/LawyerHiringHistoryPage'
 import TransactionHistoryPage from '../pages/dashboard/TransactionHistoryPage'
 import ManageLegalProfilePage from '../pages/dashboard/ManageLegalProfilePage'
+import LawyerAnalyticsPage from '../pages/dashboard/LawyerAnalyticsPage'
 import NotFoundPage from '../pages/errors/NotFoundPage'
 import UnauthorizedPage from '../pages/errors/UnauthorizedPage'
 import HomePage from '../pages/public/HomePage'
@@ -253,6 +254,14 @@ export const router = createBrowserRouter([
             element: (
               <RoleRoute roles={['lawyer']}>
                 <TransactionHistoryPage />
+              </RoleRoute>
+            ),
+          },
+          {
+            path: 'lawyer/analytics',
+            element: (
+              <RoleRoute roles={['lawyer']}>
+                <LawyerAnalyticsPage />
               </RoleRoute>
             ),
           },

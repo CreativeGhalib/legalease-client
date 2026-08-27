@@ -12,6 +12,7 @@ export const dashboardRouteRegistry = {
     { label: 'Client requests', to: '/dashboard/lawyer/hiring-history', icon: 'Inbox', phase: 'Phase 7' },
     { label: 'Manage legal profile', to: '/dashboard/lawyer/manage-legal-profile', icon: 'Briefcase' },
     { label: 'Transactions', to: '/dashboard/lawyer/transactions', icon: 'CreditCard', phase: 'Phase 8' },
+    { label: 'My Analytics', to: '/dashboard/lawyer/analytics', icon: 'BarChart2', phase: 'Phase 5' },
     { label: 'Phone verification', to: '/dashboard/phone-verification', icon: 'KeyRound' },
   ],
   admin: [

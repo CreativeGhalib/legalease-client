@@ -7,7 +7,7 @@ describe('Phase 6 dashboard route registry', () => {
       '/dashboard', '/dashboard/user/hiring-history', '/dashboard/user/update-profile', '/dashboard/user/comments', '/dashboard/user/transactions', '/dashboard/phone-verification',
     ])
     expect(dashboardRouteRegistry.lawyer.map((item) => item.to)).toEqual([
-      '/dashboard', '/dashboard/lawyer/hiring-history', '/dashboard/lawyer/manage-legal-profile', '/dashboard/lawyer/transactions', '/dashboard/phone-verification',
+      '/dashboard', '/dashboard/lawyer/hiring-history', '/dashboard/lawyer/manage-legal-profile', '/dashboard/lawyer/transactions', '/dashboard/lawyer/analytics', '/dashboard/phone-verification',
     ])
     expect(dashboardRouteRegistry.admin.map((item) => item.to)).toEqual([
       '/dashboard', '/dashboard/admin/manage-users', '/dashboard/admin/manage-lawyers', '/dashboard/admin/all-transactions', '/dashboard/admin/analytics', '/dashboard/admin/leads',
