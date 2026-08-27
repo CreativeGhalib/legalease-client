@@ -8,11 +8,12 @@ function formatDate(value) {
   return value ? new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(new Date(value)) : ''
 }
 
-export default function DangerZone({ deletionRequestedAt }) {
+export default function DangerZone({ deletionRequestedAt, hasLocalPassword = true }) {
   const [typedConfirm, setTypedConfirm] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [revokePassword, setRevokePassword] = useState('')
+  const isGoogleOnly = !hasLocalPassword
 
   const deleteMutation = useMutation({
     mutationFn: () =>
@@ -33,7 +34,7 @@ export default function DangerZone({ deletionRequestedAt }) {
   const canSubmitDelete = !pending && typedConfirm === 'DELETE' && (isGoogleOnly || password.length > 0)
 
   return (
-    <details className="mt-8 rounded-2xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/40 dark:bg-rose-950/20" onToggle={(event) => setExpanded(event.target.open)}>
+    <details className="mt-8 rounded-2xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/40 dark:bg-rose-950/20">
       <summary className="flex cursor-pointer items-center gap-2 px-5 py-4 text-sm font-bold text-rose-700 dark:text-rose-300">
         <ShieldAlert size={16} aria-hidden="true" />
         Danger zone

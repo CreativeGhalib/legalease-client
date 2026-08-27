@@ -148,6 +148,11 @@ html.dark .le-nav-active {
   color: #c09a4e !important;
 }
 
+/* Dashboard accents stay navy in light mode and shift to warm legal gold in dark mode. */
+html.dark .dashboard-shell :where(.text-indigo-700, .text-indigo-800) {
+  color: var(--color-brand-gold-dk);
+}
+
 /**
  * Interactive Elements
  * Remove tap highlight, enable hardware acceleration

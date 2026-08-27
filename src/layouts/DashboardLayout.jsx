@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BarChart3, Briefcase, CreditCard, FileText, Inbox, KeyRound, LayoutDashboard, LogOut, MessageSquare, MoonStar, Receipt, Scale, ShieldCheck, SunMedium, UserPen, Users, X } from 'lucide-react'
+import { BarChart2, BarChart3, Briefcase, CreditCard, FileText, Inbox, KeyRound, LayoutDashboard, LogOut, MessageSquare, Monitor, MoonStar, Receipt, Scale, ShieldCheck, SunMedium, UserPen, Users, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
 import ModalFocusRegion from '../components/common/ModalFocusRegion'
@@ -15,11 +15,11 @@ function SidebarIdentity() {
   return (
     <div className="mb-6 flex items-start justify-between gap-2">
       <div className="flex items-center gap-3">
-        <span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-700 text-white">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-700 text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
           <ShieldCheck size={20} />
         </span>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700 dark:text-[#d4a843]">
             LegalEase
           </p>
           <p className="font-semibold text-slate-950 dark:text-[#ece5d6]">Dashboard</p>
@@ -55,14 +55,16 @@ const ICON_MAP = {
   Scale,
   Receipt,
   BarChart3,
+  BarChart2,
   KeyRound,
+  Monitor,
 }
 
 function SidebarNavigation({ links, onLinkClick }) {
   const linkClass = ({ isActive }) =>
     `flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
       isActive
-        ? 'bg-indigo-700 text-white shadow-sm'
+        ? 'bg-indigo-700 text-white shadow-sm dark:bg-[#d4a843] dark:text-[#0c1827]'
         : 'text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100 dark:hover:bg-[#162236] hover:text-slate-950 dark:hover:text-[#ece5d6]'
     }`
 
@@ -82,7 +84,7 @@ function SidebarNavigation({ links, onLinkClick }) {
               <>
                 <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg transition ${
                   isActive
-                    ? 'bg-indigo-500/30'
+                    ? 'bg-indigo-500/30 dark:bg-[#0c1827]/15'
                     : 'bg-slate-100 dark:bg-[#0c1728] group-hover:bg-slate-200'
                 }`}>
                   <Icon size={14} />
@@ -153,16 +155,16 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-1 sm:px-2">
+    <div className="dashboard-shell mx-auto w-full max-w-7xl px-1 sm:px-2">
       {/* ── Mobile top bar ──────────────────────────────────────────────── */}
       <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
         {/* Mobile identity */}
         <div className="flex min-w-0 items-center gap-2">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-700 text-white">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-700 text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
             <LayoutDashboard size={20} />
           </span>
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700 dark:text-[#d4a843]">
               LegalEase
             </p>
             <h1 className="font-semibold text-slate-950 dark:text-[#ece5d6]">Dashboard</h1>

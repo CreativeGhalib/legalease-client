@@ -26,7 +26,7 @@ function readableDate(value) {
 function DetailCard({ icon: Icon, label, value }) {
   return (
     <div className="flex min-h-28 gap-3 rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-5 shadow-sm">
-      <Icon className="mt-0.5 shrink-0 text-indigo-700" size={19} />
+      <Icon className="mt-0.5 shrink-0 text-indigo-700 dark:text-[#d4a843]" size={19} />
       <div className="min-w-0">
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-[#a8bbcc]">
           {label}
@@ -55,7 +55,7 @@ function LoadingSkeleton() {
 
 function UserPanel() {
   return (
-    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:bg-[#1b3a6b]/15 p-6">
+    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:border-[#6f582b] dark:bg-[#d4a843]/10 p-6">
       <h2 className="font-semibold text-slate-950 dark:text-[#ece5d6]">Manage your account</h2>
       <p className="mt-2 max-w-xl text-sm leading-6 text-slate-700 dark:text-[#ece5d6]">
         Keep your display name and account photo up to date. Your hiring history and transactions
@@ -63,7 +63,7 @@ function UserPanel() {
       </p>
       <Link
         to="/dashboard/user/update-profile"
-        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800"
+        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
       >
         Update profile
       </Link>
@@ -73,9 +73,9 @@ function UserPanel() {
 
 function LawyerPanel({ lawyerProfile }) {
   return (
-    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:bg-[#1b3a6b]/15 p-6">
+    <div className="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 dark:border-[#6f582b] dark:bg-[#d4a843]/10 p-6">
       <div className="flex items-start gap-3">
-        <FileCheck2 className="mt-0.5 shrink-0 text-indigo-700" size={21} />
+        <FileCheck2 className="mt-0.5 shrink-0 text-indigo-700 dark:text-[#d4a843]" size={21} />
         <div>
           <h2 className="font-semibold text-slate-950 dark:text-[#ece5d6]">
             Professional profile status
@@ -109,7 +109,7 @@ function LawyerPanel({ lawyerProfile }) {
 
           <Link
             to="/dashboard/lawyer/manage-legal-profile"
-            className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800"
+            className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
           >
             Manage legal profile
           </Link>
@@ -122,7 +122,7 @@ function LawyerPanel({ lawyerProfile }) {
 function AdminPanel() {
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-6">
-      <BadgeCheck className="text-indigo-700" size={21} />
+      <BadgeCheck className="text-indigo-700 dark:text-[#d4a843]" size={21} />
       <h2 className="mt-3 font-semibold text-slate-950 dark:text-[#ece5d6]">
         Administration workspace
       </h2>
@@ -167,9 +167,9 @@ function UpcomingConsultations({ role }) {
   if (scheduled.length === 0) return null
 
   return (
-    <div className="mt-10 rounded-2xl border border-indigo-100 bg-indigo-50/60 dark:border-[#1c3050] dark:bg-[#1b3a6b]/15 p-6">
+    <div className="mt-10 rounded-2xl border border-indigo-100 bg-indigo-50/60 dark:border-[#6f582b] dark:bg-[#d4a843]/10 p-6">
       <h2 className="flex items-center gap-2 font-semibold text-slate-950 dark:text-[#ece5d6]">
-        <CalendarClock size={18} className="text-indigo-700" /> Upcoming consultations
+        <CalendarClock size={18} className="text-indigo-700 dark:text-[#d4a843]" /> Upcoming consultations
       </h2>
       <ul role="list" className="mt-4 grid gap-3">
         {scheduled.map((appointment) => (
@@ -199,7 +199,7 @@ function UpcomingConsultations({ role }) {
                     id={`pay-stripe-${appointment.id}`}
                     disabled={checkoutStripeMutation.isPending || checkoutSslMutation.isPending}
                     onClick={() => checkoutStripeMutation.mutate(appointment.id)}
-                    className="min-h-9 rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+                    className="min-h-9 rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:opacity-50"
                   >
                     {checkoutStripeMutation.isPending ? 'Redirecting…' : 'Pay (Card)'}
                   </button>
@@ -280,7 +280,7 @@ export default function DashboardOverviewPage() {
 
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700 dark:text-[#d4a843]">
         Account overview
       </p>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 dark:text-[#ece5d6] sm:text-4xl">

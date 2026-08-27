@@ -28,7 +28,7 @@ export default function ChangePasswordPage() {
 
   return (
     <section className="max-w-3xl">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">Account security</p>
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700 dark:text-[#d4a843]">Account security</p>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 dark:text-[#ece5d6] sm:text-4xl">Change password</h1>
       <p className="mt-3 max-w-2xl leading-7 text-slate-600 dark:text-[#a8bbcc]">
         Updating your password signs your other devices out and keeps this one signed in.
@@ -65,7 +65,7 @@ export default function ChangePasswordPage() {
             validate: (value) => value === watch('newPassword') || 'Passwords do not match.',
           })}
         />
-        <button disabled={isSubmitting} type="submit" className="min-h-11 rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-60">
+        <button disabled={isSubmitting} type="submit" className="min-h-11 rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:cursor-not-allowed disabled:opacity-60">
           {isSubmitting ? 'Updating...' : 'Update password'}
         </button>
       </form>
