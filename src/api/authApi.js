@@ -47,3 +47,8 @@ export async function requestPhoneOtp(phone) {
 export async function verifyPhoneOtp(code) {
   return (await api.post('/auth/phone/verify-otp', { code })).data.data
 }
+
+// Session management (6-H)
+export const getSessions = () => api.get('/auth/sessions').then((r) => r.data.data)
+export const revokeSession = (sid) => api.delete(`/auth/sessions/${sid}`)
+export const revokeAllSessions = () => api.delete('/auth/sessions')

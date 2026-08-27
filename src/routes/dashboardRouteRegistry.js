@@ -6,6 +6,7 @@ export const dashboardRouteRegistry = {
     { label: 'Comments', to: '/dashboard/user/comments', icon: 'MessageSquare', phase: 'Phase 9' },
     { label: 'Transactions', to: '/dashboard/user/transactions', icon: 'CreditCard', phase: 'Phase 8' },
     { label: 'Phone verification', to: '/dashboard/phone-verification', icon: 'KeyRound' },
+    { label: 'Active Sessions', to: '/dashboard/sessions', icon: 'Monitor' },
   ],
   lawyer: [
     { label: 'Dashboard overview', to: '/dashboard', icon: 'LayoutDashboard' },
@@ -14,6 +15,7 @@ export const dashboardRouteRegistry = {
     { label: 'Transactions', to: '/dashboard/lawyer/transactions', icon: 'CreditCard', phase: 'Phase 8' },
     { label: 'My Analytics', to: '/dashboard/lawyer/analytics', icon: 'BarChart2', phase: 'Phase 5' },
     { label: 'Phone verification', to: '/dashboard/phone-verification', icon: 'KeyRound' },
+    { label: 'Active Sessions', to: '/dashboard/sessions', icon: 'Monitor' },
   ],
   admin: [
     { label: 'Dashboard overview', to: '/dashboard', icon: 'LayoutDashboard' },
