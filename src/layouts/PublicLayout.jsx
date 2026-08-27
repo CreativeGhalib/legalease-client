@@ -14,6 +14,7 @@ import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 import useTheme from '../hooks/useTheme'
+import { trackPageview } from '../utils/analytics'
 
 /**
  * PublicLayout Component
@@ -42,6 +43,7 @@ export default function PublicLayout() {
 
   useEffect(() => {
     setMenuOpen(false)
+    trackPageview(location.pathname)  // no-op if GA4 not initialized (12-C)
   }, [location.pathname, location.search])
 
 

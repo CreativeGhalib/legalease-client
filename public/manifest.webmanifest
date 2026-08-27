@@ -1,0 +1,28 @@
+{
+  "name": "LegalEase — Legal Counsel",
+  "short_name": "LegalEase",
+  "description": "Find and hire expert legal counsel in Bangladesh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f5ef",
+  "theme_color": "#1b3a6b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["legal", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false
+}

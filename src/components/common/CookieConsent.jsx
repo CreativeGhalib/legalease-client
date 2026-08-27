@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Cookie } from 'lucide-react'
+import { initGA4, maybeInitGA4 } from '../../utils/analytics'
 
 const STORAGE_KEY = 'legalEase-cookie-consent'
 
@@ -12,7 +13,12 @@ function readStoredChoice() {
 }
 
 export default function CookieConsent() {
-  const [choice, setChoice] = useState(() => readStoredChoice())
+  const [choice, setChoice] = useState(() => {
+    const stored = readStoredChoice()
+    // If user already accepted in a prior session, initialize GA4 on mount
+    if (stored === 'accepted') maybeInitGA4()
+    return stored
+  })
 
   function decide(value) {
     try {
@@ -20,6 +26,7 @@ export default function CookieConsent() {
     } catch {
       /* private mode — session-only */
     }
+    if (value === 'accepted') initGA4()  // fire GA4 on first accept (12-C)
     setChoice(value)
   }
 

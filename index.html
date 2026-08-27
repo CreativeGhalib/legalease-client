@@ -52,6 +52,15 @@
     </style>
     
     <title>LegalEase - Legal Counsel</title>
+    <!-- PWA (11-I-lite) -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function () {})
+        })
+      }
+    </script>
   </head>
   <body>
     <!-- Root element for React application -->
