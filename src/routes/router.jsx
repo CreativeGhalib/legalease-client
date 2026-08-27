@@ -30,6 +30,8 @@ import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
 import CategoryLandingPage from '../pages/public/CategoryLandingPage'
 import AdminDisputesPage from '../pages/dashboard/AdminDisputesPage'
 import AdminAuditLogPage from '../pages/dashboard/AdminAuditLogPage'
+import AdminLeadsPage from '../pages/dashboard/AdminLeadsPage'
+import PhoneVerificationPage from '../pages/dashboard/PhoneVerificationPage'
 import {
   DeferredAdminAnalyticsPage,
   DeferredAdminLawyersPage,
@@ -139,6 +141,32 @@ export const router = createBrowserRouter([
         ),
       },
 
+      // ── Appointment payment return pages (8-D) ───────────────────────────────
+      {
+        path: '/payment/appointment/success',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage appointment />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/payment/appointment/cancel',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage appointment cancelled />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/payment/appointment/fail',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage appointment failed />
+          </ProtectedRoute>
+        ),
+      },
+
       // ── Protected dashboard ──────────────────────────────────────────────────
       {
         path: '/dashboard',
@@ -151,6 +179,7 @@ export const router = createBrowserRouter([
           // Dashboard index — shown for all roles
           { index: true, element: <DashboardOverviewPage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
+          { path: 'phone-verification', element: <PhoneVerificationPage /> },
 
           // User routes — /dashboard/user redirects to overview (Phase 6 complete)
           {
@@ -282,6 +311,14 @@ export const router = createBrowserRouter([
             element: (
               <RoleRoute roles={['admin']}>
                 <AdminAuditLogPage />
+              </RoleRoute>
+            ),
+          },
+          {
+            path: 'admin/leads',
+            element: (
+              <RoleRoute roles={['admin']}>
+                <AdminLeadsPage />
               </RoleRoute>
             ),
           },

@@ -7,11 +7,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-test-results
-playwright-report
+node_modules/
+dist/
+dist-ssr/
+test-results/
+playwright-report/
 *.local
 .env
 .env.*
@@ -28,4 +28,4 @@ playwright-report
 *.sln
 *.sw?
 
-.vercel
+.vercel/
