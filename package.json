@@ -28,7 +28,7 @@
     "react-i18next": "^17.0.12",
     "react-router-dom": "^7.18.2",
     "recharts": "^3.10.1",
-    "swiper": "^14.1.0",
+    "swiper": "^14.2.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
