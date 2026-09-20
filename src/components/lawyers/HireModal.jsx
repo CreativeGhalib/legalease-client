@@ -26,7 +26,7 @@ export default function HireModal({ lawyer, onClose }) {
       <section className="my-auto w-full max-w-md rounded-2xl bg-white dark:bg-[#0c1728] p-5 shadow-xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-indigo-700">Hiring request</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#1b3a6b] dark:text-[#d4a843]">Hiring request</p>
             <h2 id="hire-modal-title" className="mt-2 text-2xl font-bold text-slate-950 dark:text-[#ece5d6]">Hire Legal Counsel</h2>
           </div>
           <button type="button" onClick={onClose} disabled={request.isPending} aria-label="Close hire confirmation" className="grid min-h-11 min-w-11 place-items-center rounded-lg text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100"><X /></button>

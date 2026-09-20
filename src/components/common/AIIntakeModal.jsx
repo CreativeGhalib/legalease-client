@@ -127,7 +127,7 @@ export default function AIIntakeTrigger({ variant = 'secondary', label = '✨ Fi
   const [open, setOpen] = useState(false)
   const styles = variant === 'hero'
     ? 'inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#d4a843]/40 px-6 py-3 text-sm font-semibold text-[#e4d9c5] transition hover:bg-[#d4a843]/10 focus-visible:ring-2 focus-visible:ring-[#d4a843]'
-    : 'inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 dark:text-[#a8bbcc] dark:hover:bg-[#1b3a6b]/40'
+    : 'inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 text-sm font-semibold text-[#1b3a6b] hover:bg-[#e5dccf] dark:border-[#2a3850] dark:bg-[#1b3a6b]/20 dark:text-[#a8bbcc] dark:hover:bg-[#1b3a6b]/40'
 
   return (
     <>

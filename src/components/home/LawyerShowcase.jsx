@@ -31,7 +31,7 @@ export default function LawyerShowcase({
       {/* Section header */}
       <div className="flex flex-col gap-4 sm:gap-6 mb-8 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold tracking-[0.16em] text-indigo-700">
+          <p className="text-sm font-semibold tracking-[0.16em] text-[#1b3a6b] dark:text-[#d4a843]">
             {eyebrow}
           </p>
           <h2
@@ -48,7 +48,7 @@ export default function LawyerShowcase({
         {/* Browse All Link */}
         {allLink && (
           <Link
-            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600 transition"
+            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[#1b3a6b] hover:bg-[#e5dccf] dark:text-[#d4a843] dark:hover:bg-[#1b3a6b]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] transition"
             to={allLink}
             aria-label={`Browse all ${title.toLowerCase()}`}
           >
@@ -89,7 +89,7 @@ export default function LawyerShowcase({
               allLink ? (
                 <Link
                   to="/lawyers"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white px-4 py-2 font-semibold hover:bg-[#142e57] dark:hover:bg-[#e8bf58] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600 transition"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white px-4 py-2 font-semibold hover:bg-[#142e57] dark:hover:bg-[#e8bf58] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1b3a6b] transition"
                 >
                   Browse all lawyers
                 </Link>

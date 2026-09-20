@@ -71,7 +71,7 @@ function CommentForm({ profileId }) {
         minLength={2}
         maxLength={1000}
         required
-        className="mt-3 min-h-28 w-full rounded-xl border border-indigo-200 dark:border-[#2a3850] bg-white dark:bg-[#0c1728] p-3"
+        className="mt-3 min-h-28 w-full rounded-xl border border-[#c5b89e] dark:border-[#2a3850] bg-white dark:bg-[#0c1728] p-3"
         placeholder="Write a plain-text comment about your experience."
       />
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
@@ -94,7 +94,7 @@ function CommentForm({ profileId }) {
 function EligibilityNotice({ hasComment, isAuthenticated, role }) {
   if (hasComment) {
     return (
-      <p className="text-sm text-indigo-950">
+      <p className="text-sm text-slate-700 dark:text-[#a8bbcc]">
         You have already commented.{' '}
         <Link className="font-semibold underline" to="/dashboard/user/comments">
           Manage your comment
@@ -106,7 +106,7 @@ function EligibilityNotice({ hasComment, isAuthenticated, role }) {
 
   if (!isAuthenticated) {
     return (
-      <p className="text-sm text-indigo-950">
+      <p className="text-sm text-slate-700 dark:text-[#a8bbcc]">
         Sign in after a paid hire to share your experience.
       </p>
     )
@@ -114,14 +114,14 @@ function EligibilityNotice({ hasComment, isAuthenticated, role }) {
 
   if (role === 'user') {
     return (
-      <p className="text-sm text-indigo-950">
+      <p className="text-sm text-slate-700 dark:text-[#a8bbcc]">
         Only clients with an accepted, paid hire can comment.
       </p>
     )
   }
 
   return (
-    <p className="text-sm text-indigo-950">Comments are available for verified client experiences.</p>
+    <p className="text-sm text-slate-700 dark:text-[#a8bbcc]">Comments are available for verified client experiences.</p>
   )
 }
 
@@ -135,7 +135,7 @@ export default function LawyerComments({ profileId, canComment, hasComment, isAu
 
   return (
     <section className="mt-10 border-t border-slate-200 dark:border-[#1c3050] pt-8">
-      <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-700">
+      <p className="text-xs font-bold uppercase tracking-[.18em] text-[#1b3a6b] dark:text-[#d4a843]">
         Client comments
       </p>
       <h2 className="mt-2 text-2xl font-bold text-slate-950 dark:text-[#ece5d6]">

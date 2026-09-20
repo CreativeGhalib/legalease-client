@@ -35,7 +35,7 @@ export default function LeadCaptureForm({ source, includeIssue = true, compact =
     )
   }
 
-  const fieldClass = 'min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 dark:border-[#374c62] dark:bg-[#101c2f] dark:text-[#ece5d6]'
+  const fieldClass = 'min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none focus:border-[#1b3a6b] focus:ring-2 focus:ring-[#1b3a6b]/20 dark:border-[#374c62] dark:bg-[#101c2f] dark:text-[#ece5d6]'
   return (
     <form className={compact ? 'grid gap-3' : 'grid gap-4 sm:grid-cols-2'} onSubmit={handleSubmit(submit)}>
       <label className="grid gap-1.5 text-sm font-semibold">

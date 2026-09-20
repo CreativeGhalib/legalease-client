@@ -57,7 +57,7 @@ export default function CaseEvidence({ hiringRequestId, isLawyer = false }) {
     <div className="rounded-xl border border-slate-200 dark:border-[#1c3050] bg-slate-50 dark:bg-[#0c1728] p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">
-          <FolderOpen size={16} className="text-indigo-700" /> 📁 Case evidence
+          <FolderOpen size={16} className="text-[#1b3a6b] dark:text-[#d4a843]" /> 📁 Case evidence
         </p>
         <button
           type="button"

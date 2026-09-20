@@ -35,7 +35,7 @@ export default function PhoneVerificationPage() {
     }
   }
 
-  const fieldClass = 'min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 dark:border-[#374c62] dark:bg-[#101c2f]'
+  const fieldClass = 'min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm outline-none focus:border-[#1b3a6b] focus:ring-2 focus:ring-[#1b3a6b]/20 dark:border-[#374c62] dark:bg-[#101c2f]'
   return (
     <section className="max-w-3xl">
       <p className="text-xs font-bold uppercase tracking-[.18em] text-indigo-700">Account security</p>
