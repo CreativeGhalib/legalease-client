@@ -9,6 +9,7 @@ import {
   registerAccount,
 } from '../api/authApi'
 import { AuthContext } from './authContext'
+import { logoutAnalytics } from '../utils/analytics'
 
 function isUnauthenticated(error) {
   return error?.response?.status === 401
@@ -66,6 +67,7 @@ export function AuthProvider({ children }) {
     } finally {
       setUser(null)
       queryClient.clear()
+      logoutAnalytics()
     }
   }, [queryClient])
 

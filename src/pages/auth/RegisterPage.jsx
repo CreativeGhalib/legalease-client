@@ -7,6 +7,7 @@ import GoogleSignInButton from '../../components/auth/GoogleSignInButton'
 import AuthPageLayout from './AuthPageLayout'
 import { getApiErrorMessage } from '../../utils/apiError'
 import { safeDestination } from '../../utils/safeDestination'
+import { trackEvent } from '../../utils/analytics'
 
 export default function RegisterPage() {
   const { completeGoogleOnboarding, loginWithGoogle, register: registerAccount } = useAuth()
@@ -24,6 +25,7 @@ export default function RegisterPage() {
     setServerError('')
     try {
       await registerAccount({ fullName: fullName.trim(), email: email.trim(), password, confirmPassword, role })
+      trackEvent('sign_up', { method: 'email', role })
       navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Unable to create your account. Please try again.'))
@@ -44,6 +46,7 @@ export default function RegisterPage() {
     setServerError('')
     try {
       await completeGoogleOnboarding({ role })
+      trackEvent('sign_up', { method: 'google', role })
       navigate(safeDestination(location.state?.from), { replace: true })
     } catch (error) {
       setServerError(getApiErrorMessage(error, 'Google sign-up could not be completed.'))

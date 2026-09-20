@@ -4,6 +4,7 @@ import { CheckCircle2, Clock3, XCircle } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getPaymentStatus } from '../../api/paymentApi'
 import { ErrorState } from '../../components/common/QueryFeedback'
+import { trackEvent } from '../../utils/analytics'
 
 export default function PaymentReturnPage({ cancelled = false, sslcommerz = false, failed = false }) {
   const [params] = useSearchParams(); const transactionId = params.get('transactionId') ?? params.get('txn'); const client = useQueryClient()
@@ -11,7 +12,17 @@ export default function PaymentReturnPage({ cancelled = false, sslcommerz = fals
   const isSsc = sslcommerz || payment.data?.gateway === 'sslcommerz'; const paid = payment.data?.transactionStatus === 'paid'; const hiring = payment.data?.type === 'hiring_fee'
   const destination = hiring ? '/dashboard/user/hiring-history' : '/dashboard/lawyer/manage-legal-profile'
   const gatewayLabel = isSsc ? 'bKash / Nagad (SSLCommerz)' : 'card payment'
-  useEffect(() => { if (paid) { client.invalidateQueries({ queryKey: ['hiring-requests'] }); client.invalidateQueries({ queryKey: ['payments', 'mine'] }); client.invalidateQueries({ queryKey: ['public-lawyers'] }); client.invalidateQueries({ queryKey: ['top-lawyers'] }) } }, [client, paid])
+  useEffect(() => {
+    if (paid) {
+      client.invalidateQueries({ queryKey: ['hiring-requests'] }); client.invalidateQueries({ queryKey: ['payments', 'mine'] }); client.invalidateQueries({ queryKey: ['public-lawyers'] }); client.invalidateQueries({ queryKey: ['top-lawyers'] })
+      trackEvent('payment_success', {
+        // Only server-verified status reaches this page; amounts are excluded on purpose.
+        transaction_id: transactionId,
+        gateway: isSsc ? 'sslcommerz' : 'stripe',
+        payment_type: hiring ? 'hiring_fee' : 'profile_verification',
+      })
+    }
+  }, [client, paid, transactionId, isSsc, hiring])
   if (!transactionId) return <ErrorState message="This payment return link is incomplete." />
   if (payment.isLoading) return <section className="mx-auto max-w-xl rounded-2xl border border-slate-200 dark:border-[#1c3050] bg-white dark:bg-[#0c1728] p-8 text-center"><Clock3 className="mx-auto animate-pulse text-indigo-700" size={40} /><h1 className="mt-4 text-2xl font-semibold dark:text-[#ece5d6]">Checking your payment</h1><p className="mt-3 text-slate-600 dark:text-[#a8bbcc]">We are checking the verified server status of your {gatewayLabel}.</p></section>
   if (payment.isError) return <ErrorState message="We could not confirm this payment yet. Return to your dashboard and check again shortly." />

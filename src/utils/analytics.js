@@ -4,11 +4,15 @@
  * All functions are no-ops when GA4 is not initialized.
  */
 
+import { ensureAnalyticsUser, getConsentedUserProperties, clearAnalyticsUser } from './consentedUser'
+
 const GA_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID
 let initialized = false
 
 export function initGA4() {
   if (!GA_ID || initialized || typeof window === 'undefined') return
+
+  ensureAnalyticsUser()
 
   const script = document.createElement('script')
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`
@@ -38,7 +42,16 @@ export function trackPageview(path) {
   window.gtag('event', 'page_view', { page_path: path })
 }
 
+/**
+ * Tracks a named event with consent-scoped user context attached.
+ * No-op until the GA4 script has been consent-initialized.
+ */
 export function trackEvent(name, params = {}) {
   if (!initialized || !window.gtag) return
-  window.gtag('event', name, params)
+  window.gtag('event', name, { ...params, ...getConsentedUserProperties() })
+}
+
+/** Clears the stored analytics identity on logout (best-effort). */
+export function logoutAnalytics() {
+  clearAnalyticsUser()
 }

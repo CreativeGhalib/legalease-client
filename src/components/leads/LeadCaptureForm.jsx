@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createLead } from '../../api/leadApi'
 import { getApiErrorMessage } from '../../utils/apiError'
+import { trackEvent } from '../../utils/analytics'
+import { setLeadSource } from '../../utils/consentedUser'
 
 export default function LeadCaptureForm({ source, includeIssue = true, compact = false, onSuccess }) {
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
@@ -19,6 +21,10 @@ export default function LeadCaptureForm({ source, includeIssue = true, compact =
         urgencyLevel: values.urgencyLevel,
         source,
       })
+      // Remember acquisition source for consent-scoped GA4 attribution —
+      // stored only if cookies were accepted, applied to later events.
+      setLeadSource(source)
+      trackEvent('lead_submit', { lead_source: source })
       reset()
       setSubmission({ pending: false, success: true, error: null })
       onSuccess?.(data)

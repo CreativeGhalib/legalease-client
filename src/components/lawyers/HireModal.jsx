@@ -6,6 +6,7 @@ import useBodyScrollLock from '../../hooks/useBodyScrollLock'
 import useModalFocus from '../../hooks/useModalFocus'
 import { getApiErrorMessage } from '../../utils/apiError'
 import { showSuccessToast } from '../../utils/toast'
+import { trackEvent } from '../../utils/analytics'
 
 export default function HireModal({ lawyer, onClose }) {
   const client = useQueryClient()
@@ -13,6 +14,11 @@ export default function HireModal({ lawyer, onClose }) {
     mutationFn: () => createHiringRequest(lawyer.id),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ['hiring-requests', 'mine'] })
+      trackEvent('hire_request', {
+        // Metadata only — never PII, never amounts the server did not verify.
+        lawyer_specialization: lawyer.specialization,
+        consultation_fee_usd: (lawyer.consultationFeeMinor / 100).toFixed(2),
+      })
       showSuccessToast('Demo email notification queued for the lawyer.')
       onClose()
     },
