@@ -1,8 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/useAuth'
+import { trackPageview } from '../utils/analytics'
 
 export default function DashboardStubLayout() {
   const { user } = useAuth()
+  const location = useLocation()
+
+  useEffect(() => {
+    trackPageview(location.pathname) // no-op if GA4 not initialized (consent-gated)
+  }, [location.pathname, location.search])
+
   const userRole = user?.role?.trim().toLowerCase()
 
   return (

@@ -7,6 +7,7 @@ import NotificationBell from '../components/common/NotificationBell'
 import useBodyScrollLock from '../hooks/useBodyScrollLock'
 import useCloseOnDesktop from '../hooks/useCloseOnDesktop'
 import useTheme from '../hooks/useTheme'
+import { trackPageview } from '../utils/analytics'
 import { dashboardRouteRegistry } from '../routes/dashboardRouteRegistry'
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -149,6 +150,9 @@ export default function DashboardLayout() {
   useBodyScrollLock(open)
   useCloseOnDesktop(() => setOpen(false))
   useEffect(() => setOpen(false), [location.pathname])
+  useEffect(() => {
+    trackPageview(location.pathname) // no-op if GA4 not initialized (consent-gated)
+  }, [location.pathname, location.search])
 
   function closeMenu() {
     setOpen(false)
