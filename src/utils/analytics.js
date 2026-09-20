@@ -25,6 +25,9 @@ export function initGA4() {
   window.gtag('js', new Date())
   window.gtag('config', GA_ID, { send_page_view: false })
   initialized = true
+  // Notify layouts that were mounted before consent so they can send the
+  // page_view for the screen the user is already looking at.
+  window.dispatchEvent(new Event('le:ga4-ready'))
 }
 
 /** Call after consent is already stored — e.g. on app boot if already accepted */

@@ -46,6 +46,13 @@ export default function PublicLayout() {
     trackPageview(location.pathname)  // no-op if GA4 not initialized (12-C)
   }, [location.pathname, location.search])
 
+  // Consent given after mount: send the pageview for the current screen.
+  useEffect(() => {
+    const onReady = () => trackPageview(location.pathname)
+    window.addEventListener('le:ga4-ready', onReady)
+    return () => window.removeEventListener('le:ga4-ready', onReady)
+  }, [location.pathname])
+
 
 
   async function handleLogout() {
