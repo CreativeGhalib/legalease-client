@@ -56,7 +56,7 @@ export default function LoginPage() {
             Forgot your password?
           </Link>
         </div>
-        <button disabled={isSubmitting} type="submit" className="min-h-11 w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
+        <button disabled={isSubmitting} type="submit" className="min-h-11 w-full rounded-md bg-[#1b3a6b] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#142e57] dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e8bf58] disabled:cursor-not-allowed disabled:opacity-60">
           {isSubmitting ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
