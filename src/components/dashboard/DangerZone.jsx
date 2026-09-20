@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AlertTriangle, ShieldAlert } from 'lucide-react'
 import { requestAccountDeletion, cancelAccountDeletion, revokeAllSessions } from '../../api/userProfileApi'
 import { getApiErrorMessage } from '../../utils/apiError'
@@ -9,24 +9,47 @@ function formatDate(value) {
 }
 
 export default function DangerZone({ deletionRequestedAt, hasLocalPassword = true }) {
+  const client = useQueryClient()
   const [typedConfirm, setTypedConfirm] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [revokePassword, setRevokePassword] = useState('')
+  const [notice, setNotice] = useState('')
   const isGoogleOnly = !hasLocalPassword
+
+  // Every mutation refreshes the account query on success — otherwise the
+  // pending-deletion banner never appears and the action looks like a no-op.
+  const refreshAccount = () => client.invalidateQueries({ queryKey: ['account', 'me'] })
 
   const deleteMutation = useMutation({
     mutationFn: () =>
       requestAccountDeletion(isGoogleOnly ? { confirm: true } : { password }),
+    onSuccess: async () => {
+      setTypedConfirm('')
+      setPassword('')
+      setError('')
+      setNotice('Deletion scheduled. Your account will be permanently deleted on the date shown below.')
+      await refreshAccount()
+    },
     onError: (apiError) => setError(getApiErrorMessage(apiError)),
   })
   const cancelMutation = useMutation({
     mutationFn: cancelAccountDeletion,
+    onSuccess: async () => {
+      setError('')
+      setNotice('Scheduled deletion cancelled. Your account will remain active.')
+      await refreshAccount()
+    },
     onError: (apiError) => setError(getApiErrorMessage(apiError)),
   })
   const revokeMutation = useMutation({
     mutationFn: () => revokeAllSessions(isGoogleOnly ? { confirm: true } : { password: revokePassword }),
-    onSuccess: () => setRevokePassword(''),
+    onSuccess: async () => {
+      setRevokePassword('')
+      setError('')
+      setNotice('All other devices have been signed out.')
+      await refreshAccount()
+    },
     onError: (apiError) => setError(getApiErrorMessage(apiError)),
   })
 
@@ -42,6 +65,7 @@ export default function DangerZone({ deletionRequestedAt, hasLocalPassword = tru
 
       <div className="space-y-6 px-5 pb-5">
         {error && <p role="alert" className="rounded-lg bg-rose-100 dark:bg-rose-900/40 px-3 py-2 text-sm text-rose-800 dark:text-rose-200">{error}</p>}
+        {notice && !error && <p role="status" className="rounded-lg bg-emerald-50 dark:bg-emerald-950/30 px-3 py-2 text-sm text-emerald-800 dark:text-emerald-200">{notice}</p>}
 
         <section>
           <h3 className="text-sm font-semibold text-slate-900 dark:text-[#ece5d6]">Sign out all other devices</h3>
