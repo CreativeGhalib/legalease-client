@@ -15,7 +15,7 @@ function SidebarIdentity() {
   return (
     <div className="mb-6 flex items-start justify-between gap-2">
       <div className="flex items-center gap-3">
-        <span className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-700 text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
           <ShieldCheck size={20} />
         </span>
         <div>
@@ -64,7 +64,7 @@ function SidebarNavigation({ links, onLinkClick }) {
   const linkClass = ({ isActive }) =>
     `flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition ${
       isActive
-        ? 'bg-indigo-700 text-white shadow-sm dark:bg-[#d4a843] dark:text-[#0c1827]'
+        ? 'bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white shadow-sm dark:bg-[#d4a843] dark:text-[#0c1827]'
         : 'text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100 dark:hover:bg-[#162236] hover:text-slate-950 dark:hover:text-[#ece5d6]'
     }`
 
@@ -84,7 +84,7 @@ function SidebarNavigation({ links, onLinkClick }) {
               <>
                 <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg transition ${
                   isActive
-                    ? 'bg-indigo-500/30 dark:bg-[#0c1827]/15'
+                    ? 'bg-[#1b3a6b]/20 dark:bg-[#0c1827]/15'
                     : 'bg-slate-100 dark:bg-[#0c1728] group-hover:bg-slate-200'
                 }`}>
                   <Icon size={14} />
@@ -160,7 +160,7 @@ export default function DashboardLayout() {
       <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
         {/* Mobile identity */}
         <div className="flex min-w-0 items-center gap-2">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-700 text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white dark:bg-[#d4a843] dark:text-[#0c1827]">
             <LayoutDashboard size={20} />
           </span>
           <div className="min-w-0">

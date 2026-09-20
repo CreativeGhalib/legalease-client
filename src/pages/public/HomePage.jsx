@@ -55,7 +55,7 @@ export default function HomePage() {
       {/* Skip to content link for screen readers and keyboard navigation */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-indigo-700 focus:text-white focus:px-4 focus:py-2"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-[#1b3a6b] focus:text-white focus:px-4 focus:py-2"
       >
         Skip to main content
       </a>

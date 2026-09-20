@@ -65,7 +65,7 @@ export default function ChangePasswordPage() {
             validate: (value) => value === watch('newPassword') || 'Passwords do not match.',
           })}
         />
-        <button disabled={isSubmitting} type="submit" className="min-h-11 rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:cursor-not-allowed disabled:opacity-60">
+        <button disabled={isSubmitting} type="submit" className="min-h-11 rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 text-sm font-semibold text-white transition hover:bg-[#142e57] dark:hover:bg-[#e8bf58] dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:cursor-not-allowed disabled:opacity-60">
           {isSubmitting ? 'Updating...' : 'Update password'}
         </button>
       </form>

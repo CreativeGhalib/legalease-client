@@ -133,7 +133,7 @@ export default function AdminDisputesPage() {
               aria-pressed={active}
               onClick={() => { setStatusFilter(value); setPage(1) }}
               className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition ${
-                active ? 'border-indigo-700 bg-indigo-700 text-white' : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-[#1c3050] dark:text-[#a8bbcc] dark:hover:bg-[#162236]'
+                active ? 'border-indigo-700 bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white' : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-[#1c3050] dark:text-[#a8bbcc] dark:hover:bg-[#162236]'
               }`}
             >
               {label}

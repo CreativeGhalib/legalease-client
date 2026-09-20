@@ -7,7 +7,7 @@ export default function CallbackButton() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="fixed bottom-5 right-4 z-40 inline-flex min-h-12 items-center gap-2 rounded-full bg-indigo-700 px-5 text-sm font-semibold text-white shadow-xl transition hover:bg-indigo-800 sm:right-6">
+      <button type="button" onClick={() => setOpen(true)} className="fixed bottom-5 right-4 z-40 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-5 text-sm font-semibold text-white shadow-xl transition hover:bg-[#142e57] dark:hover:bg-[#e8bf58] sm:right-6">
         <Phone size={17} aria-hidden="true" /> Get a callback
       </button>
       {open && (

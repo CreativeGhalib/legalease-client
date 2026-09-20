@@ -159,7 +159,7 @@ export default function ManageLegalProfilePage() {
         {Object.keys(errors).length > 0 && <p className="text-sm text-rose-700 dark:text-rose-300">Please check the highlighted fields.</p>}
         {errorMessage && <p role="alert" className="text-sm text-rose-700 dark:text-rose-300">{errorMessage}</p>}
         <div className="flex flex-wrap gap-3">
-          <button disabled={saveMutation.isPending} className="rounded-lg bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60">{saveMutation.isPending ? 'Saving draft...' : profile ? 'Save changes' : 'Create draft profile'}</button>
+          <button disabled={saveMutation.isPending} className="rounded-lg bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60">{saveMutation.isPending ? 'Saving draft...' : profile ? 'Save changes' : 'Create draft profile'}</button>
           {profile && <button type="button" disabled={deleteMutation.isPending} onClick={() => { if (window.confirm('Delete this professional profile? You can restore your own deleted draft later.')) deleteMutation.mutate() }} className="rounded-lg border border-rose-200 px-4 py-2.5 text-sm font-semibold text-rose-700 dark:text-rose-300 disabled:opacity-60">{deleteMutation.isPending ? 'Deleting...' : 'Delete profile'}</button>}
         </div>
       </form>

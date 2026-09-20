@@ -42,7 +42,7 @@ export default function HireModal({ lawyer, onClose }) {
         {request.isError && <p role="alert" className="mt-3 text-sm text-rose-700 dark:text-rose-300">{getApiErrorMessage(request.error)}</p>}
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
           <button type="button" onClick={onClose} disabled={request.isPending} className="min-h-11 rounded-lg px-4 text-sm font-semibold text-slate-700 dark:text-[#ece5d6]">Cancel</button>
-          <button type="button" onClick={() => request.mutate()} disabled={request.isPending} className="min-h-11 rounded-lg bg-indigo-700 px-4 text-sm font-semibold text-white disabled:opacity-60">{request.isPending ? 'Sending…' : 'Send hiring request'}</button>
+          <button type="button" onClick={() => request.mutate()} disabled={request.isPending} className="min-h-11 rounded-lg bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 text-sm font-semibold text-white disabled:opacity-60">{request.isPending ? 'Sending…' : 'Send hiring request'}</button>
         </div>
       </section>
     </div>

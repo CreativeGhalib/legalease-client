@@ -7,7 +7,7 @@ import LawyerCardSkeleton from '../lawyers/LawyerCardSkeleton'
 
 /**
  * LawyerShowcase Component
- * 
+ *
  * Displays a grid of lawyer cards with:
  * - Loading states with skeleton loaders
  * - Error handling with retry capability
@@ -34,7 +34,7 @@ export default function LawyerShowcase({
           <p className="text-sm font-semibold tracking-[0.16em] text-indigo-700">
             {eyebrow}
           </p>
-          <h2 
+          <h2
             id={`section-${title.replace(/\s+/g, '-').toLowerCase()}`}
             className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-[#ece5d6]"
           >
@@ -61,7 +61,7 @@ export default function LawyerShowcase({
       {/* Content Area - Loading, Error, Empty, or Success */}
       {lawyersQuery.isLoading ? (
         // Loading State - Skeleton loaders
-        <div 
+        <div
           className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-3"
           role="status"
           aria-live="polite"
@@ -89,7 +89,7 @@ export default function LawyerShowcase({
               allLink ? (
                 <Link
                   to="/lawyers"
-                  className="inline-flex items-center gap-2 rounded-lg bg-indigo-700 text-white px-4 py-2 font-semibold hover:bg-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600 transition"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white px-4 py-2 font-semibold hover:bg-[#142e57] dark:hover:bg-[#e8bf58] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-600 transition"
                 >
                   Browse all lawyers
                 </Link>

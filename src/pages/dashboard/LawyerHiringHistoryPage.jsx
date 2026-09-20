@@ -57,7 +57,7 @@ function DecisionDialog({ confirm, decisionMutation, onCancel }) {
             type="button"
             disabled={decisionMutation.isPending}
             onClick={() => decisionMutation.mutate(confirm)}
-            className="min-h-11 rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white disabled:opacity-60"
+            className="min-h-11 rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 text-sm font-semibold text-white disabled:opacity-60"
           >
             {decisionMutation.isPending ? 'Saving…' : 'Confirm decision'}
           </button>
@@ -235,7 +235,7 @@ export default function LawyerHiringHistoryPage() {
               onClick={() => setPipeline(filter.key)}
               className={`min-h-10 rounded-full border px-3.5 text-sm font-semibold transition ${
                 active
-                  ? 'border-indigo-700 bg-indigo-700 text-white'
+                  ? 'border-indigo-700 bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white'
                   : 'border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-[#1c3050] dark:text-[#a8bbcc] dark:hover:bg-[#162236]'
               }`}
             >

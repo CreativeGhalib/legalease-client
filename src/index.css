@@ -286,6 +286,40 @@ body:has([role="dialog"][aria-modal="true"]) {
 }
 
 /**
+ * Input Base Class — canonical themed text input
+ * (was referenced by components but never defined — now styled)
+ */
+.le-input {
+  min-height: 44px;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d8ccb8;
+  background: #fdf9f2;
+  color: #0c1827;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.le-input::placeholder {
+  color: #69798e;
+}
+
+.le-input:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+html.dark .le-input {
+  border-color: #2a3850;
+  background: #1d2535;
+  color: #e4d9c5;
+}
+
+html.dark .le-input::placeholder {
+  color: #96a8b8;
+}
+
+/**
  * Primary Button - High contrast for accessibility
  */
 .le-button-primary {
@@ -372,7 +406,7 @@ html.dark .le-button-danger:hover:not(:disabled) {
   body {
     font-size: 15px;
   }
-  
+
   h1, .text-4xl, .text-5xl, .text-6xl {
     /* Reduce excessive font sizes on mobile */
     overflow-wrap: break-word;
@@ -391,11 +425,11 @@ html.dark .le-button-danger:hover:not(:disabled) {
     padding-top: 0;
     padding-bottom: 0;
   }
-  
+
   header {
     min-height: 3.5rem;
   }
-  
+
   .le-button {
     min-height: 40px;
   }
@@ -460,11 +494,11 @@ html.dark .le-button-danger:hover:not(:disabled) {
     background: white;
     color: black;
   }
-  
+
   a {
     text-decoration: underline;
   }
-  
+
   .no-print {
     display: none !important;
   }

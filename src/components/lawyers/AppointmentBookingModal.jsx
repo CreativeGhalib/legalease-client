@@ -58,7 +58,7 @@ export default function AppointmentBookingModal({ lawyerId, lawyerName, onClose 
                 aria-pressed={active}
                 onClick={() => { setSelectedDate(key); setSelectedSlot('') }}
                 className={`rounded-lg border px-1 py-2 text-center text-xs font-semibold transition ${
-                  active ? 'border-indigo-700 bg-indigo-700 text-white' : 'border-slate-300 dark:border-[#1c3050] text-slate-600 dark:text-[#a8bbcc] hover:bg-slate-100 dark:hover:bg-[#162236]'
+                  active ? 'border-indigo-700 bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white' : 'border-slate-300 dark:border-[#1c3050] text-slate-600 dark:text-[#a8bbcc] hover:bg-slate-100 dark:hover:bg-[#162236]'
                 }`}
               >
                 <span className="block">{weekday}</span>
@@ -86,7 +86,7 @@ export default function AppointmentBookingModal({ lawyerId, lawyerName, onClose 
                   onClick={() => setSelectedSlot(slot)}
                   className={`min-h-10 rounded-lg border px-3 text-sm font-semibold transition ${
                     selectedSlot === slot
-                      ? 'border-indigo-700 bg-indigo-700 text-white'
+                      ? 'border-indigo-700 bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] text-white'
                       : 'border-slate-300 dark:border-[#1c3050] text-slate-700 dark:text-[#ece5d6] hover:bg-slate-100 dark:hover:bg-[#162236]'
                   }`}
                 >

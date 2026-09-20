@@ -63,7 +63,7 @@ function UserPanel() {
       </p>
       <Link
         to="/dashboard/user/update-profile"
-        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
+        className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 text-sm font-semibold text-white transition hover:bg-[#142e57] dark:hover:bg-[#e8bf58] dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
       >
         Update profile
       </Link>
@@ -109,7 +109,7 @@ function LawyerPanel({ lawyerProfile }) {
 
           <Link
             to="/dashboard/lawyer/manage-legal-profile"
-            className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white transition hover:bg-indigo-800 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
+            className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] px-4 text-sm font-semibold text-white transition hover:bg-[#142e57] dark:hover:bg-[#e8bf58] dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61]"
           >
             Manage legal profile
           </Link>
@@ -199,7 +199,7 @@ function UpcomingConsultations({ role }) {
                     id={`pay-stripe-${appointment.id}`}
                     disabled={checkoutStripeMutation.isPending || checkoutSslMutation.isPending}
                     onClick={() => checkoutStripeMutation.mutate(appointment.id)}
-                    className="min-h-9 rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700 dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:opacity-50"
+                    className="min-h-9 rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-[#1b3a6b] dark:bg-[#d4a843] dark:text-[#0c1827] dark:bg-[#d4a843] dark:text-[#0c1827] dark:hover:bg-[#e2bd61] disabled:opacity-50"
                   >
                     {checkoutStripeMutation.isPending ? 'Redirecting…' : 'Pay (Card)'}
                   </button>
