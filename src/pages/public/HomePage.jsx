@@ -124,9 +124,7 @@ export default function HomePage() {
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#d4a843]/15 text-[#d4a843]">
                       <Icon size={17} aria-hidden="true" />
                     </span>
-                    <span className="text-sm font-semibold text-white">
-                      <span className="mr-1 text-[#d4a843]">{step}.</span> {label}
-                    </span>
+                    <span className="text-sm font-semibold text-white">{label}</span>
                   </li>
                 ))}
               </ol>
