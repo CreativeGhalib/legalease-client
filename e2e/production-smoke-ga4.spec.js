@@ -54,10 +54,10 @@ test.describe('signup → login → hire flow', () => {
   test('register a fresh client account (sign_up event)', async ({ page }) => {
     await page.goto('/register')
     await acceptCookies(page)
-    await page.getByLabel('Full name').fill(`Smoke Test ${STAMP}`)
-    await page.getByLabel('Email').fill(TEST_EMAIL)
-    await page.getByLabel('Password', { exact: false }).first().fill(TEST_PASSWORD)
-    await page.getByLabel('Confirm password').fill(TEST_PASSWORD)
+    await page.getByRole('textbox', { name: 'Full name' }).fill(`Smoke Test ${STAMP}`)
+    await page.getByRole('textbox', { name: 'Email' }).fill(TEST_EMAIL)
+    await page.getByRole('textbox', { name: 'Password', exact: true }).first().fill(TEST_PASSWORD)
+    await page.getByRole('textbox', { name: 'Confirm password' }).fill(TEST_PASSWORD)
     await page.getByText('Client', { exact: true }).first().click()
     await page.getByRole('button', { name: 'Create account' }).click()
     await page.waitForURL(/dashboard/, { timeout: 15_000 })
@@ -75,11 +75,11 @@ test.describe('signup → login → hire flow', () => {
         confirmPassword: TEST_PASSWORD,
         role: 'user',
       },
-    })
+    }).catch(() => undefined) // 409 when already created — fine
     await page.goto('/login')
     await acceptCookies(page)
-    await page.getByLabel('Email').fill(TEST_EMAIL)
-    await page.getByLabel('Password').fill(TEST_PASSWORD)
+    await page.getByRole('textbox', { name: 'Email' }).fill(TEST_EMAIL)
+    await page.getByRole('textbox', { name: 'Password' }).fill(TEST_PASSWORD)
     await page.getByRole('button', { name: 'Sign in' }).click()
     await page.waitForURL(/dashboard/, { timeout: 15_000 })
     await expect(page.getByText(/Smoke Test/).first()).toBeVisible()
@@ -95,8 +95,8 @@ test.describe('signup → login → hire flow', () => {
 
     await page.goto('/login')
     await acceptCookies(page)
-    await page.getByLabel('Email').fill(TEST_EMAIL)
-    await page.getByLabel('Password').fill(TEST_PASSWORD)
+    await page.getByRole('textbox', { name: 'Email' }).fill(TEST_EMAIL)
+    await page.getByRole('textbox', { name: 'Password' }).fill(TEST_PASSWORD)
     await page.getByRole('button', { name: 'Sign in' }).click()
     await page.waitForURL(/dashboard/, { timeout: 15_000 })
 
