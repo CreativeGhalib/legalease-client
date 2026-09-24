@@ -19,8 +19,8 @@ export default defineConfig(({ mode }) => {
     },
 
     build: {
-      // Increase warning threshold slightly — recharts alone is ~250kb
-      chunkSizeWarningLimit: 500,
+      // The PDF renderer is intentionally isolated and loaded only on invoice export.
+      chunkSizeWarningLimit: 1250,
       rollupOptions: {
         output: {
           // Split large dependencies into separate cached chunks.
@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
           // Each large dependency gets its own cached chunk — a code change in app
           // code won't bust the recharts or react-dom browser cache.
           manualChunks(id) {
+            if (id.includes('node_modules/@react-pdf/')) {
+              return 'pdf'
+            }
             if (id.includes('node_modules/recharts') || id.includes('node_modules/d3')) {
               return 'charts'
             }

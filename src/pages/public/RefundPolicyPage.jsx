@@ -28,9 +28,9 @@ export default function RefundPolicyPage() {
           is fixed by the rate published when the request was created. The fee supports the engagement
           directly with that lawyer. Once paid, the funds are marked released to the lawyer when you
           confirm completion, or automatically 7 days after payment. If something goes wrong, raise it
-          through the contact channel on our Contact page — LegalEase moderation can review the record
-          of the engagement and assist both parties toward a fair outcome, and may issue a refund at its
-          discretion where warranted.
+          through the dispute process. LegalEase moderation can review the engagement and request a
+          full refund to the original payment method where warranted. A payment is shown as refunded
+          only after Stripe or SSLCommerz confirms the refund; processing refunds remain visibly pending.
         </p>
       </LegalSection>
 
@@ -53,9 +53,8 @@ export default function RefundPolicyPage() {
 
       <LegalSection title="6. Changes to this policy">
         <p>
-          If refund capabilities change — for example if escrow or moderated refunds are introduced —
-          this page will be updated before those features go live, and the version in force when you
-          paid governs your payment.
+          Material changes to refund eligibility or processing will be published on this page before
+          they take effect. The version in force when you paid governs your payment.
         </p>
       </LegalSection>
 

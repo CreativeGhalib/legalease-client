@@ -23,7 +23,10 @@ function ResolveDialog({ dispute, onClose }) {
   const [note, setNote] = useState('')
   const resolveMutation = useMutation({
     mutationFn: () => api.patch(`/admin/disputes/${dispute.id}/resolve`, { outcome, note: note.trim() }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin', 'disputes'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'disputes'] })
+      onClose()
+    },
   })
 
   return (

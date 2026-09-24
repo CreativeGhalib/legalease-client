@@ -11,6 +11,9 @@ import { showSuccessToast } from '../../utils/toast'
 const InvoiceButton = lazy(() => import('../../components/transactions/InvoiceButton'))
 
 function date(value) { return value ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(value)) : null }
+function gatewayMoney(amountMinor, currency) {
+  return new Intl.NumberFormat('en-BD', { style: 'currency', currency: currency.toUpperCase() }).format(amountMinor / 100)
+}
 
 function ConfirmReleaseDialog({ item, onClose }) {
   const queryClient = useQueryClient()
@@ -114,11 +117,18 @@ function EscrowCell({ item }) {
 
   if (item.type !== 'hiring_fee' || !item.paidAt) return null
 
+  if (item.refundStatus === 'pending') {
+    return <span className="rounded-full bg-amber-100 dark:bg-amber-900/40 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200">Refund processing</span>
+  }
+  if (item.refundStatus === 'failed') {
+    return <span className="rounded-full bg-rose-100 dark:bg-rose-900/40 px-3 py-1 text-xs font-semibold text-rose-800 dark:text-rose-200">Refund needs review</span>
+  }
+
   if (item.escrowStatus === 'released') {
     return <span className="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300">Released ✓ {date(item.releasedAt)}</span>
   }
   if (item.escrowStatus === 'refunded') {
-    return <span className="rounded-full bg-sky-100 dark:bg-sky-900/30 px-3 py-1 text-xs font-semibold text-sky-800 dark:text-sky-300">Refunded · ${((item.refundAmountMinor ?? item.amountMinor) / 100).toFixed(2)}</span>
+    return <span className="rounded-full bg-sky-100 dark:bg-sky-900/30 px-3 py-1 text-xs font-semibold text-sky-800 dark:text-sky-300">Refund confirmed · ${((item.refundAmountMinor ?? item.amountMinor) / 100).toFixed(2)}</span>
   }
   if (item.escrowStatus === 'disputed') {
     return <span className="rounded-full bg-amber-100 dark:bg-amber-900/40 px-3 py-1 text-xs font-semibold text-amber-800 dark:text-amber-200">Dispute under review</span>
@@ -173,6 +183,11 @@ export default function TransactionHistoryPage() {
                 <p className="mt-1 text-sm text-slate-600 dark:text-[#a8bbcc]">
                   ${(item.amountMinor / 100).toFixed(2)} {item.currency.toUpperCase()}
                 </p>
+                {item.gatewayAmountMinor && item.gatewayCurrency && (
+                  <p className="mt-1 text-xs text-slate-500 dark:text-[#a8bbcc]">
+                    Paid {gatewayMoney(item.gatewayAmountMinor, item.gatewayCurrency)} through {item.gateway}
+                  </p>
+                )}
                 <p className="mt-2 text-xs text-slate-500 dark:text-[#a8bbcc]">
                   {item.status === 'paid' && item.paidAt ? `Paid ${date(item.paidAt)}` : `Created ${date(item.createdAt)}`}
                 </p>

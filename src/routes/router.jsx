@@ -1,49 +1,57 @@
+import { Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import GuestOnlyRoute from '../auth/GuestOnlyRoute'
 import ProtectedRoute from '../auth/ProtectedRoute'
 import RoleRoute from '../auth/RoleRoute'
-import DashboardLayout from '../layouts/DashboardLayout'
+import AuthCheckingScreen from '../components/common/AuthCheckingScreen'
 import PublicLayout from '../layouts/PublicLayout'
-import LoginPage from '../pages/auth/LoginPage'
-import RegisterPage from '../pages/auth/RegisterPage'
-import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage'
-import ResetPasswordPage from '../pages/auth/ResetPasswordPage'
-import ChangePasswordPage from '../pages/dashboard/ChangePasswordPage'
-import DashboardOverviewPage from '../pages/dashboard/DashboardOverviewPage'
-import FutureDashboardPage from '../pages/dashboard/FutureDashboardPage'
-import UpdateAccountProfilePage from '../pages/dashboard/UpdateAccountProfilePage'
-import UserHiringHistoryPage from '../pages/dashboard/UserHiringHistoryPage'
-import LawyerHiringHistoryPage from '../pages/dashboard/LawyerHiringHistoryPage'
-import TransactionHistoryPage from '../pages/dashboard/TransactionHistoryPage'
-import ManageLegalProfilePage from '../pages/dashboard/ManageLegalProfilePage'
-import LawyerAnalyticsPage from '../pages/dashboard/LawyerAnalyticsPage'
-import ActiveSessionsPage from '../pages/dashboard/ActiveSessionsPage'
 import NotFoundPage from '../pages/errors/NotFoundPage'
-import UnauthorizedPage from '../pages/errors/UnauthorizedPage'
 import HomePage from '../pages/public/HomePage'
-import BrowseLawyersPage from '../pages/public/BrowseLawyersPage'
-import LawyerDetailsPage from '../pages/public/LawyerDetailsPage'
-import InfoPage from '../pages/public/InfoPage'
-import PaymentReturnPage from '../pages/public/PaymentReturnPage'
-import TermsOfServicePage from '../pages/public/TermsOfServicePage'
-import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
-import RefundPolicyPage from '../pages/public/RefundPolicyPage'
-import UserCommentsPage from '../pages/dashboard/UserCommentsPage'
-import CategoryLandingPage from '../pages/public/CategoryLandingPage'
-import AdminDisputesPage from '../pages/dashboard/AdminDisputesPage'
-import AdminAuditLogPage from '../pages/dashboard/AdminAuditLogPage'
-import AdminLeadsPage from '../pages/dashboard/AdminLeadsPage'
-import PhoneVerificationPage from '../pages/dashboard/PhoneVerificationPage'
 import {
   DeferredAdminAnalyticsPage,
   DeferredAdminLawyersPage,
   DeferredAdminTransactionsPage,
   DeferredAdminUsersPage,
 } from './DeferredAdminPages'
+import {
+  ActiveSessionsPage,
+  AdminAuditLogPage,
+  AdminDisputesPage,
+  AdminLeadsPage,
+  BrowseLawyersPage,
+  CategoryLandingPage,
+  ChangePasswordPage,
+  DashboardLayout,
+  DashboardOverviewPage,
+  ForgotPasswordPage,
+  FutureDashboardPage,
+  InfoPage,
+  LawyerAnalyticsPage,
+  LawyerDetailsPage,
+  LawyerHiringHistoryPage,
+  LoginPage,
+  ManageLegalProfilePage,
+  PaymentReturnPage,
+  PhoneVerificationPage,
+  PrivacyPolicyPage,
+  RefundPolicyPage,
+  RegisterPage,
+  ResetPasswordPage,
+  TermsOfServicePage,
+  TransactionHistoryPage,
+  UnauthorizedPage,
+  UpdateAccountProfilePage,
+  UserCommentsPage,
+  UserHiringHistoryPage,
+} from './LazyPages'
 
 export const router = createBrowserRouter([
   {
-    element: <PublicLayout />,
+    element: (
+      <Suspense fallback={<AuthCheckingScreen />}>
+        <PublicLayout />
+      </Suspense>
+    ),
     children: [
       // ── Public pages ────────────────────────────────────────────────────────
       { index: true, element: <HomePage /> },

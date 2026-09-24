@@ -9,7 +9,6 @@
  */
 import { test, expect } from '@playwright/test'
 
-const BASE = process.env.E2E_BASE_URL || 'https://legalease-sand.vercel.app'
 const STAMP = Date.now()
 const TEST_EMAIL = `smoke_${STAMP}@example.com`
 const TEST_PASSWORD = 'SmokeTest-Passw0rd!23'

@@ -8,6 +8,10 @@ import ModalFocusRegion from '../../components/common/ModalFocusRegion'
 import { getApiErrorMessage } from '../../utils/apiError'
 
 const money = (n) => `$${(n / 100).toFixed(2)}`
+const gatewayMoney = (amountMinor, currency) => new Intl.NumberFormat('en-BD', {
+  style: 'currency',
+  currency: currency.toUpperCase(),
+}).format(amountMinor / 100)
 
 function ExportButton({ resource, params }) {
   const search = new URLSearchParams(
@@ -353,11 +357,20 @@ function TransactionCard({ item }) {
       <p className="font-semibold capitalize text-slate-950 dark:text-[#ece5d6]">{item.type.replace('_', ' ')}</p>
       <p className="mt-1 break-words text-sm text-slate-600 dark:text-[#a8bbcc]">{item.payer?.email || 'Unavailable'} → {item.lawyer?.email || 'Unavailable'}</p>
       <p className="mt-2 font-semibold text-slate-950 dark:text-[#ece5d6]">{money(item.amountMinor)} {item.currency.toUpperCase()} · {item.status}</p>
+      {item.gatewayAmountMinor && item.gatewayCurrency && (
+        <p className="mt-1 text-xs text-slate-500 dark:text-[#a8bbcc]">
+          Gateway settlement: {gatewayMoney(item.gatewayAmountMinor, item.gatewayCurrency)} via {item.gateway}
+        </p>
+      )}
+      {item.refundStatus === 'pending' && <p className="mt-2 text-xs font-semibold text-amber-700 dark:text-amber-300">Gateway refund processing</p>}
+      {item.refundStatus === 'failed' && <p className="mt-2 text-xs font-semibold text-rose-700 dark:text-rose-300">Gateway refund failed; provider review required</p>}
 
       {actionable && (
         <div className="mt-3 flex flex-wrap gap-2">
-          <button type="button" onClick={() => setAction('release')} className="min-h-9 rounded-lg bg-emerald-700 px-3 text-xs font-semibold text-white hover:bg-emerald-800">Release escrow</button>
-          <button type="button" onClick={() => setAction('refund')} className="min-h-9 rounded-lg border border-rose-200 px-3 text-xs font-semibold text-rose-700 hover:bg-rose-50 dark:border-rose-900/50 dark:text-rose-300 dark:hover:bg-rose-950/30">Refund</button>
+          {item.refundStatus !== 'pending' && <button type="button" onClick={() => setAction('release')} className="min-h-9 rounded-lg bg-emerald-700 px-3 text-xs font-semibold text-white hover:bg-emerald-800">Release escrow</button>}
+          <button type="button" onClick={() => setAction('refund')} className="min-h-9 rounded-lg border border-rose-200 px-3 text-xs font-semibold text-rose-700 hover:bg-rose-50 dark:border-rose-900/50 dark:text-rose-300 dark:hover:bg-rose-950/30">
+            {item.refundStatus === 'pending' ? 'Check refund status' : 'Refund'}
+          </button>
         </div>
       )}
 
@@ -375,7 +388,11 @@ function TransactionCard({ item }) {
               {action} escrow
             </h3>
             <p className="mt-2 text-sm text-slate-600 dark:text-[#a8bbcc]">
-              This will {action === 'refund' ? `refund ${money(item.amountMinor)} to the client` : 'release the funds to the lawyer'} and close any open dispute. An audit entry is recorded.
+              This will {action === 'refund'
+                ? item.refundStatus === 'pending'
+                  ? 'check the payment provider and confirm the refund only after it reports success'
+                  : `request a ${money(item.amountMinor)} refund from the payment provider`
+                : 'release the funds to the lawyer'}.
             </p>
             <label htmlFor={`txn-note-${item.id}`} className="mt-4 block text-sm font-semibold text-slate-800 dark:text-[#ece5d6]">Note (required)</label>
             <textarea id={`txn-note-${item.id}`} required minLength={5} maxLength={600} rows={3} value={note} onChange={(event) => setNote(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 dark:border-[#1c3050] p-3 text-sm" />
